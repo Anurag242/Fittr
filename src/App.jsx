@@ -120,26 +120,10 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { 
-      label: 'My Plan', 
-      img: 'https://cdn3d.iconscout.com/3d/free/thumb/clipboard-6302450-5169055.png', 
-      grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' 
-    },
-    { 
-      label: 'Smart Scale', 
-      img: 'https://cdn3d.iconscout.com/3d/free/thumb/weight-machine-5621417-4683050.png', 
-      grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' 
-    },
-    { 
-      label: 'Challenges', 
-      img: 'https://cdn3d.iconscout.com/3d/free/thumb/target-6302447-5169052.png', 
-      grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' 
-    },
-    { 
-      label: 'Shop', 
-      img: 'https://cdn3d.iconscout.com/3d/free/thumb/shopping-bag-5541624-4623412.png', 
-      grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' 
-    },
+    { label: 'My Plan', icon: ClipboardCheck, color: '#D4A017', grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' },
+    { label: 'Smart Scale', icon: Scale, color: '#8E44AD', grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' },
+    { label: 'Challenges', icon: Target, color: '#C0392B', grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' },
+    { label: 'Shop', icon: ShoppingBag, color: '#16A085', grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' },
   ];
 
   return (
@@ -151,6 +135,7 @@ const PremiumActionBubbles = () => {
         gap: '4px'
       }}>
         {actions.map((item) => {
+          const Icon = item.icon;
           return (
             <div
               key={item.label}
@@ -175,33 +160,41 @@ const PremiumActionBubbles = () => {
                   cursor: 'pointer',
                   boxShadow: '0 12px 24px rgba(0,0,0,0.06)',
                   position: 'relative',
-                  overflow: 'visible' // Let the 3D icon breathe
+                  overflow: 'hidden'
                 }}
               >
-                {/* 3D Reflection Highlight */}
+                {/* 3D Specular Highlight */}
                 <div style={{
                   position: 'absolute',
-                  top: '10%',
-                  left: '10%',
-                  width: '80%',
-                  height: '80%',
-                  background: 'radial-gradient(circle at top left, rgba(255,255,255,0.6) 0%, transparent 50%)',
+                  inset: 0,
                   borderRadius: '50%',
-                  pointerEvents: 'none'
+                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7) 0%, transparent 60%)',
+                  pointerEvents: 'none',
+                  zIndex: 1
                 }} />
                 
-                <img 
-                  src={item.img} 
-                  alt={item.label} 
-                  style={{ 
-                    width: '56px', 
-                    height: '56px', 
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))',
-                    zIndex: 2,
-                    marginTop: '-4px' // Slight lift for 3D effect
-                  }} 
-                />
+                {/* Inner Shadows for Volume */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '50%',
+                  boxShadow: 'inset 0 4px 8px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.1)',
+                  pointerEvents: 'none',
+                  zIndex: 2
+                }} />
+                
+                <div style={{
+                  position: 'relative',
+                  zIndex: 3,
+                  // The "Claymorphism" Filter Trick
+                  filter: `
+                    drop-shadow(2px 2px 0px rgba(255,255,255,0.8)) 
+                    drop-shadow(-1px -1px 0px rgba(0,0,0,0.1)) 
+                    drop-shadow(6px 8px 12px rgba(0,0,0,0.15))
+                  `
+                }}>
+                  <Icon size={34} color={item.color} strokeWidth={2.5} />
+                </div>
               </motion.div>
               
               <p style={{ 
