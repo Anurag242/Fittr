@@ -183,16 +183,8 @@ const PremiumActionBubbles = () => {
                   fontWeight: '700', 
                   color: '#2D2D2D',
                   letterSpacing: '-0.2px',
-                  whiteSpace: 'nowrap',
-                  marginBottom: '2px'
+                  whiteSpace: 'nowrap'
                 }}>{item.label}</p>
-                <span style={{ 
-                  fontSize: '8px', 
-                  fontWeight: '800', 
-                  color: item.color,
-                  letterSpacing: '0.8px',
-                  opacity: 0.9
-                }}>{item.sub}</span>
               </div>
             </motion.div>
           );
