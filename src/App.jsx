@@ -138,7 +138,12 @@ const PremiumActionBubbles = () => {
       color: '#FF3B30',
       image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80'
     },
-    { label: 'My Plan', icon: ClipboardCheck, color: '#F59E0B' }, 
+    { 
+      label: 'My Plan', 
+      icon: ClipboardCheck, 
+      color: '#F59E0B',
+      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=256&q=80'
+    }, 
     { label: 'Smart Scale', icon: Scale, color: '#8B5CF6' },   
     { label: 'Challenges', icon: Target, color: '#EF4444' },     
     { label: 'Shop', icon: ShoppingBag, color: '#10B981' },       
