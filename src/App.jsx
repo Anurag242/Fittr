@@ -120,130 +120,68 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { label: 'My Plan', sub: 'Active', icon: ClipboardCheck, color: '#FFB800', grad: 'radial-gradient(circle at 30% 30%, #FFF5D1 0%, #FFB800 100%)' },
-    { label: 'Smart Scale', sub: 'Syncing', icon: Scale, color: '#AF52DE', grad: 'radial-gradient(circle at 30% 30%, #F3E7FF 0%, #AF52DE 100%)' },
-    { label: 'Challenges', sub: '2 New', icon: Target, color: '#FF3B30', grad: 'radial-gradient(circle at 30% 30%, #FFE5E5 0%, #FF3B30 100%)' },
-    { label: 'Shop', sub: 'Gear', icon: ShoppingBag, color: '#34C759', grad: 'radial-gradient(circle at 30% 30%, #E8F9EE 0%, #34C759 100%)' },
+    { label: 'My Plan', icon: ClipboardCheck, color: '#D4A017', grad: 'linear-gradient(180deg, #FFF5D1 0%, #FFD966 100%)' },
+    { label: 'Smart Scale', icon: Scale, color: '#8E44AD', grad: 'linear-gradient(180deg, #F3E7FF 0%, #D7B9FF 100%)' },
+    { label: 'Challenges', icon: Target, color: '#C0392B', grad: 'linear-gradient(180deg, #FFE5E5 0%, #FFB1B1 100%)' },
+    { label: 'Shop', icon: ShoppingBag, color: '#16A085', grad: 'linear-gradient(180deg, #E8F9EE 0%, #A7F3D0 100%)' },
   ];
 
   return (
-    <section style={{ padding: '28px 0', overflow: 'hidden' }}>
+    <section style={{ padding: '20px 0' }}>
       <div style={{ 
         display: 'flex', 
-        justifyContent: 'space-between', 
-        padding: '0 12px',
-        gap: '4px'
+        justifyContent: 'space-around', 
+        padding: '0 16px',
+        gap: '8px'
       }}>
-        {actions.map((item, i) => {
+        {actions.map((item) => {
           const Icon = item.icon;
           return (
-            <motion.div
+            <div
               key={item.label}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: i * 0.1, type: 'spring', stiffness: 100 }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 flex: 1
               }}
             >
-              <div style={{ position: 'relative' }}>
-                {/* Aura Glow */}
-                <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.1, 0.2, 0.1],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    delay: i * 0.5
-                  }}
-                  style={{
-                    position: 'absolute',
-                    top: '-10%',
-                    left: '-10%',
-                    width: '120%',
-                    height: '120%',
-                    background: item.color,
-                    borderRadius: '50%',
-                    filter: 'blur(20px)',
-                    zIndex: 0
-                  }}
-                />
-
-                <motion.div
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  whileTap={{ scale: 0.9 }}
-                  animate={{
-                    y: [0, -6, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.5
-                  }}
-                  style={{
-                    width: '68px',
-                    height: '68px',
-                    borderRadius: '50%',
-                    background: item.grad,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.2), 0 12px 24px ${item.color}30`,
-                    border: '3px solid #FFF',
-                    cursor: 'pointer',
-                    zIndex: 2,
-                    overflow: 'hidden'
-                  }}
-                >
-                  {/* Glossy Specular Highlight */}
-                  <div style={{
-                    position: 'absolute',
-                    top: '10%',
-                    left: '15%',
-                    width: '40%',
-                    height: '25%',
-                    background: 'linear-gradient(to bottom, rgba(255,255,255,0.6), transparent)',
-                    borderRadius: '50% 50% 50% 50% / 100% 100% 0% 0%',
-                    transform: 'rotate(-25deg)',
-                    pointerEvents: 'none'
-                  }} />
-                  
-                  <Icon size={28} color="#FFF" strokeWidth={2.5} style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }} />
-                </motion.div>
-              </div>
-              
-              <div style={{ textAlign: 'center', zIndex: 2 }}>
-                <p style={{ 
-                  fontSize: '11px', 
-                  fontWeight: '850', 
-                  color: '#1A1A1A',
-                  letterSpacing: '-0.2px',
-                  marginBottom: '2px'
-                }}>{item.label}</p>
+              <motion.div
+                whileTap={{ scale: 0.92 }}
+                style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  background: item.grad,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 16px rgba(0,0,0,0.05)',
+                  position: 'relative'
+                }}
+              >
+                {/* Subtle Inner Glow to simulate 3D volume */}
                 <div style={{
-                  display: 'inline-block',
-                  padding: '2px 6px',
-                  background: `${item.color}15`,
-                  borderRadius: '6px'
-                }}>
-                  <span style={{ 
-                    fontSize: '8px', 
-                    fontWeight: '900', 
-                    color: item.color,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
-                  }}>{item.sub}</span>
-                </div>
-              </div>
-            </motion.div>
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '50%',
+                  boxShadow: 'inset 0 4px 8px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.05)',
+                  pointerEvents: 'none'
+                }} />
+                
+                <Icon size={32} color="#1A1A1A" strokeWidth={1.5} style={{ opacity: 0.8 }} />
+              </motion.div>
+              
+              <p style={{ 
+                fontSize: '13px', 
+                fontWeight: '700', 
+                color: '#2C3E50',
+                textAlign: 'center',
+                letterSpacing: '-0.2px'
+              }}>{item.label}</p>
+            </div>
           );
         })}
       </div>
