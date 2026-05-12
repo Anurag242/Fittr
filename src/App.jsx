@@ -122,13 +122,13 @@ const PremiumActionBubbles = () => {
   const actions = [
     { 
       label: 'My Plan', 
-      img: '/assets/plan.png', // Use the user's provided 3D asset
+      img: '/assets/plan.png', 
       color: '#D4A017', 
       grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' 
     },
     { 
       label: 'Smart Scale', 
-      icon: Scale, 
+      img: '/assets/scale.png', // Use the user's provided scale asset
       color: '#8E44AD', 
       grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' 
     },
@@ -208,12 +208,13 @@ const PremiumActionBubbles = () => {
                     src={item.img} 
                     alt={item.label} 
                     style={{ 
-                      width: '52px', 
-                      height: '52px', 
+                      width: '58px', 
+                      height: '58px', 
                       objectFit: 'contain',
                       position: 'relative',
                       zIndex: 3,
-                      filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))'
+                      filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))',
+                      mixBlendMode: 'multiply' // Background removal trick for white backgrounds
                     }} 
                   />
                 ) : (
