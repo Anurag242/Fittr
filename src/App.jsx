@@ -136,8 +136,8 @@ const PremiumActionBubbles = () => {
         style={{ 
           display: 'flex', 
           overflowX: 'auto',
-          padding: '0 24px 8px',
-          gap: '24px',
+          padding: '0 16px 8px',
+          gap: '8px',
           scrollSnapType: 'x mandatory'
         }}
       >
