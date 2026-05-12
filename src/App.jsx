@@ -311,8 +311,7 @@ const UtilityHub = () => {
   );
 };
 
-// ─── Daily Rituals (IMPROVED) ────────────────────────
-function DailyRituals({ onOpenCalendar }) {
+const DailyRituals = ({ onOpenCalendar }) => {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Rise & Shine, Anurag! ☀️";
@@ -321,20 +320,69 @@ function DailyRituals({ onOpenCalendar }) {
   };
 
   const rings = [
-    { label: 'Cals', val: 1240, max: 2000, color: '#FF3B30', icon: Flame },
-    { label: 'Water', val: 1.2, max: 3, color: '#007AFF', icon: Droplets },
-    { label: 'Steps', val: 6420, max: 10000, color: '#34C759', icon: Zap },
-    { label: 'Sleep', val: 6.5, max: 8, color: '#AF52DE', icon: Clock },
+    { label: 'Cals', val: 1240, max: 2000, color: '#2E7D32', icon: Flame },
+    { label: 'Water', val: 1.2, max: 3, color: '#2E7D32', icon: Droplets },
+    { label: 'Steps', val: 6420, max: 10000, color: '#2E7D32', icon: Zap },
+    { label: 'Sleep', val: 6.5, max: 8, color: '#2E7D32', icon: Clock },
   ];
 
   return (
-    <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
-      <div style={{ marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
-        <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
-      </div>
+    <div style={{ 
+      background: '#FFFFFF', 
+      borderRadius: '40px 40px 0 0', 
+      marginTop: '-30px', 
+      position: 'relative', 
+      zIndex: 10,
+      padding: '0',
+      minHeight: '100vh',
+      boxShadow: '0 -20px 40px rgba(0,0,0,0.03)',
+      overflow: 'hidden'
+    }}>
+      {/* MINIMALIST TOP SECTION */}
+      <section style={{ 
+        background: '#E8F5E9', 
+        padding: '40px 24px 30px',
+        borderRadius: '0 0 40px 40px',
+        marginBottom: '10px'
+      }}>
+        <div style={{ marginBottom: '24px' }}>
+          <span style={{ fontSize: '10px', fontWeight: '800', color: '#2E7D32', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.8 }}>Daily Overview</span>
+          <h2 style={{ fontSize: '26px', fontWeight: '900', color: '#1B5E20', letterSpacing: '-0.8px', marginTop: '4px' }}>{getGreeting()}</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#2E7D32' }} />
+            <p style={{ fontSize: '14px', color: '#455A64', fontWeight: '500' }}>You're at <span style={{ fontWeight: '800', color: '#1B5E20' }}>62%</span> of your daily goal</p>
+          </div>
+        </div>
+
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          gap: '12px'
+        }}>
+          {rings.map((ring) => {
+            const Icon = ring.icon;
+            return (
+              <div key={ring.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
+                <div style={{ 
+                  width: '56px', height: '56px', borderRadius: '20px', background: '#FFFFFF', 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 8px 16px rgba(46, 125, 50, 0.08)'
+                }}>
+                  <Icon size={24} color="#2E7D32" strokeWidth={1.5} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <p style={{ fontSize: '10px', fontWeight: '800', color: '#2E7D32', opacity: 0.6 }}>{ring.label}</p>
+                  <p style={{ fontSize: '13px', fontWeight: '900', color: '#1B5E20' }}>{ring.val}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
 
       <PremiumActionBubbles />
+      
+      <div style={{ margin: '10px 24px', height: '1px', background: '#F2F2F7' }} />
       
       <UtilityHub />
 
