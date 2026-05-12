@@ -142,7 +142,7 @@ const PremiumActionBubbles = () => {
       label: 'My Plan', 
       icon: ClipboardCheck, 
       color: '#F59E0B',
-      image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=256&q=80'
+      isCalendar: true
     }, 
     { label: 'Smart Scale', icon: Scale, color: '#8B5CF6' },   
     { label: 'Challenges', icon: Target, color: '#EF4444' },     
@@ -214,6 +214,20 @@ const PremiumActionBubbles = () => {
                       textShadow: '0 1px 2px rgba(0,0,0,0.4)',
                       fontFamily: 'Outfit, sans-serif'
                     }}>F</div>
+                  </div>
+                ) : item.isCalendar ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
+                    <svg viewBox="0 0 100 100" style={{ width: '75%', height: '75%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }}>
+                      {/* 3D Calendar Body */}
+                      <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+                      <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
+                      {/* Calendar Details */}
+                      <rect x="25" y="45" width="50" height="4" rx="2" fill="#E5E5E7" />
+                      <rect x="25" y="55" width="50" height="4" rx="2" fill="#E5E5E7" />
+                      <rect x="25" y="65" width="30" height="4" rx="2" fill="#E5E5E7" />
+                      {/* Checkmark Overlay */}
+                      <path d="M60,65 L70,75 L90,50" fill="none" stroke="#F59E0B" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </div>
                 ) : item.image ? (
                   <img 
