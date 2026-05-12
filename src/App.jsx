@@ -124,9 +124,14 @@ const PremiumActionBubbles = () => {
       label: 'Get A Coach', 
       icon: Dumbbell, 
       color: '#1A1A1A',
-      image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=256&q=80' 
+      isCap: true
     }, 
-    { label: 'Lab Test', icon: Activity, color: '#AF52DE' },
+    { 
+      label: 'Lab Test', 
+      icon: Activity, 
+      color: '#AF52DE',
+      image: 'https://images.unsplash.com/photo-1579152276503-f15a9670d44a?auto=format&fit=crop&w=256&q=80'
+    },
     { label: 'Refer & Earn', icon: Gift, color: '#FF3B30' },
     { label: 'My Plan', icon: ClipboardCheck, color: '#F59E0B' }, 
     { label: 'Smart Scale', icon: Scale, color: '#8B5CF6' },   
@@ -170,7 +175,7 @@ const PremiumActionBubbles = () => {
                   width: '64px',
                   height: '64px',
                   borderRadius: '50%',
-                  background: item.image ? 'transparent' : `${item.color}12`,
+                  background: (item.isCap || item.image) ? 'transparent' : `${item.color}12`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -181,15 +186,13 @@ const PremiumActionBubbles = () => {
                   overflow: 'hidden'
                 }}
               >
-                {item.label === 'Get A Coach' ? (
+                {item.isCap ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
-                    {/* High-Fidelity SVG Cap */}
                     <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' }}>
                       <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
                       <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
                       <path d="M50,30 Q50,25 45,25 Q40,25 40,30" fill="#222" />
                     </svg>
-                    {/* Golden 'F' Branding Overlay */}
                     <div style={{
                       position: 'absolute',
                       top: '46%',
@@ -202,20 +205,18 @@ const PremiumActionBubbles = () => {
                       fontFamily: 'Outfit, sans-serif'
                     }}>F</div>
                   </div>
-                ) : item.label === 'Lab Test' ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                    <img 
-                      src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L3AtMjAyLW1lZGljYWwtMTUyLWt1bi1qb2ItMDE4LnBuZw.png" 
-                      alt="Lab Test" 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                        filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.15))'
-                      }} 
-                    />
-                  </div>
+                ) : item.image ? (
+                  <img 
+                    src={item.image} 
+                    alt={item.label} 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                      filter: 'contrast(1.1) brightness(1.05)'
+                    }} 
+                  />
                 ) : (
                   <Icon size={26} color={item.color} strokeWidth={2.2} />
                 )}
