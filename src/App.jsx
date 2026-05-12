@@ -7,7 +7,8 @@ import {
   Dumbbell, TrendingUp, Star, Lock, Info,
   ShoppingBag, Target, Share2, ClipboardList, ClipboardCheck,
   ChevronDown, ArrowRight, Play, Utensils,
-  Clock, Heart, Trophy, Users, Scale, Gift
+  Clock, Heart, Trophy, Users, Scale, Gift,
+  Eye, CreditCard, Send, PlusCircle
 } from 'lucide-react';
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
@@ -248,6 +249,68 @@ const PremiumActionBubbles = () => {
   );
 };
 
+const UtilityHub = () => {
+  const utilities = [
+    { label: 'View Balance', icon: Eye },
+    { label: 'Card PIN', icon: Lock },
+    { label: 'View CVV', icon: CreditCard },
+    { label: 'Send Money', icon: Send },
+    { label: 'Payment Request', icon: PlusCircle },
+  ];
+
+  return (
+    <section style={{ padding: '20px 0', background: '#F8F9FA' }}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        padding: '0 16px',
+        gap: '4px'
+      }}>
+        {utilities.map((item) => {
+          const Icon = item.icon;
+          return (
+            <div
+              key={item.label}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px',
+                flex: 1
+              }}
+            >
+              <motion.div
+                whileTap={{ scale: 0.9 }}
+                style={{
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '50%',
+                  background: '#E8F5E9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <Icon size={28} color="#2E7D32" strokeWidth={1.5} />
+              </motion.div>
+              
+              <p style={{ 
+                fontSize: '11px', 
+                fontWeight: '600', 
+                color: '#455A64',
+                textAlign: 'center',
+                lineHeight: 1.3,
+                maxWidth: '60px'
+              }}>{item.label}</p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
 // ─── Daily Rituals (IMPROVED) ────────────────────────
 function DailyRituals({ onOpenCalendar }) {
   const getGreeting = () => {
@@ -272,6 +335,8 @@ function DailyRituals({ onOpenCalendar }) {
       </div>
 
       <PremiumActionBubbles />
+      
+      <UtilityHub />
 
       {/* Centered Date Pill on Divider */}
       <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
