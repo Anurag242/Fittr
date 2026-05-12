@@ -181,28 +181,24 @@ const PremiumActionBubbles = () => {
                   overflow: 'hidden'
                 }}
               >
-                {item.image ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <img 
-                      src={item.image} 
-                      alt="Coach Cap" 
-                      style={{ 
-                        width: '85%', 
-                        height: '85%', 
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-                      }} 
-                    />
+                {item.label === 'Get A Coach' ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
+                    {/* High-Fidelity SVG Cap */}
+                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' }}>
+                      <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
+                      <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
+                      <path d="M50,30 Q50,25 45,25 Q40,25 40,30" fill="#222" />
+                    </svg>
                     {/* Golden 'F' Branding Overlay */}
                     <div style={{
                       position: 'absolute',
-                      top: '42%',
+                      top: '46%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      fontSize: '10px',
+                      fontSize: '11px',
                       fontWeight: '900',
                       color: '#D4AF37',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.4)',
                       fontFamily: 'Outfit, sans-serif'
                     }}>F</div>
                   </div>
