@@ -120,34 +120,43 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { label: 'My Plan', sub: 'ACTIVE', icon: ClipboardCheck, color: '#F59E0B' }, // Amber
-    { label: 'Smart Scale', sub: 'SYNCING', icon: Scale, color: '#8B5CF6' },   // Violet
-    { label: 'Challenges', sub: '2 NEW', icon: Target, color: '#EF4444' },     // Red
-    { label: 'Shop', sub: 'GEAR', icon: ShoppingBag, color: '#10B981' },       // Emerald
+    { label: 'Get A Coach', sub: 'EXPERT', icon: Dumbbell, color: '#1A1A1A' }, 
+    { label: 'Lab Test', sub: 'CHECKUP', icon: Activity, color: '#AF52DE' },
+    { label: 'Refer & Earn', sub: 'GIFT', icon: Gift, color: '#FF3B30' },
+    { label: 'My Plan', sub: 'ACTIVE', icon: ClipboardCheck, color: '#F59E0B' }, 
+    { label: 'Smart Scale', sub: 'SYNCING', icon: Scale, color: '#8B5CF6' },   
+    { label: 'Challenges', sub: '2 NEW', icon: Target, color: '#EF4444' },     
+    { label: 'Shop', sub: 'GEAR', icon: ShoppingBag, color: '#10B981' },       
   ];
 
   return (
     <section style={{ padding: '24px 0', overflow: 'hidden' }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        padding: '0 12px',
-        gap: '8px'
-      }}>
+      <div 
+        className="no-scrollbar"
+        style={{ 
+          display: 'flex', 
+          overflowX: 'auto',
+          padding: '0 24px',
+          gap: '20px',
+          scrollSnapType: 'x mandatory'
+        }}
+      >
         {actions.map((item, i) => {
           const Icon = item.icon;
           return (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '12px',
-                flex: 1
+                flexShrink: 0,
+                width: '80px',
+                scrollSnapAlign: 'start'
               }}
             >
               <motion.div
@@ -161,7 +170,8 @@ const PremiumActionBubbles = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s ease'
+                  transition: 'background-color 0.2s ease',
+                  border: item.label === 'Get A Coach' ? '1.5px solid #D4AF37' : 'none' // Golden border for primary action
                 }}
               >
                 <Icon size={26} color={item.color} strokeWidth={2.2} />
@@ -169,14 +179,15 @@ const PremiumActionBubbles = () => {
               
               <div style={{ textAlign: 'center' }}>
                 <p style={{ 
-                  fontSize: '12px', 
+                  fontSize: '11px', 
                   fontWeight: '700', 
                   color: '#2D2D2D',
                   letterSpacing: '-0.2px',
-                  marginBottom: '4px'
+                  whiteSpace: 'nowrap',
+                  marginBottom: '2px'
                 }}>{item.label}</p>
                 <span style={{ 
-                  fontSize: '9px', 
+                  fontSize: '8px', 
                   fontWeight: '800', 
                   color: item.color,
                   letterSpacing: '0.8px',
