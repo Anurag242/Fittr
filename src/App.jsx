@@ -144,7 +144,12 @@ const PremiumActionBubbles = () => {
       color: '#F59E0B',
       isCalendar: true
     }, 
-    { label: 'Smart Scale', icon: Scale, color: '#8B5CF6' },   
+    { 
+      label: 'Smart Scale', 
+      icon: Scale, 
+      color: '#8B5CF6',
+      image: 'https://images.unsplash.com/photo-1594882645126-14020914d58d?auto=format&fit=crop&w=256&q=80'
+    },   
     { label: 'Challenges', icon: Target, color: '#EF4444' },     
     { label: 'Shop', icon: ShoppingBag, color: '#10B981' },       
   ];
