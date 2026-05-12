@@ -203,21 +203,17 @@ const PremiumActionBubbles = () => {
                     }}>F</div>
                   </div>
                 ) : item.label === 'Lab Test' ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
-                    {/* High-Fidelity SVG Test Tubes */}
-                    <svg viewBox="0 0 100 100" style={{ width: '85%', height: '85%', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.15))' }}>
-                      {/* Tube 1 */}
-                      <rect x="35" y="20" width="12" height="50" rx="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
-                      <path d="M35,45 Q35,70 41,70 Q47,70 47,45 Z" fill="#EF4444" opacity="0.9" />
-                      <rect x="33" y="15" width="16" height="8" rx="2" fill="#10B981" />
-                      {/* Tube 2 */}
-                      <rect x="55" y="25" width="12" height="50" rx="6" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
-                      <path d="M55,50 Q55,75 61,75 Q67,75 67,50 Z" fill="#EF4444" opacity="0.9" />
-                      <rect x="53" y="20" width="16" height="8" rx="2" fill="#3B82F6" />
-                      {/* Reflections */}
-                      <rect x="37" y="25" width="2" height="20" rx="1" fill="rgba(255,255,255,0.4)" />
-                      <rect x="57" y="30" width="2" height="20" rx="1" fill="rgba(255,255,255,0.4)" />
-                    </svg>
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img 
+                      src="https://images.unsplash.com/photo-1614935151651-0bea6508db6b?auto=format&fit=crop&w=256&q=80" 
+                      alt="Lab Test" 
+                      style={{ 
+                        width: '85%', 
+                        height: '85%', 
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                      }} 
+                    />
                   </div>
                 ) : (
                   <Icon size={26} color={item.color} strokeWidth={2.2} />
