@@ -120,13 +120,18 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { label: 'Get A Coach', sub: 'EXPERT', icon: Dumbbell, color: '#1A1A1A' }, 
-    { label: 'Lab Test', sub: 'CHECKUP', icon: Activity, color: '#AF52DE' },
-    { label: 'Refer & Earn', sub: 'GIFT', icon: Gift, color: '#FF3B30' },
-    { label: 'My Plan', sub: 'ACTIVE', icon: ClipboardCheck, color: '#F59E0B' }, 
-    { label: 'Smart Scale', sub: 'SYNCING', icon: Scale, color: '#8B5CF6' },   
-    { label: 'Challenges', sub: '2 NEW', icon: Target, color: '#EF4444' },     
-    { label: 'Shop', sub: 'GEAR', icon: ShoppingBag, color: '#10B981' },       
+    { 
+      label: 'Get A Coach', 
+      icon: Dumbbell, 
+      color: '#1A1A1A',
+      image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=256&q=80' 
+    }, 
+    { label: 'Lab Test', icon: Activity, color: '#AF52DE' },
+    { label: 'Refer & Earn', icon: Gift, color: '#FF3B30' },
+    { label: 'My Plan', icon: ClipboardCheck, color: '#F59E0B' }, 
+    { label: 'Smart Scale', icon: Scale, color: '#8B5CF6' },   
+    { label: 'Challenges', icon: Target, color: '#EF4444' },     
+    { label: 'Shop', icon: ShoppingBag, color: '#10B981' },       
   ];
 
   return (
@@ -165,16 +170,45 @@ const PremiumActionBubbles = () => {
                   width: '64px',
                   height: '64px',
                   borderRadius: '50%',
-                  background: `${item.color}12`,
+                  background: item.image ? 'transparent' : `${item.color}12`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'background-color 0.2s ease',
-                  border: 'none'
+                  position: 'relative',
+                  border: 'none',
+                  overflow: 'hidden'
                 }}
               >
-                <Icon size={26} color={item.color} strokeWidth={2.2} />
+                {item.image ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img 
+                      src={item.image} 
+                      alt="Coach Cap" 
+                      style={{ 
+                        width: '85%', 
+                        height: '85%', 
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+                      }} 
+                    />
+                    {/* Golden 'F' Branding Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '42%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      fontSize: '10px',
+                      fontWeight: '900',
+                      color: '#D4AF37',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                      fontFamily: 'Outfit, sans-serif'
+                    }}>F</div>
+                  </div>
+                ) : (
+                  <Icon size={26} color={item.color} strokeWidth={2.2} />
+                )}
               </motion.div>
               
               <div style={{ textAlign: 'center' }}>
