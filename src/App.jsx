@@ -5,9 +5,9 @@ import {
   Plus, Home, Search, MessageCircle, User,
   Zap, ChevronRight, Camera, Weight, Apple,
   Dumbbell, TrendingUp, Star, Lock, Info,
-  ShoppingBag, Target, Share2, ClipboardList,
+  ShoppingBag, Target, Share2, ClipboardList, ClipboardCheck,
   ChevronDown, ArrowRight, Play, Utensils,
-  Clock, Heart, Trophy, Users
+  Clock, Heart, Trophy, Users, Scale, Gift
 } from 'lucide-react';
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
@@ -118,6 +118,139 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
+const PremiumActionBubbles = () => {
+  const actions = [
+    { label: 'My Plan', sub: 'Active', icon: ClipboardCheck, color: '#FFB800', grad: 'radial-gradient(circle at 30% 30%, #FFF5D1 0%, #FFB800 100%)' },
+    { label: 'Smart Scale', sub: 'Syncing', icon: Scale, color: '#AF52DE', grad: 'radial-gradient(circle at 30% 30%, #F3E7FF 0%, #AF52DE 100%)' },
+    { label: 'Challenges', sub: '2 New', icon: Target, color: '#FF3B30', grad: 'radial-gradient(circle at 30% 30%, #FFE5E5 0%, #FF3B30 100%)' },
+    { label: 'Shop', sub: 'Gear', icon: ShoppingBag, color: '#34C759', grad: 'radial-gradient(circle at 30% 30%, #E8F9EE 0%, #34C759 100%)' },
+  ];
+
+  return (
+    <section style={{ padding: '28px 0', overflow: 'hidden' }}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        padding: '0 12px',
+        gap: '4px'
+      }}>
+        {actions.map((item, i) => {
+          const Icon = item.icon;
+          return (
+            <motion.div
+              key={item.label}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: i * 0.1, type: 'spring', stiffness: 100 }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px',
+                flex: 1
+              }}
+            >
+              <div style={{ position: 'relative' }}>
+                {/* Aura Glow */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.1, 0.2, 0.1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: i * 0.5
+                  }}
+                  style={{
+                    position: 'absolute',
+                    top: '-10%',
+                    left: '-10%',
+                    width: '120%',
+                    height: '120%',
+                    background: item.color,
+                    borderRadius: '50%',
+                    filter: 'blur(20px)',
+                    zIndex: 0
+                  }}
+                />
+
+                <motion.div
+                  whileHover={{ scale: 1.1, y: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                  animate={{
+                    y: [0, -6, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.5
+                  }}
+                  style={{
+                    width: '68px',
+                    height: '68px',
+                    borderRadius: '50%',
+                    background: item.grad,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    boxShadow: `inset -4px -4px 12px rgba(0,0,0,0.2), 0 12px 24px ${item.color}30`,
+                    border: '3px solid #FFF',
+                    cursor: 'pointer',
+                    zIndex: 2,
+                    overflow: 'hidden'
+                  }}
+                >
+                  {/* Glossy Specular Highlight */}
+                  <div style={{
+                    position: 'absolute',
+                    top: '10%',
+                    left: '15%',
+                    width: '40%',
+                    height: '25%',
+                    background: 'linear-gradient(to bottom, rgba(255,255,255,0.6), transparent)',
+                    borderRadius: '50% 50% 50% 50% / 100% 100% 0% 0%',
+                    transform: 'rotate(-25deg)',
+                    pointerEvents: 'none'
+                  }} />
+                  
+                  <Icon size={28} color="#FFF" strokeWidth={2.5} style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }} />
+                </motion.div>
+              </div>
+              
+              <div style={{ textAlign: 'center', zIndex: 2 }}>
+                <p style={{ 
+                  fontSize: '11px', 
+                  fontWeight: '850', 
+                  color: '#1A1A1A',
+                  letterSpacing: '-0.2px',
+                  marginBottom: '2px'
+                }}>{item.label}</p>
+                <div style={{
+                  display: 'inline-block',
+                  padding: '2px 6px',
+                  background: `${item.color}15`,
+                  borderRadius: '6px'
+                }}>
+                  <span style={{ 
+                    fontSize: '8px', 
+                    fontWeight: '900', 
+                    color: item.color,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.5px'
+                  }}>{item.sub}</span>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
 // ─── Daily Rituals (IMPROVED) ────────────────────────
 function DailyRituals({ onOpenCalendar }) {
   const getGreeting = () => {
@@ -140,6 +273,8 @@ function DailyRituals({ onOpenCalendar }) {
         <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
         <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
       </div>
+
+      <PremiumActionBubbles />
 
       {/* Centered Date Pill on Divider */}
       <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
@@ -294,42 +429,89 @@ function DailyTrackers() {
   );
 }
 
-// ─── Service Hub (NEW - Modern Approach) ─────────────
-function ServiceHub() {
-  const services = [
-    { label: 'Get a Coach', icon: Star, color: '#FFD700' },
-    { label: 'Lab Test', icon: Activity, color: '#AF52DE' },
-    { label: 'Refer & Earn', icon: ShoppingBag, color: '#FF9500' },
-    { label: 'My Plan', icon: ClipboardList, color: '#34C759' },
-    { label: 'Smart Scale', icon: Weight, color: '#5856D6' },
-    { label: 'Challenges', icon: Target, color: '#FF2D55' },
-    { label: 'Shop', icon: ShoppingBag, color: '#007AFF' },
-    { label: 'Support', icon: MessageCircle, color: '#8E8E93' },
+// ─── Service Hub (High-End Action Hub) ───────────────
+// ─── Editorial Hub (High-End Product Canvas) ────────
+function EditorialHub() {
+  const items = [
+    { label: 'COACH', title: 'Consult Experts', icon: Star, color: '#FFD700', size: 'hero', grad: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)' },
+    { label: 'LABS', title: 'Check Vitals', icon: Activity, color: '#AF52DE', size: 'normal', grad: 'linear-gradient(135deg, #AF52DE 0%, #6A11CB 100%)' },
+    { label: 'PLAN', title: 'My Daily Routine', icon: ClipboardList, color: '#34C759', size: 'normal', grad: 'linear-gradient(135deg, #34C759 0%, #11998E 100%)' },
+    { label: 'SHOP', title: 'Gear', icon: ShoppingBag, color: '#007AFF', size: 'normal', grad: 'linear-gradient(135deg, #007AFF 0%, #00C6FF 100%)' },
+    { label: 'GOALS', title: 'Scale', icon: Weight, color: '#5856D6', size: 'normal', grad: 'linear-gradient(135deg, #5856D6 0%, #21D4FD 100%)' },
   ];
 
   return (
-    <section className="section" style={{ paddingTop: '0', paddingBottom: '10px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 12px' }}>
-        {services.map((s) => (
-          <motion.div 
-            key={s.label}
-            whileTap={{ scale: 0.94 }}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
-          >
-            <div style={{ 
-              width: '64px', height: '64px', borderRadius: '50%', 
-              background: `linear-gradient(135deg, ${s.color}15 0%, ${s.color}05 100%)`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              border: `1px solid ${s.color}20`,
-              boxShadow: `0 8px 20px ${s.color}10`
-            }}>
-              <s.icon size={26} color={s.color} />
-            </div>
-            <span style={{ fontSize: '11px', fontWeight: '800', textAlign: 'center', color: '#333', lineHeight: '1.2' }}>
-              {s.label}
-            </span>
-          </motion.div>
-        ))}
+    <section className="section" style={{ paddingTop: '10px', paddingBottom: '32px' }}>
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(2, 1fr)', 
+        gridAutoRows: 'minmax(90px, auto)',
+        gap: '14px'
+      }}>
+        {/* HERO CARD */}
+        <motion.div
+          whileTap={{ scale: 0.97 }}
+          style={{
+            gridColumn: 'span 2',
+            height: '140px',
+            background: items[0].grad,
+            borderRadius: '32px',
+            padding: '24px',
+            position: 'relative',
+            overflow: 'hidden',
+            boxShadow: '0 20px 40px rgba(255, 140, 0, 0.2)',
+            cursor: 'pointer'
+          }}
+        >
+          {(() => {
+            const HeroIcon = items[0].icon;
+            return (
+              <>
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <span style={{ fontSize: '10px', fontWeight: '900', color: 'rgba(255,255,255,0.7)', letterSpacing: '2px', textTransform: 'uppercase' }}>{items[0].label}</span>
+                  <h3 style={{ fontSize: '24px', fontWeight: '900', color: '#FFF', letterSpacing: '-0.5px', marginTop: '4px' }}>{items[0].title}</h3>
+                </div>
+                <div style={{ position: 'absolute', bottom: '20px', right: '24px', opacity: 0.2 }}>
+                  <HeroIcon size={64} color="#FFF" />
+                </div>
+              </>
+            );
+          })()}
+        </motion.div>
+
+        {/* SMALL CARDS */}
+        {items.slice(1).map((item) => {
+          const Icon = item.icon;
+          return (
+            <motion.div
+              key={item.label}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: '#FFF',
+                borderRadius: '28px',
+                padding: '18px',
+                border: '1px solid rgba(0,0,0,0.03)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.02)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                cursor: 'pointer'
+              }}
+            >
+              <div style={{ 
+                width: '40px', height: '40px', borderRadius: '12px', 
+                background: `${item.color}15`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}>
+                <Icon size={20} color={item.color} strokeWidth={2.5} />
+              </div>
+              <div>
+                <span style={{ fontSize: '9px', fontWeight: '900', color: '#8E8E93', letterSpacing: '1px' }}>{item.label}</span>
+                <p style={{ fontSize: '13px', fontWeight: '800', color: '#1A1A1A', marginTop: '2px' }}>{item.title}</p>
+              </div>
+            </motion.div>
+          );
+        })}
       </div>
     </section>
   );
@@ -550,7 +732,6 @@ export default function App() {
           <div className="app" style={{ paddingBottom: '40px' }}>
             <Header />
             <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
-            <ServiceHub />
             <DailyTrackers />
             <EliteCoaching />
             <LiveSessions />
