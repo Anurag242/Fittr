@@ -7,8 +7,7 @@ import {
   Dumbbell, TrendingUp, Star, Lock, Info,
   ShoppingBag, Target, Share2, ClipboardList, ClipboardCheck,
   ChevronDown, ArrowRight, Play, Utensils,
-  Clock, Heart, Trophy, Users, Scale, Gift,
-  Eye, CreditCard, Send, PlusCircle
+  Clock, Heart, Trophy, Users, Scale, Gift
 } from 'lucide-react';
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
@@ -121,156 +120,28 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { 
-      label: 'My Plan', 
-      img: '/assets/plan.png', 
-      color: '#D4A017', 
-      grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' 
-    },
-    { 
-      label: 'Smart Scale', 
-      img: '/assets/scale.png', // Use the user's provided scale asset
-      color: '#8E44AD', 
-      grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' 
-    },
-    { 
-      label: 'Challenges', 
-      icon: Target, 
-      color: '#C0392B', 
-      grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' 
-    },
-    { 
-      label: 'Shop', 
-      icon: ShoppingBag, 
-      color: '#16A085', 
-      grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' 
-    },
+    { label: 'My Plan', sub: 'ACTIVE', icon: ClipboardCheck, color: '#F59E0B' }, // Amber
+    { label: 'Smart Scale', sub: 'SYNCING', icon: Scale, color: '#8B5CF6' },   // Violet
+    { label: 'Challenges', sub: '2 NEW', icon: Target, color: '#EF4444' },     // Red
+    { label: 'Shop', sub: 'GEAR', icon: ShoppingBag, color: '#10B981' },       // Emerald
   ];
 
   return (
-    <section style={{ padding: '20px 0' }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-around', 
-        padding: '0 16px',
-        gap: '4px'
-      }}>
-        {actions.map((item) => {
-          const Icon = item.icon;
-          return (
-            <div
-              key={item.label}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '8px',
-                flex: 1
-              }}
-            >
-              <motion.div
-                whileTap={{ scale: 0.92 }}
-                style={{
-                  width: '74px',
-                  height: '74px',
-                  borderRadius: '50%',
-                  background: item.grad,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  boxShadow: '0 12px 24px rgba(0,0,0,0.06)',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}
-              >
-                {/* 3D Specular Highlight */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '50%',
-                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7) 0%, transparent 60%)',
-                  pointerEvents: 'none',
-                  zIndex: 1
-                }} />
-                
-                {/* Inner Shadows for Volume */}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  borderRadius: '50%',
-                  boxShadow: 'inset 0 4px 8px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.1)',
-                  pointerEvents: 'none',
-                  zIndex: 2
-                }} />
-                
-                {item.img ? (
-                  <img 
-                    src={item.img} 
-                    alt={item.label} 
-                    style={{ 
-                      width: '58px', 
-                      height: '58px', 
-                      objectFit: 'contain',
-                      position: 'relative',
-                      zIndex: 3,
-                      filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))',
-                      mixBlendMode: 'multiply' // Background removal trick for white backgrounds
-                    }} 
-                  />
-                ) : (
-                  <div style={{
-                    position: 'relative',
-                    zIndex: 3,
-                    filter: `
-                      drop-shadow(2px 2px 0px rgba(255,255,255,0.8)) 
-                      drop-shadow(-1px -1px 0px rgba(0,0,0,0.1)) 
-                      drop-shadow(6px 8px 12px rgba(0,0,0,0.15))
-                    `
-                  }}>
-                    <Icon size={34} color={item.color} strokeWidth={2.5} />
-                  </div>
-                )}
-              </motion.div>
-              
-              <p style={{ 
-                fontSize: '12px', 
-                fontWeight: '800', 
-                color: '#1F2937',
-                textAlign: 'center',
-                letterSpacing: '-0.3px',
-                lineHeight: 1.2
-              }}>{item.label}</p>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
-
-const UtilityHub = () => {
-  const utilities = [
-    { label: 'View Balance', icon: Eye },
-    { label: 'Card PIN', icon: Lock },
-    { label: 'View CVV', icon: CreditCard },
-    { label: 'Send Money', icon: Send },
-    { label: 'Payment Request', icon: PlusCircle },
-  ];
-
-  return (
-    <section style={{ padding: '20px 0', background: '#F8F9FA' }}>
+    <section style={{ padding: '24px 0', overflow: 'hidden' }}>
       <div style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
-        padding: '0 16px',
-        gap: '4px'
+        padding: '0 12px',
+        gap: '8px'
       }}>
-        {utilities.map((item) => {
+        {actions.map((item, i) => {
           const Icon = item.icon;
           return (
-            <div
+            <motion.div
               key={item.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -280,30 +151,39 @@ const UtilityHub = () => {
               }}
             >
               <motion.div
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.92, backgroundColor: `${item.color}25` }}
                 style={{
                   width: '64px',
                   height: '64px',
                   borderRadius: '50%',
-                  background: '#E8F5E9',
+                  background: `${item.color}12`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s ease'
                 }}
               >
-                <Icon size={28} color="#2E7D32" strokeWidth={1.5} />
+                <Icon size={26} color={item.color} strokeWidth={2.2} />
               </motion.div>
               
-              <p style={{ 
-                fontSize: '11px', 
-                fontWeight: '600', 
-                color: '#455A64',
-                textAlign: 'center',
-                lineHeight: 1.3,
-                maxWidth: '60px'
-              }}>{item.label}</p>
-            </div>
+              <div style={{ textAlign: 'center' }}>
+                <p style={{ 
+                  fontSize: '12px', 
+                  fontWeight: '700', 
+                  color: '#2D2D2D',
+                  letterSpacing: '-0.2px',
+                  marginBottom: '4px'
+                }}>{item.label}</p>
+                <span style={{ 
+                  fontSize: '9px', 
+                  fontWeight: '800', 
+                  color: item.color,
+                  letterSpacing: '0.8px',
+                  opacity: 0.9
+                }}>{item.sub}</span>
+              </div>
+            </motion.div>
           );
         })}
       </div>
@@ -311,7 +191,8 @@ const UtilityHub = () => {
   );
 };
 
-const DailyRituals = ({ onOpenCalendar }) => {
+// ─── Daily Rituals (IMPROVED) ────────────────────────
+function DailyRituals({ onOpenCalendar }) {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Rise & Shine, Anurag! ☀️";
@@ -320,71 +201,20 @@ const DailyRituals = ({ onOpenCalendar }) => {
   };
 
   const rings = [
-    { label: 'Cals', val: 1240, max: 2000, color: '#2E7D32', icon: Flame },
-    { label: 'Water', val: 1.2, max: 3, color: '#2E7D32', icon: Droplets },
-    { label: 'Steps', val: 6420, max: 10000, color: '#2E7D32', icon: Zap },
-    { label: 'Sleep', val: 6.5, max: 8, color: '#2E7D32', icon: Clock },
+    { label: 'Cals', val: 1240, max: 2000, color: '#FF3B30', icon: Flame },
+    { label: 'Water', val: 1.2, max: 3, color: '#007AFF', icon: Droplets },
+    { label: 'Steps', val: 6420, max: 10000, color: '#34C759', icon: Zap },
+    { label: 'Sleep', val: 6.5, max: 8, color: '#AF52DE', icon: Clock },
   ];
 
   return (
-    <div style={{ 
-      background: '#FFFFFF', 
-      borderRadius: '40px 40px 0 0', 
-      marginTop: '-30px', 
-      position: 'relative', 
-      zIndex: 10,
-      padding: '0',
-      minHeight: '100vh',
-      boxShadow: '0 -20px 40px rgba(0,0,0,0.03)',
-      overflow: 'hidden'
-    }}>
-      {/* MINIMALIST TOP SECTION */}
-      <section style={{ 
-        background: '#E8F5E9', 
-        padding: '40px 24px 30px',
-        borderRadius: '0 0 40px 40px',
-        marginBottom: '10px'
-      }}>
-        <div style={{ marginBottom: '24px' }}>
-          <span style={{ fontSize: '10px', fontWeight: '800', color: '#2E7D32', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.8 }}>Daily Overview</span>
-          <h2 style={{ fontSize: '26px', fontWeight: '900', color: '#1B5E20', letterSpacing: '-0.8px', marginTop: '4px' }}>{getGreeting()}</h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
-            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#2E7D32' }} />
-            <p style={{ fontSize: '14px', color: '#455A64', fontWeight: '500' }}>You're at <span style={{ fontWeight: '800', color: '#1B5E20' }}>62%</span> of your daily goal</p>
-          </div>
-        </div>
-
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          gap: '12px'
-        }}>
-          {rings.map((ring) => {
-            const Icon = ring.icon;
-            return (
-              <div key={ring.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
-                <div style={{ 
-                  width: '56px', height: '56px', borderRadius: '20px', background: '#FFFFFF', 
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 8px 16px rgba(46, 125, 50, 0.08)'
-                }}>
-                  <Icon size={24} color="#2E7D32" strokeWidth={1.5} />
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <p style={{ fontSize: '10px', fontWeight: '800', color: '#2E7D32', opacity: 0.6 }}>{ring.label}</p>
-                  <p style={{ fontSize: '13px', fontWeight: '900', color: '#1B5E20' }}>{ring.val}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+    <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
+      <div style={{ marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
+        <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
+      </div>
 
       <PremiumActionBubbles />
-      
-      <div style={{ margin: '10px 24px', height: '1px', background: '#F2F2F7' }} />
-      
-      <UtilityHub />
 
       {/* Centered Date Pill on Divider */}
       <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
@@ -413,7 +243,7 @@ const DailyRituals = ({ onOpenCalendar }) => {
         </motion.button>
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', padding: '0 24px', marginTop: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
         {rings.map((r) => (
           <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
             <div style={{ position: 'relative', width: '70px', height: '70px' }}>
@@ -436,9 +266,9 @@ const DailyRituals = ({ onOpenCalendar }) => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
-};
+}
 
 // ─── Action Cards (IMPROVED - Full Width) ─────────────
 function DailyTrackers() {
