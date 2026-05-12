@@ -4,251 +4,493 @@ import {
   Bell, Droplets, Flame, Activity,
   Plus, Home, Search, MessageCircle, User,
   Zap, ChevronRight, Camera, Weight, Apple,
-  Dumbbell, TrendingUp, Star
+  Dumbbell, TrendingUp, Star, Lock, Info,
+  ShoppingBag, Target, Share2, ClipboardList,
+  ChevronDown, ArrowRight, Play, Utensils,
+  Clock, Heart, Trophy, Users
 } from 'lucide-react';
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
-
-// ─── Ring ────────────────────────────────────────────
-function Ring({ icon: Icon, progress, stroke, label, value }) {
-  const r = 30;
-  const circ = 2 * Math.PI * r;
-  const [anim, setAnim] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setAnim(true), 300); return () => clearTimeout(t); }, []);
-  const offset = circ - (anim ? progress / 100 : 0) * circ;
-
-  return (
-    <div className="ritual-item">
-      <div className="ring-wrap">
-        <svg width="68" height="68" viewBox="0 0 68 68">
-          <circle className="ring-bg" cx="34" cy="34" r={r} />
-          <circle
-            className="ring-prog"
-            cx="34" cy="34" r={r}
-            style={{ stroke, strokeDasharray: circ, strokeDashoffset: offset }}
-          />
-        </svg>
-        <div className="ring-center">
-          <Icon size={20} color={stroke} strokeWidth={2} />
-        </div>
-      </div>
-      <div className="ritual-label">
-        <strong>{value}</strong>
-        <span>{label}</span>
-      </div>
-    </div>
-  );
-}
 
 // ─── Header ──────────────────────────────────────────
 function Header() {
   return (
     <header className="header">
       <div className="header-left">
-        <img
-          className="avatar"
-          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
-          alt="User"
-        />
-        <div className="greeting-text">
-          <p>Good Morning ☀️</p>
-          <h2>Saumil</h2>
+        <div style={{ position: 'relative' }}>
+          <img
+            className="avatar"
+            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
+            alt="User"
+            style={{ border: '2px solid #FFF', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+          />
+          <div style={{
+            position: 'absolute',
+            bottom: '-8px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: '#000',
+            borderRadius: '12px',
+            padding: '2px 10px',
+            border: '1px solid rgba(255,255,255,0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px',
+            height: '22px',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+          }}>
+            <div style={{ width: '12px', height: '12px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', color: '#000', fontWeight: '900' }}>F</div>
+            <span style={{ fontSize: '11px', fontWeight: '800', color: '#FFF' }}>120</span>
+          </div>
         </div>
       </div>
-      <div className="header-icons">
-        <button className="icon-btn" style={{ position: 'relative' }}>
-          <Bell size={18} strokeWidth={1.8} />
-          <span className="notif-dot" />
+      <div className="header-icons" style={{ gap: '12px' }}>
+        <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} /></button>
+        <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
+          <Bell size={20} />
+          <span className="notif-dot" style={{ background: '#FF3B30' }} />
         </button>
+        <button className="icon-btn" style={{ background: '#FFF' }}><MessageCircle size={20} /></button>
       </div>
     </header>
   );
 }
 
-// ─── Streak Banner ────────────────────────────────────
-function StreakBanner() {
+// ─── Calendar Overlay (NEW) ──────────────────────────
+function CalendarOverlay({ isOpen, onClose, onSelect }) {
+  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
+  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
   return (
-    <motion.div
-      className="streak-banner"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1 }}
-    >
-      <div className="streak-left">
-        <span className="streak-emoji">🔥</span>
-        <div className="streak-text">
-          <h4>14-Day Streak!</h4>
-          <p>Keep logging to maintain it</p>
-        </div>
-      </div>
-      <span className="streak-badge">Week 2</span>
-    </motion.div>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, backdropFilter: 'blur(4px)' }}
+          />
+          <motion.div 
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{ 
+              position: 'absolute', bottom: 0, left: 0, right: 0, 
+              background: '#FFF', borderRadius: '32px 32px 0 0', 
+              padding: '24px', zIndex: 1001,
+              boxShadow: '0 -10px 40px rgba(0,0,0,0.2)'
+            }}
+          >
+            <div style={{ width: '40px', height: '4px', background: '#DDD', borderRadius: '2px', margin: '0 auto 24px' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: '900' }}>October 2023</h3>
+              <button onClick={onClose} style={{ padding: '8px 16px', borderRadius: '12px', background: '#F0F0F2', border: 'none', fontWeight: '700', fontSize: '13px' }}>Done</button>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', marginBottom: '16px' }}>
+              {days.map(d => (
+                <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: '700', color: '#BBB' }}>{d}</div>
+              ))}
+              {dates.map(d => (
+                <motion.div 
+                  key={d} 
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => { onSelect(d); onClose(); }}
+                  style={{ 
+                    height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    borderRadius: '12px', fontSize: '14px', fontWeight: '700',
+                    background: d === 13 ? '#000' : 'transparent',
+                    color: d === 13 ? '#FFF' : '#000',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {d}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
-// ─── Daily Rituals ────────────────────────────────────
-function DailyRituals() {
-  return (
-    <motion.section
-      className="section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15 }}
-    >
-      <div className="section-header">
-        <h3>Daily Rituals</h3>
-        <span className="section-link">Details</span>
-      </div>
-      <div className="rituals-card">
-        <Ring icon={Flame}    progress={65} stroke="#FF3B30" label="Calories" value="1,240" />
-        <Ring icon={Droplets} progress={40} stroke="#0A84FF" label="Water"    value="1.2L"  />
-        <Ring icon={Activity} progress={80} stroke="#CFFF04" label="Steps"    value="6,420" />
-        <Ring icon={Weight}   progress={100} stroke="#FF9F0A" label="Weight"   value="✓"    />
-      </div>
-    </motion.section>
-  );
-}
+// ─── Daily Rituals (IMPROVED) ────────────────────────
+function DailyRituals({ onOpenCalendar }) {
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Rise & Shine, Anurag! ☀️";
+    if (hour < 17) return "Keep crushing it, Anurag! ⚡️";
+    return "Finishing strong, Anurag? 🔥";
+  };
 
-// ─── Quick Log ────────────────────────────────────────
-function QuickLog() {
-  const cards = [
-    { icon: Apple,    color: '#FF3B30', bg: 'rgba(255,59,48,0.12)',  title: 'Log Food',     desc: 'Breakfast, Lunch…',   stat: '3 meals', statColor: '#FF3B30' },
-    { icon: Droplets, color: '#0A84FF', bg: 'rgba(10,132,255,0.12)', title: 'Water Intake', desc: 'Stay hydrated',       stat: '1.2 / 3L', statColor: '#0A84FF' },
-    { icon: Dumbbell, color: '#CFFF04', bg: 'rgba(207,255,4,0.12)',  title: 'Workout',      desc: 'Push, Pull, Legs…',   stat: 'Not logged', statColor: '#CFFF04' },
-    { icon: Weight,   color: '#FF9F0A', bg: 'rgba(255,159,10,0.12)', title: 'Body Weight',  desc: 'Track progress',      stat: '72.4 kg', statColor: '#FF9F0A' },
+  const rings = [
+    { label: 'Cals', val: 1240, max: 2000, color: '#FF3B30', icon: Flame },
+    { label: 'Water', val: 1.2, max: 3, color: '#007AFF', icon: Droplets },
+    { label: 'Steps', val: 6420, max: 10000, color: '#34C759', icon: Zap },
+    { label: 'Sleep', val: 6.5, max: 8, color: '#AF52DE', icon: Clock },
   ];
 
   return (
-    <motion.section
-      className="section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
-      <div className="section-header">
-        <h3>Quick Log</h3>
+    <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
+      <div style={{ marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
+        <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
       </div>
-      <div className="quick-log-grid">
-        {cards.map(({ icon: Icon, color, bg, title, desc, stat, statColor }) => (
-          <div key={title} className="log-card">
-            <div className="log-card-icon" style={{ background: bg }}>
-              <Icon size={20} color={color} strokeWidth={2} />
+
+      {/* Centered Date Pill on Divider */}
+      <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
+        <div style={{ 
+          position: 'absolute', left: 0, right: 0, height: '1px', 
+          background: 'linear-gradient(to right, transparent, #E5E5EA 20%, #E5E5EA 80%, transparent)' 
+        }} />
+        <motion.button 
+          whileTap={{ scale: 0.96 }}
+          onClick={onOpenCalendar}
+          style={{ 
+            position: 'relative',
+            background: '#E5E5EA', 
+            border: 'none', 
+            padding: '6px 16px', 
+            borderRadius: '100px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 0 0 4px #F5F5F7' 
+          }}
+        >
+          <span style={{ fontSize: '12px', fontWeight: '800', color: '#000' }}>Today</span>
+          <ChevronDown size={14} color="#000" />
+        </motion.button>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+        {rings.map((r) => (
+          <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <div style={{ position: 'relative', width: '70px', height: '70px' }}>
+               <svg style={{ transform: 'rotate(-90deg)', width: '70px', height: '70px' }}>
+                  <circle cx="35" cy="35" r="30" fill="none" stroke="#F0F0F2" strokeWidth="6" />
+                  <motion.circle 
+                    cx="35" cy="35" r="30" fill="none" stroke={r.color} strokeWidth="6" 
+                    strokeDasharray="188.5"
+                    initial={{ strokeDashoffset: 188.5 }}
+                    animate={{ strokeDashoffset: 188.5 - (r.val / r.max) * 188.5 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    strokeLinecap="round"
+                  />
+               </svg>
+               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <r.icon size={20} color={r.color} />
+               </div>
             </div>
-            <div>
-              <h4>{title}</h4>
-              <p>{desc}</p>
-            </div>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: statColor }}>{stat}</span>
-            <ChevronRight size={14} className="log-card-arrow" />
+            <p style={{ fontSize: '11px', fontWeight: '700', color: '#333' }}>{r.label}</p>
           </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 }
 
-// ─── Coaching Card ────────────────────────────────────
-function CoachingCard() {
+// ─── Action Cards (IMPROVED - Full Width) ─────────────
+function DailyTrackers() {
   return (
-    <motion.section
-      className="section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.25 }}
-    >
-      <div className="coaching-card">
-        <div className="coaching-glow" />
-        <div className="coaching-glow2" />
-
-        <div className="coaching-chip">
-          <Star size={12} fill="#CFFF04" color="#CFFF04" />
-          <span>ELITE COACHING</span>
+    <div className="section" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      
+      {/* Nutrition Card */}
+      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #FFF9F0 100%)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ padding: '6px', borderRadius: '8px', background: '#FF950015' }}>
+                <Utensils size={18} color="#FF9500" />
+              </div>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#FF9500', letterSpacing: '0.5px' }}>NUTRITION</span>
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>1,240 <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 2000 kcal</span></h3>
+            <p style={{ fontSize: '12px', color: '#888' }}>You have 760 kcal remaining for today.</p>
+          </div>
+          <button style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#000', color: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Plus size={20} />
+          </button>
         </div>
+        <div style={{ width: '100%', height: '6px', background: '#F0F0F2', borderRadius: '3px', marginTop: '16px', overflow: 'hidden' }}>
+          <div style={{ width: '62%', height: '100%', background: '#FF9500', borderRadius: '3px' }} />
+        </div>
+      </motion.div>
 
-        <h2>Your transformation<br />starts today.</h2>
-        <p>Personalized plans from top-ranked certified coaches — nutrition, training & mindset.</p>
-
-        <div className="coaches-row">
-          <div className="coach-avatars">
-            {[
-              'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=64&q=80',
-              'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&w=64&q=80',
-              'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=64&q=80',
-            ].map((src, i) => (
-              <img key={i} className="coach-avatar" src={src} alt="" />
+      {/* Water Card */}
+      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #F0F7FF 100%)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ padding: '6px', borderRadius: '8px', background: '#007AFF15' }}>
+                <Droplets size={18} color="#007AFF" />
+              </div>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#007AFF', letterSpacing: '0.5px' }}>HYDRATION</span>
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>1.2 <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 3.0 ltr</span></h3>
+            <p style={{ fontSize: '12px', color: '#888' }}>Drink 3 more glasses to reach your goal.</p>
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} style={{ width: '12px', height: '24px', borderRadius: '4px', background: i <= 2 ? '#007AFF' : '#E5E5EA' }} />
             ))}
-          </div>
-          <div className="coaches-text">
-            <strong>3,400+</strong> members joined this week
+            <button style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#007AFF15', color: '#007AFF', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '4px' }}>
+              <Plus size={18} />
+            </button>
           </div>
         </div>
+      </motion.div>
 
-        <button className="btn-primary">
-          Match with a Coach <Zap size={16} fill="#000" />
+      {/* Workout Card */}
+      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #FFF0F3 100%)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ padding: '6px', borderRadius: '8px', background: '#FF2D5515' }}>
+                <Dumbbell size={18} color="#FF2D55" />
+              </div>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#FF2D55', letterSpacing: '0.5px' }}>ACTIVITY</span>
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>Abs Workout</h3>
+            <p style={{ fontSize: '12px', color: '#888' }}>45 mins • Intermediate • 320 kcal</p>
+          </div>
+          <button style={{ background: '#000', color: '#FFF', padding: '10px 20px', borderRadius: '12px', fontSize: '13px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Start <Play size={14} fill="#FFF" />
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Sleep Card */}
+      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #F5F0FF 100%)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <div style={{ padding: '6px', borderRadius: '8px', background: '#AF52DE15' }}>
+                <Clock size={18} color="#AF52DE" />
+              </div>
+              <span style={{ fontSize: '12px', fontWeight: '800', color: '#AF52DE', letterSpacing: '0.5px' }}>RECOVERY</span>
+            </div>
+            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>6h 45m <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 8h 00m</span></h3>
+            <p style={{ fontSize: '12px', color: '#888' }}>You slept 1h 15m less than your target.</p>
+          </div>
+          <button style={{ padding: '10px 16px', borderRadius: '12px', border: '1px solid #EEE', background: '#FFF', fontSize: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            Log Sleep <Plus size={14} />
+          </button>
+        </div>
+        <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ flex: 1, height: '6px', background: '#F0F0F2', borderRadius: '3px', overflow: 'hidden' }}>
+            <div style={{ width: '84%', height: '100%', background: '#AF52DE', borderRadius: '3px' }} />
+          </div>
+          <span style={{ fontSize: '11px', fontWeight: '700', color: '#AF52DE' }}>84%</span>
+        </div>
+      </motion.div>
+
+    </div>
+  );
+}
+
+// ─── Service Hub (NEW - Modern Approach) ─────────────
+function ServiceHub() {
+  const services = [
+    { label: 'Get a Coach', icon: Star, color: '#FFD700' },
+    { label: 'Lab Test', icon: Activity, color: '#AF52DE' },
+    { label: 'Refer & Earn', icon: ShoppingBag, color: '#FF9500' },
+    { label: 'My Plan', icon: ClipboardList, color: '#34C759' },
+    { label: 'Smart Scale', icon: Weight, color: '#5856D6' },
+    { label: 'Challenges', icon: Target, color: '#FF2D55' },
+    { label: 'Shop', icon: ShoppingBag, color: '#007AFF' },
+    { label: 'Support', icon: MessageCircle, color: '#8E8E93' },
+  ];
+
+  return (
+    <section className="section" style={{ paddingTop: '0', paddingBottom: '10px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px 12px' }}>
+        {services.map((s) => (
+          <motion.div 
+            key={s.label}
+            whileTap={{ scale: 0.94 }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+          >
+            <div style={{ 
+              width: '64px', height: '64px', borderRadius: '50%', 
+              background: `linear-gradient(135deg, ${s.color}15 0%, ${s.color}05 100%)`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: `1px solid ${s.color}20`,
+              boxShadow: `0 8px 20px ${s.color}10`
+            }}>
+              <s.icon size={26} color={s.color} />
+            </div>
+            <span style={{ fontSize: '11px', fontWeight: '800', textAlign: 'center', color: '#333', lineHeight: '1.2' }}>
+              {s.label}
+            </span>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Live Sessions (NEW) ──────────────────────────────
+function LiveSessions() {
+  const sessions = [
+    { title: 'HIIT Burn', coach: 'Mike Ross', time: 'LIVE NOW', img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&q=80', users: '1.2k' },
+    { title: 'Zen Yoga', coach: 'Sarah J.', time: '10:30 AM', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80', users: '800' },
+  ];
+
+  return (
+    <section className="section" style={{ paddingRight: 0 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '20px', marginBottom: '16px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: '900' }}>Live Classes</h3>
+        <span style={{ fontSize: '13px', color: '#007AFF', fontWeight: '700' }}>View All</span>
+      </div>
+      <div className="h-scroll" style={{ gap: '16px' }}>
+        {sessions.map((s) => (
+          <div key={s.title} style={{ minWidth: '240px', position: 'relative', borderRadius: '20px', overflow: 'hidden' }}>
+             <img src={s.img} style={{ width: '100%', height: '140px', objectFit: 'cover' }} />
+             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} />
+             <div style={{ position: 'absolute', top: '12px', left: '12px', padding: '4px 8px', borderRadius: '6px', background: s.time === 'LIVE NOW' ? '#FF3B30' : 'rgba(0,0,0,0.5)', color: '#FFF', fontSize: '10px', fontWeight: '800' }}>
+               {s.time}
+             </div>
+             <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div>
+                   <p style={{ color: '#FFF', fontSize: '15px', fontWeight: '800' }}>{s.title}</p>
+                   <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>{s.coach}</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF', fontSize: '10px', fontWeight: '700' }}>
+                   <Users size={12} /> {s.users}
+                </div>
+             </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Elite Coaching (IMPROVED) ────────────────────────
+function EliteCoaching() {
+  return (
+    <section className="section">
+      <div style={{ 
+        background: 'linear-gradient(135deg, #111 0%, #333 100%)', 
+        borderRadius: '24px', 
+        padding: '24px', 
+        position: 'relative', 
+        overflow: 'hidden',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.2)'
+      }}>
+        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(207,255,4,0.15) 0%, transparent 70%)', filter: 'blur(30px)' }} />
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#CFFF04', color: '#000', fontSize: '10px', fontWeight: '900', letterSpacing: '0.5px' }}>ELITE COACHING</div>
+          <Star size={14} color="#CFFF04" fill="#CFFF04" />
+        </div>
+
+        <h2 style={{ color: '#FFF', fontSize: '26px', fontWeight: '900', lineHeight: '1.1', marginBottom: '12px' }}>Transform with<br/>Expert Guidance.</h2>
+        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', marginBottom: '24px', maxWidth: '80%' }}>Get a personalized nutrition & training plan from India's top 1% coaches.</p>
+        
+        <button style={{ 
+          background: '#FFF', 
+          color: '#000', 
+          width: '100%', 
+          padding: '16px', 
+          borderRadius: '16px', 
+          fontWeight: '900', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          gap: '10px',
+          boxShadow: '0 4px 0 #CCC'
+        }}>
+          Match with my Coach <ArrowRight size={20} />
         </button>
       </div>
-    </motion.section>
+    </section>
   );
 }
 
-// ─── Discover ─────────────────────────────────────────
-function Discover() {
-  const items = [
-    { tag: 'NUTRITION', title: 'High Protein Meal Plans', img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80' },
-    { tag: 'TRAINING', title: 'HIIT for Fat Loss', img: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=400&q=80' },
-    { tag: 'WELLNESS', title: 'Sleep & Recovery', img: 'https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?auto=format&fit=crop&w=400&q=80' },
-    { tag: 'STRENGTH', title: 'Beginner Lifting', img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&q=80' },
+// ─── Community Highlights (IMPROVED) ──────────────────
+function CommunityHighlights() {
+  const stories = [
+    {
+      id: 1,
+      name: 'Rahul Sharma',
+      views: '2.4k',
+      title: 'Lost 12kg in 3 months!',
+      desc: '"Fittr changed my life. The diet plan was so sustainable..."',
+      avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80',
+      img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
+      accent: '#FF9500'
+    },
+    {
+      id: 2,
+      name: 'Anjali Gupta',
+      views: '1.8k',
+      title: 'PCOS Transformation',
+      desc: '"From 85kg to 62kg. FITTR showed me that PCOS isn\'t a dead end."',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80',
+      img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80',
+      accent: '#FF2D55'
+    },
+    {
+      id: 3,
+      name: 'Vikram Singh',
+      views: '3.1k',
+      title: 'Muscle Gain Journey',
+      desc: '"Consistency is key. Strength is not just physical, it\'s mental balance."',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=128&q=80',
+      img: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80',
+      accent: '#007AFF'
+    }
   ];
 
   return (
-    <motion.section
-      className="section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
-    >
-      <div className="section-header">
-        <h3>Discover</h3>
-        <span className="section-link">See All</span>
-      </div>
-      <div className="h-scroll">
-        {items.map(({ tag, title, img }) => (
-          <div key={title} className="discover-card">
-            <img src={img} alt={title} />
-            <div className="discover-card-overlay">
-              <span className="discover-tag">{tag}</span>
-              <h4>{title}</h4>
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.section>
-  );
-}
-
-// ─── Progress Photo ────────────────────────────────────
-function ProgressPhoto() {
-  return (
-    <motion.section
-      className="section"
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.35 }}
-    >
-      <div className="section-header">
-        <h3>Progress</h3>
-        <span className="section-link">History</span>
-      </div>
-      <div className="progress-photo-card">
-        <div className="progress-photo-inner">
-          <div className="icon-circle">
-            <Camera size={22} />
-          </div>
-          <h4>Log a Progress Photo</h4>
-          <p>Visual proof of your hard work</p>
+    <section className="section" style={{ paddingBottom: '60px' }}>
+       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: '900' }}>Community Stories</h3>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="icon-btn" style={{ background: '#FFF' }}><Share2 size={16} color="#666" /></button>
+          <button className="icon-btn" style={{ background: '#FFF' }}><Users size={16} color="#666" /></button>
         </div>
       </div>
-    </motion.section>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {stories.map((s) => (
+          <motion.div 
+            key={s.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ borderRadius: '24px', background: '#FFF', border: '1px solid #EEE', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.04)' }}
+          >
+             <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                   <img src={s.avatar} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} alt={s.name} />
+                   <div>
+                      <p style={{ fontSize: '14px', fontWeight: '800' }}>{s.name}</p>
+                      <p style={{ fontSize: '11px', color: '#888' }}>Transformation • {s.views} views</p>
+                   </div>
+                </div>
+                <Trophy size={18} color={s.accent} />
+             </div>
+             
+             <div style={{ position: 'relative', height: '320px' }}>
+                <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={s.title} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} />
+                <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
+                   <p style={{ color: '#FFF', fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{s.title}</p>
+                   <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: '1.4' }}>{s.desc}</p>
+                </div>
+             </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -257,32 +499,35 @@ function BottomNav() {
   const [active, setActive] = useState('home');
   const items = [
     { id: 'home',      icon: Home,           label: 'Home' },
-    { id: 'explore',   icon: Search,         label: 'Explore' },
-    { id: 'log',       icon: null,           label: null      },
-    { id: 'community', icon: MessageCircle,  label: 'Community' },
-    { id: 'profile',   icon: User,           label: 'Profile' },
+    { id: 'lab',       icon: Activity,       label: 'Lab Tests' },
+    { id: 'coach',     icon: Star,           label: 'Get a Coach' },
+    { id: 'health',    icon: TrendingUp,     label: 'My Health' },
+    { id: 'me',        icon: User,           label: 'Me' },
   ];
 
   return (
     <nav className="bottom-nav">
       {items.map(({ id, icon: Icon, label }) => {
-        if (id === 'log') return (
-          <div key="log" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <motion.button
-              className="fab"
-              whileTap={{ scale: 0.88, rotate: 45 }}
-              onClick={() => {}}
-            >
-              <Plus size={26} strokeWidth={2.5} />
-            </motion.button>
-          </div>
-        );
         return (
           <div
             key={id}
             className={`nav-item ${active === id ? 'active' : ''}`}
             onClick={() => setActive(id)}
+            style={{ position: 'relative' }}
           >
+            {id === 'coach' && (
+              <span style={{
+                position: 'absolute',
+                top: '-4px',
+                right: '4px',
+                width: '8px',
+                height: '8px',
+                background: '#FF3B30',
+                borderRadius: '50%',
+                border: '1.5px solid #FFF',
+                zIndex: 10
+              }}></span>
+            )}
             <Icon size={22} strokeWidth={1.8} />
             <span>{label}</span>
           </div>
@@ -292,23 +537,33 @@ function BottomNav() {
   );
 }
 
+
+
 // ─── App ─────────────────────────────────────────────
 export default function App() {
+  const [showCalendar, setShowCalendar] = useState(false);
+
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative' }}>
         <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
-          <div className="app">
+          <div className="app" style={{ paddingBottom: '40px' }}>
             <Header />
-            <StreakBanner />
-            <DailyRituals />
-            <QuickLog />
-            <CoachingCard />
-            <ProgressPhoto />
-            <Discover />
+            <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
+            <ServiceHub />
+            <DailyTrackers />
+            <EliteCoaching />
+            <LiveSessions />
+            <CommunityHighlights />
           </div>
         </div>
         <BottomNav />
+        
+        <CalendarOverlay 
+          isOpen={showCalendar} 
+          onClose={() => setShowCalendar(false)} 
+          onSelect={(d) => console.log('Selected:', d)} 
+        />
       </div>
     </IPhoneMockup>
   );

@@ -146,31 +146,31 @@ export default function IPhoneMockup({ children }) {
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '13px',
                 fontWeight: '600',
-                color: '#fff',
+                color: '#000',
                 letterSpacing: '-0.2px',
                 pointerEvents: 'none',
               }}>
                 <span>9:41</span>
                 <div style={{ display:'flex', gap:'6px', alignItems:'center' }}>
                   {/* Signal bars */}
-                  <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
+                  <svg width="17" height="12" viewBox="0 0 17 12" fill="black">
                     <rect x="0" y="7" width="3" height="5" rx="1"/>
                     <rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/>
                     <rect x="9" y="2" width="3" height="10" rx="1"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="1" opacity="0.35"/>
+                    <rect x="13.5" y="0" width="3" height="12" rx="1" opacity="0.2"/>
                   </svg>
                   {/* WiFi */}
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                    <circle cx="8" cy="10.5" r="1.5" fill="white"/>
-                    <path d="M4.8 7.2C5.9 6 6.9 5.5 8 5.5s2.1.5 3.2 1.7" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M2 4.5C4 2.4 5.9 1.5 8 1.5s4 .9 6 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+                    <circle cx="8" cy="10.5" r="1.5" fill="black"/>
+                    <path d="M4.8 7.2C5.9 6 6.9 5.5 8 5.5s2.1.5 3.2 1.7" stroke="black" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M2 4.5C4 2.4 5.9 1.5 8 1.5s4 .9 6 3" stroke="black" strokeWidth="1.5" strokeLinecap="round" opacity="0.3"/>
                   </svg>
                   {/* Battery */}
                   <div style={{ display:'flex', alignItems:'center', gap:'1px' }}>
-                    <div style={{ width:'24px', height:'11px', border:'1.5px solid rgba(255,255,255,0.75)', borderRadius:'3px', padding:'2px' }}>
-                      <div style={{ width:'70%', height:'100%', background:'white', borderRadius:'1px' }}/>
+                    <div style={{ width:'24px', height:'11px', border:'1.5px solid rgba(0,0,0,0.7)', borderRadius:'3px', padding:'2px' }}>
+                      <div style={{ width:'70%', height:'100%', background:'black', borderRadius:'1px' }}/>
                     </div>
-                    <div style={{ width:'2px', height:'5px', background:'rgba(255,255,255,0.5)', borderRadius:'1px' }}/>
+                    <div style={{ width:'2px', height:'5px', background:'rgba(0,0,0,0.3)', borderRadius:'1px' }}/>
                   </div>
                 </div>
               </div>
@@ -187,19 +187,7 @@ export default function IPhoneMockup({ children }) {
 
             </div>
 
-            {/* Home indicator */}
-            <div style={{
-              position: 'absolute',
-              bottom: '8px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '130px',
-              height: '5px',
-              background: 'rgba(0,0,0,0.1)',
-              borderRadius: '3px',
-              zIndex: 300,
-              pointerEvents: 'none',
-            }} />
+            {/* Home indicator removed as per user request */}
           </div>
 
           {/* Glass shine on phone body */}

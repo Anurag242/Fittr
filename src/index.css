@@ -52,28 +52,28 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 .header {
   position: sticky;
   top: 0;
-  z-index: 50;
-  padding: 64px 20px 14px;
-  background: linear-gradient(to bottom, var(--bg) 70%, transparent);
+  z-index: 100;
+  padding: 58px 20px 12px;
+  background: var(--bg);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid rgba(0,0,0,0.02);
 }
 
 .header-left { display: flex; align-items: center; gap: 10px; }
+.header-icons { display: flex; gap: 8px; }
 
 .avatar {
-  width: 38px; height: 38px;
+  width: 42px; height: 42px;
   border-radius: 50%;
-  border: 2px solid var(--lime);
   object-fit: cover;
-  flex-shrink: 0;
+  border: 1px solid var(--border);
 }
 
 .greeting-text p { font-size: 11px; color: var(--muted); margin-bottom: 1px; }
 .greeting-text h2 { font-size: 16px; font-weight: 700; margin: 0; }
 
-.header-icons { display: flex; gap: 12px; align-items: center; }
 .icon-btn {
   width: 34px; height: 34px;
   border-radius: 50%;
@@ -91,6 +91,26 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   border-radius: 50%;
   background: var(--lime);
   border: 1.5px solid var(--bg-card);
+}
+
+/* ===== H-SCROLL ===== */
+.h-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-right: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.h-scroll::-webkit-scrollbar { display: none; }
+
+/* ===== CARDS ===== */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: transform 0.2s;
 }
 
 /* ===== STREAK BANNER ===== */
