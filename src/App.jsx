@@ -203,15 +203,16 @@ const PremiumActionBubbles = () => {
                     }}>F</div>
                   </div>
                 ) : item.label === 'Lab Test' ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                     <img 
-                      src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L3AtMjAyLW1lZGljYWwtMTUyLWt1bi1qb2ItMDMwLnBuZw.png" 
+                      src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L3AtMjAyLW1lZGljYWwtMTUyLWt1bi1qb2ItMDE4LnBuZw.png" 
                       alt="Lab Test" 
                       style={{ 
-                        width: '85%', 
-                        height: '85%', 
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        objectPosition: 'center',
+                        filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.15))'
                       }} 
                     />
                   </div>
