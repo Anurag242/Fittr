@@ -7,24 +7,25 @@ html, body, #root {
 }
 
 :root {
-  --bg: #0a0a0a;
-  --bg-card: #141414;
-  --bg-card2: #1a1a1a;
-  --lime: #CFFF04;
-  --lime-dim: rgba(207,255,4,0.12);
-  --blue: #0A84FF;
+  --bg: #F5F5F7; /* Apple style light grey */
+  --bg-card: #FFFFFF;
+  --bg-card2: #F0F0F2;
+  --lime: #34C759; /* More standard premium green for light theme */
+  --lime-dim: rgba(52, 199, 89, 0.1);
+  --blue: #007AFF;
   --red: #FF3B30;
-  --orange: #FF9F0A;
-  --white: #FFFFFF;
-  --muted: #8E8E93;
-  --border: rgba(255,255,255,0.08);
-  --glass: rgba(14,14,14,0.7);
+  --orange: #FF9500;
+  --white: #000000;
+  --black: #FFFFFF;
+  --muted: #86868B;
+  --border: rgba(0,0,0,0.06);
+  --glass: rgba(255,255,255,0.8);
   font-size: 16px;
 }
 
 body {
   font-family: 'Inter', -apple-system, sans-serif;
-  background: #000;
+  background: #EDEDF0;
   color: var(--white);
   -webkit-font-smoothing: antialiased;
 }
@@ -44,7 +45,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   width: 100%;
   background: var(--bg);
   position: relative;
-  /* no padding-bottom needed — nav is outside scroll area */
+  padding-bottom: 40px; /* Extra space at the bottom */
 }
 
 /* ===== HEADER ===== */
@@ -53,7 +54,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   top: 0;
   z-index: 50;
   padding: 64px 20px 14px;
-  background: linear-gradient(to bottom, rgba(10,10,10,1) 70%, transparent);
+  background: linear-gradient(to bottom, var(--bg) 70%, transparent);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -80,6 +81,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   border: 1px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   color: var(--white);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   transition: background 0.2s;
 }
 .notif-dot {
@@ -88,7 +90,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--lime);
-  border: 1.5px solid var(--bg);
+  border: 1.5px solid var(--bg-card);
 }
 
 /* ===== STREAK BANNER ===== */
@@ -96,8 +98,9 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   margin: 0 20px 20px;
   padding: 14px 16px;
   border-radius: 18px;
-  background: linear-gradient(135deg, #1f1f00 0%, #141400 100%);
-  border: 1px solid rgba(207,255,4,0.2);
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   display: flex; align-items: center; justify-content: space-between;
 }
 .streak-left { display: flex; align-items: center; gap: 10px; }
@@ -129,13 +132,14 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   padding: 20px;
   display: flex;
   justify-content: space-around;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
 }
 
 .ritual-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
 .ring-wrap { position: relative; width: 68px; height: 68px; }
 .ring-wrap svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
-.ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }
+.ring-bg { fill: none; stroke: rgba(0,0,0,0.04); stroke-width: 5; }
 .ring-prog { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1); }
 .ring-center {
   position: absolute; inset: 0;
@@ -169,11 +173,12 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   display: flex; flex-direction: column; gap: 10px;
   position: relative; overflow: hidden;
   cursor: pointer;
-  transition: transform 0.15s ease, border-color 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .log-card:active { transform: scale(0.97); }
-.log-card:hover { border-color: rgba(255,255,255,0.15); }
+.log-card:hover { border-color: rgba(0,0,0,0.1); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
 
 .log-card-icon {
   width: 40px; height: 40px;
@@ -198,8 +203,9 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   border-radius: 24px;
   padding: 22px;
   position: relative; overflow: hidden;
-  background: linear-gradient(135deg, #111 0%, #0d0d0d 100%);
-  border: 1px solid rgba(207,255,4,0.25);
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.04);
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -245,8 +251,8 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 
 .btn-primary {
   width: 100%;
-  background: var(--lime);
-  color: #000;
+  background: #000000;
+  color: #FFFFFF;
   font-weight: 700;
   font-size: 14px;
   padding: 14px;
@@ -323,7 +329,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 .bottom-nav {
   /* Stays at bottom of flex column — no fixed/absolute needed */
   width: 100%;
-  background: rgba(10,10,10,0.92);
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
@@ -342,16 +348,16 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   -webkit-tap-highlight-color: transparent;
   min-width: 50px;
 }
-.nav-item.active { color: var(--white); }
-.nav-item.active svg { color: var(--lime) !important; }
+.nav-item.active { color: var(--blue); }
+.nav-item.active svg { color: var(--blue) !important; }
 
 .fab {
   width: 52px; height: 52px;
   border-radius: 50%;
-  background: var(--lime);
-  color: #000;
+  background: #000;
+  color: #FFF;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 20px rgba(207,255,4,0.35);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s;
   cursor: pointer;
   margin-top: -24px;

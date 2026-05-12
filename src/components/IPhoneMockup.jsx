@@ -28,9 +28,9 @@ export default function IPhoneMockup({ children }) {
       alignItems: 'center',
       justifyContent: 'center',
       background: `
-        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(207,255,4,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(10,132,255,0.06) 0%, transparent 60%),
-        #080808
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,122,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(52,199,89,0.03) 0%, transparent 60%),
+        #FBFBFE
       `,
       overflow: 'hidden',
       position: 'fixed',
@@ -42,7 +42,7 @@ export default function IPhoneMockup({ children }) {
       <div style={{
         position: 'absolute',
         width: '400px', height: '400px',
-        background: 'radial-gradient(circle, rgba(207,255,4,0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(0,122,255,0.03) 0%, transparent 70%)',
         top: '50%', left: '50%',
         transform: 'translate(-50%, -50%)',
         pointerEvents: 'none',
@@ -64,14 +64,14 @@ export default function IPhoneMockup({ children }) {
           width: `${PHONE_W}px`,
           height: `${PHONE_H}px`,
           borderRadius: '54px',
-          background: 'linear-gradient(160deg, #2e2e2e 0%, #1c1c1c 45%, #101010 100%)',
+          background: 'linear-gradient(160deg, #E2E2E6 0%, #D1D1D6 45%, #B0B0B8 100%)',
           boxShadow: `
-            0 0 0 1px rgba(255,255,255,0.13),
-            0 0 0 2.5px rgba(0,0,0,0.95),
-            0 60px 120px rgba(0,0,0,0.85),
-            0 30px 60px rgba(0,0,0,0.5),
-            inset 0 1px 0 rgba(255,255,255,0.09),
-            inset 0 -1px 0 rgba(0,0,0,0.4)
+            0 0 0 1px rgba(0,0,0,0.05),
+            0 0 0 2.5px rgba(0,0,0,0.1),
+            0 60px 120px rgba(0,0,0,0.15),
+            0 30px 60px rgba(0,0,0,0.08),
+            inset 0 1px 0 rgba(255,255,255,0.8),
+            inset 0 -1px 0 rgba(0,0,0,0.05)
           `,
           position: 'relative',
           userSelect: 'none',
@@ -79,13 +79,13 @@ export default function IPhoneMockup({ children }) {
 
           {/* Side buttons */}
           {/* Silent switch */}
-          <div style={{ position:'absolute', left:'-3.5px', top:'118px', width:'3.5px', height:'34px', background:'linear-gradient(180deg,#383838,#222)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.6)' }} />
+          <div style={{ position:'absolute', left:'-3.5px', top:'118px', width:'3.5px', height:'34px', background:'linear-gradient(180deg,#B0B0B8,#8E8E93)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.1)' }} />
           {/* Vol Up */}
-          <div style={{ position:'absolute', left:'-3.5px', top:'170px', width:'3.5px', height:'68px', background:'linear-gradient(180deg,#383838,#222)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.6)' }} />
+          <div style={{ position:'absolute', left:'-3.5px', top:'170px', width:'3.5px', height:'68px', background:'linear-gradient(180deg,#B0B0B8,#8E8E93)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.1)' }} />
           {/* Vol Down */}
-          <div style={{ position:'absolute', left:'-3.5px', top:'252px', width:'3.5px', height:'68px', background:'linear-gradient(180deg,#383838,#222)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.6)' }} />
+          <div style={{ position:'absolute', left:'-3.5px', top:'252px', width:'3.5px', height:'68px', background:'linear-gradient(180deg,#B0B0B8,#8E8E93)', borderRadius:'3px 0 0 3px', boxShadow:'-1px 0 4px rgba(0,0,0,0.1)' }} />
           {/* Power */}
-          <div style={{ position:'absolute', right:'-3.5px', top:'196px', width:'3.5px', height:'88px', background:'linear-gradient(180deg,#383838,#222)', borderRadius:'0 3px 3px 0', boxShadow:'1px 0 4px rgba(0,0,0,0.6)' }} />
+          <div style={{ position:'absolute', right:'-3.5px', top:'196px', width:'3.5px', height:'88px', background:'linear-gradient(180deg,#B0B0B8,#8E8E93)', borderRadius:'0 3px 3px 0', boxShadow:'1px 0 4px rgba(0,0,0,0.1)' }} />
 
           {/* ─── Screen bezel ─── */}
           <div style={{
