@@ -120,10 +120,30 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { label: 'My Plan', icon: ClipboardCheck, color: '#D4A017', grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' },
-    { label: 'Smart Scale', icon: Scale, color: '#8E44AD', grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' },
-    { label: 'Challenges', icon: Target, color: '#C0392B', grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' },
-    { label: 'Shop', icon: ShoppingBag, color: '#16A085', grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' },
+    { 
+      label: 'My Plan', 
+      img: '/assets/plan.png', // Use the user's provided 3D asset
+      color: '#D4A017', 
+      grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' 
+    },
+    { 
+      label: 'Smart Scale', 
+      icon: Scale, 
+      color: '#8E44AD', 
+      grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' 
+    },
+    { 
+      label: 'Challenges', 
+      icon: Target, 
+      color: '#C0392B', 
+      grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' 
+    },
+    { 
+      label: 'Shop', 
+      icon: ShoppingBag, 
+      color: '#16A085', 
+      grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' 
+    },
   ];
 
   return (
@@ -183,18 +203,32 @@ const PremiumActionBubbles = () => {
                   zIndex: 2
                 }} />
                 
-                <div style={{
-                  position: 'relative',
-                  zIndex: 3,
-                  // The "Claymorphism" Filter Trick
-                  filter: `
-                    drop-shadow(2px 2px 0px rgba(255,255,255,0.8)) 
-                    drop-shadow(-1px -1px 0px rgba(0,0,0,0.1)) 
-                    drop-shadow(6px 8px 12px rgba(0,0,0,0.15))
-                  `
-                }}>
-                  <Icon size={34} color={item.color} strokeWidth={2.5} />
-                </div>
+                {item.img ? (
+                  <img 
+                    src={item.img} 
+                    alt={item.label} 
+                    style={{ 
+                      width: '52px', 
+                      height: '52px', 
+                      objectFit: 'contain',
+                      position: 'relative',
+                      zIndex: 3,
+                      filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))'
+                    }} 
+                  />
+                ) : (
+                  <div style={{
+                    position: 'relative',
+                    zIndex: 3,
+                    filter: `
+                      drop-shadow(2px 2px 0px rgba(255,255,255,0.8)) 
+                      drop-shadow(-1px -1px 0px rgba(0,0,0,0.1)) 
+                      drop-shadow(6px 8px 12px rgba(0,0,0,0.15))
+                    `
+                  }}>
+                    <Icon size={34} color={item.color} strokeWidth={2.5} />
+                  </div>
+                )}
               </motion.div>
               
               <p style={{ 
