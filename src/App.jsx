@@ -205,13 +205,13 @@ const PremiumActionBubbles = () => {
                 ) : item.label === 'Lab Test' ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img 
-                      src="https://cdn3d.iconscout.com/3d/premium/thumb/blood-test-tube-5036125-4200674.png" 
+                      src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA4L3AtMjAyLW1lZGljYWwtMTUyLWt1bi1qb2ItMDMwLnBuZw.png" 
                       alt="Lab Test" 
                       style={{ 
-                        width: '90%', 
-                        height: '90%', 
+                        width: '85%', 
+                        height: '85%', 
                         objectFit: 'contain',
-                        filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.1))'
+                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))'
                       }} 
                     />
                   </div>
