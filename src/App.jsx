@@ -120,10 +120,26 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { label: 'My Plan', icon: ClipboardCheck, color: '#D4A017', grad: 'linear-gradient(180deg, #FFF5D1 0%, #FFD966 100%)' },
-    { label: 'Smart Scale', icon: Scale, color: '#8E44AD', grad: 'linear-gradient(180deg, #F3E7FF 0%, #D7B9FF 100%)' },
-    { label: 'Challenges', icon: Target, color: '#C0392B', grad: 'linear-gradient(180deg, #FFE5E5 0%, #FFB1B1 100%)' },
-    { label: 'Shop', icon: ShoppingBag, color: '#16A085', grad: 'linear-gradient(180deg, #E8F9EE 0%, #A7F3D0 100%)' },
+    { 
+      label: 'My Plan', 
+      img: 'https://cdn3d.iconscout.com/3d/free/thumb/clipboard-6302450-5169055.png', 
+      grad: 'linear-gradient(180deg, #FFF9E5 0%, #FFD966 100%)' 
+    },
+    { 
+      label: 'Smart Scale', 
+      img: 'https://cdn3d.iconscout.com/3d/free/thumb/weight-machine-5621417-4683050.png', 
+      grad: 'linear-gradient(180deg, #F9F0FF 0%, #E0C3FC 100%)' 
+    },
+    { 
+      label: 'Challenges', 
+      img: 'https://cdn3d.iconscout.com/3d/free/thumb/target-6302447-5169052.png', 
+      grad: 'linear-gradient(180deg, #FFF0F0 0%, #FFC1C1 100%)' 
+    },
+    { 
+      label: 'Shop', 
+      img: 'https://cdn3d.iconscout.com/3d/free/thumb/shopping-bag-5541624-4623412.png', 
+      grad: 'linear-gradient(180deg, #E6FFFA 0%, #B2F5EA 100%)' 
+    },
   ];
 
   return (
@@ -132,10 +148,9 @@ const PremiumActionBubbles = () => {
         display: 'flex', 
         justifyContent: 'space-around', 
         padding: '0 16px',
-        gap: '8px'
+        gap: '4px'
       }}>
         {actions.map((item) => {
-          const Icon = item.icon;
           return (
             <div
               key={item.label}
@@ -150,36 +165,52 @@ const PremiumActionBubbles = () => {
               <motion.div
                 whileTap={{ scale: 0.92 }}
                 style={{
-                  width: '72px',
-                  height: '72px',
+                  width: '74px',
+                  height: '74px',
                   borderRadius: '50%',
                   background: item.grad,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  boxShadow: '0 8px 16px rgba(0,0,0,0.05)',
-                  position: 'relative'
+                  boxShadow: '0 12px 24px rgba(0,0,0,0.06)',
+                  position: 'relative',
+                  overflow: 'visible' // Let the 3D icon breathe
                 }}
               >
-                {/* Subtle Inner Glow to simulate 3D volume */}
+                {/* 3D Reflection Highlight */}
                 <div style={{
                   position: 'absolute',
-                  inset: 0,
+                  top: '10%',
+                  left: '10%',
+                  width: '80%',
+                  height: '80%',
+                  background: 'radial-gradient(circle at top left, rgba(255,255,255,0.6) 0%, transparent 50%)',
                   borderRadius: '50%',
-                  boxShadow: 'inset 0 4px 8px rgba(255,255,255,0.5), inset 0 -4px 8px rgba(0,0,0,0.05)',
                   pointerEvents: 'none'
                 }} />
                 
-                <Icon size={32} color="#1A1A1A" strokeWidth={1.5} style={{ opacity: 0.8 }} />
+                <img 
+                  src={item.img} 
+                  alt={item.label} 
+                  style={{ 
+                    width: '56px', 
+                    height: '56px', 
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 8px 12px rgba(0,0,0,0.15))',
+                    zIndex: 2,
+                    marginTop: '-4px' // Slight lift for 3D effect
+                  }} 
+                />
               </motion.div>
               
               <p style={{ 
-                fontSize: '13px', 
-                fontWeight: '700', 
-                color: '#2C3E50',
+                fontSize: '12px', 
+                fontWeight: '800', 
+                color: '#1F2937',
                 textAlign: 'center',
-                letterSpacing: '-0.2px'
+                letterSpacing: '-0.3px',
+                lineHeight: 1.2
               }}>{item.label}</p>
             </div>
           );
