@@ -171,7 +171,7 @@ const PremiumActionBubbles = () => {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'background-color 0.2s ease',
-                  border: item.label === 'Get A Coach' ? '1.5px solid #D4AF37' : 'none'
+                  border: 'none'
                 }}
               >
                 <Icon size={26} color={item.color} strokeWidth={2.2} />
