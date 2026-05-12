@@ -190,12 +190,12 @@ export default function IPhoneMockup({ children }) {
             {/* Home indicator */}
             <div style={{
               position: 'absolute',
-              bottom: '9px',
+              bottom: '8px',
               left: '50%',
               transform: 'translateX(-50%)',
               width: '130px',
               height: '5px',
-              background: 'rgba(255,255,255,0.28)',
+              background: 'rgba(0,0,0,0.1)',
               borderRadius: '3px',
               zIndex: 300,
               pointerEvents: 'none',

@@ -45,7 +45,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   width: 100%;
   background: var(--bg);
   position: relative;
-  padding-bottom: 40px; /* Extra space at the bottom */
+  padding-bottom: 60px; /* Increased bottom spacing */
 }
 
 /* ===== HEADER ===== */
@@ -334,7 +334,7 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: flex; justify-content: space-around; align-items: center;
-  padding: 10px 0 20px;
+  padding: 12px 0 32px; /* Increased bottom padding for home indicator clearance */
   flex-shrink: 0;
   z-index: 100;
 }
