@@ -94,15 +94,14 @@ button { font-family: inherit; border: none; background: none; cursor: pointer; 
 }
 
 /* ===== H-SCROLL ===== */
-.h-scroll {
+.h-scroll, .no-scrollbar {
   display: flex;
   gap: 16px;
   overflow-x: auto;
-  padding-right: 20px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-.h-scroll::-webkit-scrollbar { display: none; }
+.h-scroll::-webkit-scrollbar, .no-scrollbar::-webkit-scrollbar { display: none; }
 
 /* ===== CARDS ===== */
 .glass-card {

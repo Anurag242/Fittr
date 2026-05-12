@@ -130,14 +130,14 @@ const PremiumActionBubbles = () => {
   ];
 
   return (
-    <section style={{ padding: '24px 0', overflow: 'hidden' }}>
+    <section style={{ padding: '20px 0', overflow: 'hidden' }}>
       <div 
         className="no-scrollbar"
         style={{ 
           display: 'flex', 
           overflowX: 'auto',
-          padding: '0 24px',
-          gap: '20px',
+          padding: '0 24px 8px',
+          gap: '24px',
           scrollSnapType: 'x mandatory'
         }}
       >
@@ -155,7 +155,7 @@ const PremiumActionBubbles = () => {
                 alignItems: 'center',
                 gap: '12px',
                 flexShrink: 0,
-                width: '80px',
+                width: '74px',
                 scrollSnapAlign: 'start'
               }}
             >
@@ -171,7 +171,7 @@ const PremiumActionBubbles = () => {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'background-color 0.2s ease',
-                  border: item.label === 'Get A Coach' ? '1.5px solid #D4AF37' : 'none' // Golden border for primary action
+                  border: item.label === 'Get A Coach' ? '1.5px solid #D4AF37' : 'none'
                 }}
               >
                 <Icon size={26} color={item.color} strokeWidth={2.2} />
