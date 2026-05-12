@@ -413,7 +413,7 @@ const DailyRituals = ({ onOpenCalendar }) => {
         </motion.button>
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', padding: '0 24px', marginTop: '20px' }}>
         {rings.map((r) => (
           <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
             <div style={{ position: 'relative', width: '70px', height: '70px' }}>
@@ -436,9 +436,9 @@ const DailyRituals = ({ onOpenCalendar }) => {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
-}
+};
 
 // ─── Action Cards (IMPROVED - Full Width) ─────────────
 function DailyTrackers() {
