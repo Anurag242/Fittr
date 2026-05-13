@@ -12,10 +12,10 @@ import {
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
 
-// ─── Header (CLEAN) ──────────────────────────────────
+// ─── Header ──────────────────────────────────────────
 function Header() {
   return (
-    <header className="header" style={{ padding: '16px 20px' }}>
+    <header className="header">
       <div className="header-left">
         <div style={{ position: 'relative' }}>
           <img
@@ -50,6 +50,7 @@ function Header() {
           <Bell size={20} />
           <span className="notif-dot" style={{ background: '#FF3B30' }} />
         </button>
+        <button className="icon-btn" style={{ background: '#FFF' }}><MessageCircle size={20} /></button>
       </div>
     </header>
   );
@@ -117,81 +118,101 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Atomic Bento Morph (OUT OF THE BOX ITERATION 15) ─
-function MorphingGrid({ isHubMode }) {
-  const dashboardItems = [
-    { id: 'tile-1', label: 'Calories', val: '1,840', unit: 'kcal', color: '#FFF', icon: Flame, iconColor: '#FF9500' },
-    { id: 'tile-2', label: 'Steps', val: '8,432', unit: 'steps', color: '#FFF', icon: Activity, iconColor: '#34C759' },
-    { id: 'tile-3', label: 'Sleep', val: '7h 20m', unit: 'target: 8h', color: '#FFF', icon: Clock, iconColor: '#5856D6' },
+// ─── Header Service Tray (OUT OF THE BOX ITERATION 6) ──
+function HeaderServiceTray({ isOpen, onClose }) {
+  const services = [
+    { label: 'COACH', desc: 'Expert Guidance', isCap: true, color: '#1A1A1A' },
+    { label: 'LABS', desc: 'Blood & Vitals', isLabTest: true, color: '#AF52DE' },
+    { label: 'PLAN', desc: 'Daily Routine', isCalendar: true, color: '#F59E0B' },
+    { label: 'SCALE', desc: 'Composition', isScale: true, color: '#8B5CF6' },
+    { label: 'EARN', desc: 'Referral Rewards', icon: Gift, color: '#FF3B30' },
+    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag, color: '#007AFF' },
   ];
 
-  const hubItems = [
-    { id: 'tile-1', label: 'ELITE COACH', desc: 'Expert Consult', color: '#000', icon: Star, iconColor: '#FFD700', isHub: true },
-    { id: 'tile-2', label: 'LAB TESTS', desc: 'Book Vitals', color: '#AF52DE', icon: Activity, iconColor: '#FFF', isHub: true },
-    { id: 'tile-3', label: 'MY PLAN', desc: 'Focus Today', color: '#FF3B30', icon: ClipboardList, iconColor: '#FFF', isHub: true },
-  ];
-
-  const currentItems = isHubMode ? hubItems : dashboardItems;
+  const getAsset = (item) => {
+    if (item.isCap) return (
+      <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px' }}>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
+      </svg>
+    );
+    if (item.isCalendar) return (
+      <svg viewBox="0 0 100 100" style={{ width: '56px', height: '56px' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F2F2F7" />
+        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
+      </svg>
+    );
+    if (item.isScale) return (
+      <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" strokeWidth="1" />
+        <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
+      </svg>
+    );
+    if (item.isLabTest) return (
+      <svg viewBox="0 0 100 100" style={{ width: '56px', height: '56px' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F2F2F7" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F2F2F7" />
+      </svg>
+    );
+    return <item.icon size={48} color={item.color} />;
+  };
 
   return (
-    <div style={{ padding: '0 20px', margin: '20px 0' }}>
-      <motion.div 
-        layout
-        style={{ display: 'grid', gridTemplateColumns: isHubMode ? '1fr' : 'repeat(2, 1fr)', gap: '16px' }}
-      >
-        {currentItems.map((item, i) => (
-          <motion.div
-            key={item.id}
-            layout
-            transition={{ type: 'spring', damping: 20, stiffness: 120 }}
-            style={{ 
-              background: item.color, borderRadius: '24px', padding: '20px',
-              border: item.color === '#FFF' ? '1px solid #EEE' : 'none',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.03)',
-              gridColumn: (i === 0 && !isHubMode) ? 'span 2' : 'span 1',
-              display: 'flex', flexDirection: isHubMode ? 'row' : 'column',
-              alignItems: isHubMode ? 'center' : 'flex-start',
-              gap: isHubMode ? '20px' : '12px'
-            }}
-          >
-            <motion.div 
-              layout
-              style={{ 
-                width: isHubMode ? '56px' : '40px', 
-                height: isHubMode ? '56px' : '40px', 
-                borderRadius: '14px', background: isHubMode ? 'rgba(255,255,255,0.1)' : `${item.iconColor}15`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          initial={{ y: '-100%' }}
+          animate={{ y: 0 }}
+          exit={{ y: '-100%' }}
+          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          style={{ 
+            position: 'absolute', inset: 0, zIndex: 4000,
+            background: '#FFF', padding: '80px 24px 24px',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
+            <div>
+              <h2 style={{ fontSize: '36px', fontWeight: '900', letterSpacing: '-1.5px', color: '#000' }}>HUB</h2>
+              <p style={{ fontSize: '15px', color: '#666', fontWeight: '500' }}>Explore Fittr Services</p>
+            </div>
+            <motion.button 
+              whileTap={{ scale: 0.9 }}
+              onClick={onClose}
+              style={{ padding: '12px 24px', background: '#F2F2F7', borderRadius: '100px', border: 'none', fontWeight: '800', fontSize: '13px' }}
             >
-              <item.icon size={isHubMode ? 28 : 20} color={isHubMode ? '#FFF' : item.iconColor} />
-            </motion.div>
-            <motion.div layout>
-              <p style={{ fontSize: '11px', fontWeight: '800', color: isHubMode ? 'rgba(255,255,255,0.4)' : '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{item.label}</p>
-              <h4 style={{ fontSize: isHubMode ? '18px' : '24px', fontWeight: '900', color: isHubMode ? '#FFF' : '#000', margin: '2px 0' }}>
-                {isHubMode ? item.desc : item.val}
-                {!isHubMode && <span style={{ fontSize: '13px', fontWeight: '600', color: '#BBB', marginLeft: '4px' }}>{item.unit}</span>}
-              </h4>
-            </motion.div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
+              Close
+            </motion.button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+            {services.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }}
+                style={{ 
+                  background: '#F9F9FB', borderRadius: '28px', padding: '24px',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center',
+                  textAlign: 'center', border: '1px solid rgba(0,0,0,0.03)'
+                }}
+              >
+                <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
+                <h4 style={{ fontSize: '14px', fontWeight: '900', letterSpacing: '1px', marginBottom: '4px' }}>{s.label}</h4>
+                <p style={{ fontSize: '11px', color: '#888', fontWeight: '600' }}>{s.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: '20px' }}>
+            <p style={{ fontSize: '12px', color: '#DDD', fontWeight: '800', letterSpacing: '2px' }}>FITTR ELITE ECOSYSTEM</p>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
-
-// ─── Shared Utilities ──────────────────────────────
-
-// ─── Shared Utilities ──────────────────────────────
-
-// ─── Shared Utilities ──────────────────────────────
-
-// ─── Shared Utilities ──────────────────────────────
-
-// ─── Shared Utilities ──────────────────────────────
-const getAsset = (item) => {
-  // Shared asset logic if needed elsewhere
-  return null;
-};
 
 const PremiumActionBubbles = () => {
   const actions = [
@@ -365,7 +386,7 @@ const PremiumActionBubbles = () => {
 };
 
 // ─── Daily Rituals (IMPROVED) ────────────────────────
-function DailyRituals({ onOpenCalendar }) {
+function DailyRituals({ onOpenCalendar, onOpenHub }) {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Rise & Shine, Anurag! ☀️";
@@ -382,10 +403,18 @@ function DailyRituals({ onOpenCalendar }) {
 
   return (
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
-      <div style={{ marginBottom: '16px' }}>
+      <motion.div 
+        whileTap={{ scale: 0.98 }}
+        onClick={onOpenHub}
+        style={{ marginBottom: '16px', cursor: 'pointer' }}
+      >
         <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
-        <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
-      </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your goal</p>
+          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#DDD' }} />
+          <span style={{ fontSize: '12px', fontWeight: '800', color: '#007AFF' }}>Open Hub</span>
+        </div>
+      </motion.div>
 
       <PremiumActionBubbles />
 
@@ -421,13 +450,13 @@ function DailyRituals({ onOpenCalendar }) {
           <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
             <div style={{ position: 'relative', width: '70px', height: '70px' }}>
                <svg style={{ transform: 'rotate(-90deg)', width: '70px', height: '70px' }}>
-                  <circle cx="35" cy="30" r="26" fill="none" stroke="#F0F0F2" strokeWidth="6" />
+                  <circle cx="35" cy="35" r="30" fill="none" stroke="#F0F0F2" strokeWidth="6" />
                   <motion.circle 
-                    cx="35" cy="30" r="26" fill="none" stroke={r.color} strokeWidth="6" 
-                    strokeDasharray="163.4"
-                    initial={{ strokeDashoffset: 163.4 }}
-                    animate={{ strokeDashoffset: 163.4 - (r.val / r.max) * 163.4 }}
-                    transition={{ duration: 1.5 }}
+                    cx="35" cy="35" r="30" fill="none" stroke={r.color} strokeWidth="6" 
+                    strokeDasharray="188.5"
+                    initial={{ strokeDashoffset: 188.5 }}
+                    animate={{ strokeDashoffset: 188.5 - (r.val / r.max) * 188.5 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
                     strokeLinecap="round"
                   />
                </svg>
@@ -442,6 +471,8 @@ function DailyRituals({ onOpenCalendar }) {
     </section>
   );
 }
+
+// ─── Action Cards (IMPROVED - Full Width) ─────────────
 function DailyTrackers() {
   return (
     <div className="section" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -835,37 +866,35 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isHubMode, setIsHubMode] = useState(false);
+  const [showHub, setShowHub] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}>
-        <Header />
-        
-        <div style={{ padding: '0 20px' }}>
-          <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
-          
-          {/* V15 Atomic Morph Header */}
-          <div style={{ margin: '20px 0 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>
-              {isHubMode ? 'SERVICE HUB ACTIVE' : 'DAILY PERFORMANCE'}
-            </h3>
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsHubMode(!isHubMode)}
-              style={{ background: '#000', color: '#FFF', border: 'none', borderRadius: '100px', padding: '4px 16px', fontSize: '10px', fontWeight: '800' }}
-            >
-              {isHubMode ? 'VIEW STATUS' : 'VIEW SERVICES'}
-            </motion.button>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden' }}>
+        <motion.div 
+          animate={{ 
+            scale: showHub ? 0.96 : 1,
+            filter: showHub ? 'blur(10px) brightness(0.8)' : 'blur(0px) brightness(1)'
+          }}
+          style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}
+        >
+          <div className="app" style={{ paddingBottom: '40px' }}>
+            <Header />
+            <DailyRituals 
+              onOpenCalendar={() => setShowCalendar(true)} 
+              onOpenHub={() => setShowHub(true)}
+            />
+            <DailyTrackers />
+            <EliteCoaching />
+            <LiveSessions />
+            <CommunityHighlights />
           </div>
-
-          <MorphingGrid isHubMode={isHubMode} />
-          
-          <DailyTrackers />
-          <EliteCoaching />
-          <LiveSessions />
-          <CommunityHighlights />
-        </div>
+        </motion.div>
+        
+        <HeaderServiceTray 
+          isOpen={showHub} 
+          onClose={() => setShowHub(false)} 
+        />
 
         <BottomNav />
         
