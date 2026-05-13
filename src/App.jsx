@@ -13,7 +13,7 @@ import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
 
 // ─── Header ──────────────────────────────────────────
-function Header({ onOpenServices }) {
+function Header() {
   return (
     <header className="header">
       <div className="header-left">
@@ -45,21 +45,12 @@ function Header({ onOpenServices }) {
         </div>
       </div>
       <div className="header-icons" style={{ gap: '12px' }}>
-        {/* Command Trigger Button */}
-        <motion.button 
-          whileTap={{ scale: 0.9 }}
-          onClick={onOpenServices}
-          className="icon-btn" 
-          style={{ background: '#000', color: '#FFF', width: '42px', height: '42px', borderRadius: '14px' }}
-        >
-          <Plus size={24} />
-        </motion.button>
-        
         <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} /></button>
         <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
           <Bell size={20} />
           <span className="notif-dot" style={{ background: '#FF3B30' }} />
         </button>
+        <button className="icon-btn" style={{ background: '#FFF' }}><MessageCircle size={20} /></button>
       </div>
     </header>
   );
@@ -127,200 +118,132 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-const ServiceHubV2 = () => {
+// ─── Command Dock (OUT OF THE BOX ITERATION 4) ────────
+function CommandDock({ isOpen, onToggle }) {
   const services = [
-    { label: 'My Plan', sub: 'Upper Body B', icon: ClipboardCheck, isCalendar: true, color: '#F59E0B', size: 'large' },
-    { label: 'Smart Scale', sub: '72.4 kg', icon: Scale, isScale: true, color: '#8B5CF6', size: 'small' },
-    { label: 'Lab Test', sub: 'Checkup Due', icon: Activity, isLabTest: true, color: '#AF52DE', size: 'small' },
-    { label: 'Get A Coach', sub: 'Speak to Expert', icon: Dumbbell, isCap: true, color: '#1A1A1A', size: 'medium' },
-    { label: 'Refer & Earn', sub: '₹500 Reward', icon: Gift, color: '#FF3B30', size: 'medium', image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80' },
+    { label: 'My Plan', desc: 'Workout & Rituals', isCalendar: true, color: '#F59E0B' },
+    { label: 'Smart Scale', desc: 'Composition', isScale: true, color: '#8B5CF6' },
+    { label: 'Lab Test', desc: 'Vitals & Blood', isLabTest: true, color: '#AF52DE' },
+    { label: 'Coach', desc: 'Elite Guidance', isCap: true, color: '#1A1A1A' },
   ];
 
   const getAsset = (item) => {
     if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
-        <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37" style={{ fontFamily: 'Outfit, sans-serif' }}>F</text>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-        <path d="M60,65 L70,75 L90,50" fill="none" stroke="#F59E0B" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
     if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px', filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.15))' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFFFFF" stroke="#E5E5E7" strokeWidth="1" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
-        <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="900" fill="#34C759" fontFamily="monospace">72.4</text>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
+        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-        <rect x="30" y="40" width="12" height="35" rx="6" fill="#EF4444" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-        <rect x="55" y="50" width="12" height="35" rx="6" fill="#D21414" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
     );
-    if (item.image) return (
-      <img src={item.image} style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }} />
-    );
-    return <item.icon size={24} color={item.color} />;
+    return <item.icon size={32} color="#FFF" />;
   };
 
   return (
-    <section style={{ padding: '0 20px 24px' }}>
+    <>
+      {/* Dim Overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => onToggle(false)}
+            style={{ position: 'absolute', inset: 0, zIndex: 1500, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}
+          />
+        )}
+      </AnimatePresence>
+
       <div style={{ 
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: '12px'
+        position: 'absolute', bottom: '100px', left: '50%', transform: 'translateX(-50%)', 
+        zIndex: 1600, width: '100%', padding: '0 20px', pointerEvents: 'none' 
       }}>
-        {services.map((item, i) => (
-          <motion.div
-            key={item.label}
-            whileTap={{ scale: 0.97 }}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
-            style={{
-              gridColumn: item.size === 'large' ? 'span 2' : 'span 1',
-              background: '#FFFFFF',
-              borderRadius: '24px',
-              padding: '16px',
-              border: '1px solid rgba(0,0,0,0.04)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
-              display: 'flex',
-              flexDirection: item.size === 'large' ? 'row' : 'column',
-              alignItems: item.size === 'large' ? 'center' : 'flex-start',
-              gap: '12px',
-              cursor: 'pointer'
-            }}
-          >
-            <div style={{ 
-              width: '56px', 
-              height: '56px', 
-              borderRadius: '16px', 
-              background: `${item.color}08`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              {getAsset(item)}
-            </div>
-            
-            <div>
-              <p style={{ fontSize: '13px', fontWeight: '700', color: '#1A1A1A', marginBottom: '2px' }}>{item.label}</p>
-              <p style={{ fontSize: '11px', fontWeight: '500', color: '#86868B' }}>{item.sub}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-};
-function ServiceCanvas({ isOpen, onClose }) {
-  const services = [
-    { label: 'Get A Coach', desc: 'Expert guidance', isCap: true, color: '#1A1A1A' },
-    { label: 'Lab Test', desc: 'Clinical diagnostics', isLabTest: true, color: '#AF52DE' },
-    { label: 'My Plan', desc: 'Daily ritual focus', isCalendar: true, color: '#F59E0B' },
-    { label: 'Smart Scale', desc: 'Body composition', isScale: true, color: '#8B5CF6' },
-    { label: 'Challenges', desc: 'Join the community', icon: Target, color: '#EF4444' },
-    { label: 'Refer & Earn', desc: 'Get rewarded', icon: Gift, color: '#FF3B30' },
-  ];
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ y: 100, opacity: 0, scale: 0.9 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 100, opacity: 0, scale: 0.9 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+              style={{ 
+                background: 'rgba(26, 26, 26, 0.98)', 
+                borderRadius: '32px', padding: '24px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                pointerEvents: 'auto',
+                marginBottom: '20px'
+              }}
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+                {services.map((s, i) => (
+                  <motion.div
+                    key={s.label}
+                    whileTap={{ scale: 0.95 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.05 }}
+                    style={{ 
+                      background: 'rgba(255,255,255,0.05)', 
+                      borderRadius: '24px', padding: '16px',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center',
+                      textAlign: 'center', gap: '12px', cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {getAsset(s)}
+                    </div>
+                    <div>
+                      <p style={{ fontSize: '13px', fontWeight: '800', color: '#FFF' }}>{s.label}</p>
+                      <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>{s.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-  const getAsset = (item) => {
-    if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '80px', height: '80px', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.4))' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
-        <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37" style={{ fontFamily: 'Outfit, sans-serif' }}>F</text>
-      </svg>
-    );
-    if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '70px', height: '70px', filter: 'drop-shadow(0 8px 16px rgba(255,59,48,0.2))' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
-        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-        <path d="M60,65 L70,75 L90,50" fill="none" stroke="#F59E0B" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    );
-    if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '75px', height: '75px', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFFFFF" stroke="#E5E5E7" strokeWidth="1" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
-        <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="900" fill="#34C759" fontFamily="monospace">72.4</text>
-      </svg>
-    );
-    if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '70px', height: '70px', filter: 'drop-shadow(0 8px 16px rgba(175,82,222,0.2))' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-        <rect x="30" y="40" width="12" height="35" rx="6" fill="#EF4444" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-        <rect x="55" y="50" width="12" height="35" rx="6" fill="#D21414" />
-      </svg>
-    );
-    return <item.icon size={48} color={item.color} />;
-  };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        {/* The Main Dock Pill */}
+        <motion.div
+          whileTap={{ scale: 0.92 }}
+          onClick={() => onToggle(!isOpen)}
           style={{ 
-            position: 'absolute', inset: 0, zIndex: 2000,
-            background: 'rgba(255,255,255,0.92)',
-            backdropFilter: 'blur(24px)',
-            display: 'flex', flexDirection: 'column',
-            padding: '60px 24px 24px'
+            pointerEvents: 'auto',
+            background: '#000', 
+            borderRadius: '100px', 
+            padding: '12px 24px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: '12px', border: '1px solid rgba(255,255,255,0.1)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
+            cursor: 'pointer',
+            margin: '0 auto',
+            width: 'fit-content'
           }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-            <div>
-              <h2 style={{ fontSize: '32px', fontWeight: '900', letterSpacing: '-1px' }}>Service Hub</h2>
-              <p style={{ fontSize: '15px', color: '#666', fontWeight: '500' }}>Your health command center</p>
-            </div>
-            <motion.button 
-              whileTap={{ scale: 0.9 }}
-              onClick={onClose}
-              style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#F2F2F7', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <Plus size={24} style={{ transform: 'rotate(45deg)' }} />
-            </motion.button>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-            {services.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: i * 0.05, type: 'spring', damping: 20 }}
-                style={{ 
-                  background: '#FFF', borderRadius: '28px', padding: '24px',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-                  border: '1px solid rgba(0,0,0,0.02)'
-                }}
-              >
-                <div style={{ marginBottom: '20px' }}>{getAsset(s)}</div>
-                <h4 style={{ fontSize: '15px', fontWeight: '800', marginBottom: '4px' }}>{s.label}</h4>
-                <p style={{ fontSize: '11px', color: '#888', fontWeight: '600' }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: '20px' }}>
-            <p style={{ fontSize: '12px', color: '#BBB', fontWeight: '700', letterSpacing: '1px' }}>FITTR ELITE • 2023</p>
-          </div>
+          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '900', color: '#000' }}>F</div>
+          <span style={{ fontSize: '14px', fontWeight: '800', color: '#FFF', letterSpacing: '0.5px' }}>Command Hub</span>
+          <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
+            <ChevronDown size={18} color="#FFF" />
+          </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>
+      </div>
+    </>
   );
 }
 
@@ -974,14 +897,14 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showServices, setShowServices] = useState(false);
+  const [showDock, setShowDock] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
-          <div className="app" style={{ paddingBottom: '40px' }}>
-            <Header onOpenServices={() => setShowServices(true)} />
+          <div className="app" style={{ paddingBottom: '120px' }}>
+            <Header />
             <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
             <DailyTrackers />
             <EliteCoaching />
@@ -989,16 +912,18 @@ export default function App() {
             <CommunityHighlights />
           </div>
         </div>
+        
+        <CommandDock 
+          isOpen={showDock} 
+          onToggle={setShowDock} 
+        />
+
         <BottomNav />
         
         <CalendarOverlay 
           isOpen={showCalendar} 
           onClose={() => setShowCalendar(false)} 
           onSelect={(d) => console.log('Selected:', d)} 
-        />
-        <ServiceCanvas 
-          isOpen={showServices} 
-          onClose={() => setShowServices(false)} 
         />
       </div>
     </IPhoneMockup>
