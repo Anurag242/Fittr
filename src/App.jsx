@@ -689,6 +689,125 @@ function LiveSessions() {
   );
 }
 
+// ─── Performance Matrix (Weekly Trends) ──────────────
+function PerformanceMatrix() {
+  const weeklyData = [
+    { day: 'Mon', val: 65 },
+    { day: 'Tue', val: 80 },
+    { day: 'Wed', val: 45 },
+    { day: 'Thu', val: 90 },
+    { day: 'Fri', val: 70 },
+    { day: 'Sat', val: 100 },
+    { day: 'Sun', val: 62 },
+  ];
+
+  return (
+    <section className="section" style={{ paddingTop: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
+        <div>
+          <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Performance Matrix</h3>
+          <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>Last 7 Days Consistency</p>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <span style={{ fontSize: '20px', fontWeight: '900', color: '#34C759' }}>+12%</span>
+          <p style={{ fontSize: '10px', color: '#888', fontWeight: '700' }}>VS LAST WEEK</p>
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '140px', padding: '0 10px' }}>
+        {weeklyData.map((d, i) => (
+          <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', flex: 1 }}>
+            <div style={{ width: '30px', height: '100px', background: '#F2F2F7', borderRadius: '8px', position: 'relative', overflow: 'hidden' }}>
+              <motion.div 
+                initial={{ height: 0 }}
+                animate={{ height: `${d.val}%` }}
+                transition={{ delay: i * 0.1, duration: 1, ease: 'easeOut' }}
+                style={{ 
+                  position: 'absolute', bottom: 0, left: 0, right: 0, 
+                  background: d.val === 100 ? '#000' : 'linear-gradient(to top, #000, #333)', 
+                  borderRadius: '8px' 
+                }} 
+              />
+            </div>
+            <span style={{ fontSize: '11px', fontWeight: '800', color: i === 5 ? '#000' : '#BBB' }}>{d.day}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Nutrition Blueprint (Today's Meals) ─────────────
+function NutritionBlueprint() {
+  const meals = [
+    { type: 'BREAKFAST', name: 'Oatmeal & Berries', cals: '340 kcal', img: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=300&q=80' },
+    { type: 'LUNCH', name: 'Grilled Salmon', cals: '520 kcal', img: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=300&q=80' },
+    { type: 'DINNER', name: 'Quinoa Buddha Bowl', cals: '410 kcal', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80' },
+  ];
+
+  return (
+    <section className="section" style={{ paddingRight: '0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '20px' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Nutrition Blueprint</h3>
+        <span style={{ fontSize: '13px', fontWeight: '700', color: '#007AFF' }}>View Plan</span>
+      </div>
+
+      <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingRight: '20px', scrollbarWidth: 'none' }}>
+        {meals.map((meal, i) => (
+          <motion.div 
+            key={meal.name}
+            whileTap={{ scale: 0.97 }}
+            style={{ 
+              minWidth: '220px', background: '#FFF', borderRadius: '24px', 
+              overflow: 'hidden', border: '1px solid #EEE' 
+            }}
+          >
+            <div style={{ height: '120px', position: 'relative' }}>
+              <img src={meal.img} alt={meal.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', padding: '4px 10px', borderRadius: '8px' }}>
+                <span style={{ fontSize: '10px', fontWeight: '800', color: '#FFF', letterSpacing: '1px' }}>{meal.type}</span>
+              </div>
+            </div>
+            <div style={{ padding: '16px' }}>
+              <h4 style={{ fontSize: '15px', fontWeight: '800', marginBottom: '4px' }}>{meal.name}</h4>
+              <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>{meal.cals} • High Protein</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Fitness Wisdom (Editorial) ──────────────
+function FitnessWisdom() {
+  return (
+    <section className="section">
+      <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px', marginBottom: '16px' }}>Fitness Wisdom</h3>
+      <motion.div 
+        whileTap={{ scale: 0.98 }}
+        style={{ 
+          position: 'relative', height: '240px', borderRadius: '32px', 
+          overflow: 'hidden', background: '#000' 
+        }}
+      >
+        <img 
+          src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80" 
+          alt="Wisdom" 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} 
+        />
+        <div style={{ position: 'absolute', inset: 0, padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+          <div style={{ background: '#FFD700', color: '#000', padding: '4px 12px', borderRadius: '8px', width: 'fit-content', fontSize: '11px', fontWeight: '900', marginBottom: '12px' }}>EXPERT INSIGHT</div>
+          <h2 style={{ color: '#FFF', fontSize: '24px', fontWeight: '900', lineHeight: '1.2', marginBottom: '12px', letterSpacing: '-0.5px' }}>The Science of Circadian Rhythms & Muscle Recovery</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px', fontWeight: '600' }}>6 min read • Dr. Sarah Jenkins</span>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 // ─── Elite Coaching (IMPROVED) ────────────────────────
 function EliteCoaching() {
   return (
@@ -890,9 +1009,12 @@ export default function App() {
                   onOpenCalendar={() => setShowCalendar(true)} 
                   onFlip={() => setIsFlipped(true)}
                 />
+                <PerformanceMatrix />
                 <DailyTrackers />
+                <NutritionBlueprint />
                 <EliteCoaching />
                 <LiveSessions />
+                <FitnessWisdom />
                 <CommunityHighlights />
               </div>
             </div>
