@@ -13,46 +13,127 @@ import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
 
 // ─── Header ──────────────────────────────────────────
-function Header() {
+function Header({ onToggleHub, isHubOpen }) {
   return (
-    <header className="header">
-      <div className="header-left">
-        <div style={{ position: 'relative' }}>
-          <img
-            className="avatar"
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
-            alt="User"
-            style={{ border: '2px solid #FFF', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-          />
-          <div style={{
-            position: 'absolute',
-            bottom: '-8px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: '#000',
-            borderRadius: '12px',
-            padding: '2px 10px',
-            border: '1px solid rgba(255,255,255,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            height: '22px',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
-          }}>
-            <div style={{ width: '12px', height: '12px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', color: '#000', fontWeight: '900' }}>F</div>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: '#FFF' }}>120</span>
+    <header className="header" style={{ height: 'auto', paddingBottom: '0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '16px 20px' }}>
+        <div className="header-left">
+          <div style={{ position: 'relative' }}>
+            <img
+              className="avatar"
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
+              alt="User"
+              style={{ border: '2px solid #FFF', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+            />
+            <div style={{
+              position: 'absolute',
+              bottom: '-8px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#000',
+              borderRadius: '12px',
+              padding: '2px 10px',
+              border: '1px solid rgba(255,255,255,0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              height: '22px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+            }}>
+              <div style={{ width: '12px', height: '12px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', color: '#000', fontWeight: '900' }}>F</div>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#FFF' }}>120</span>
+            </div>
           </div>
         </div>
+        <div className="header-icons" style={{ gap: '12px' }}>
+          <motion.button 
+            whileTap={{ scale: 0.9 }}
+            onClick={onToggleHub}
+            className="icon-btn" 
+            style={{ 
+              background: isHubOpen ? '#000' : '#FFF', 
+              color: isHubOpen ? '#FFF' : '#000',
+              border: '1px solid #EEE'
+            }}
+          >
+            <Plus size={22} style={{ transform: isHubOpen ? 'rotate(45deg)' : 'rotate(0)' }} />
+          </motion.button>
+          <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} /></button>
+          <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
+            <Bell size={20} />
+            <span className="notif-dot" style={{ background: '#FF3B30' }} />
+          </button>
+        </div>
       </div>
-      <div className="header-icons" style={{ gap: '12px' }}>
-        <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} /></button>
-        <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
-          <Bell size={20} />
-          <span className="notif-dot" style={{ background: '#FF3B30' }} />
-        </button>
-        <button className="icon-btn" style={{ background: '#FFF' }}><MessageCircle size={20} /></button>
-      </div>
+
+      {/* Dynamic Header Tray (Iteration 7) */}
+      <AnimatePresence>
+        {isHubOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{ overflow: 'hidden', width: '100%' }}
+          >
+            <div style={{ padding: '0 20px 24px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+              <HubItem label="Coach" isCap color="#000" />
+              <HubItem label="Labs" isLabTest color="#AF52DE" />
+              <HubItem label="Plan" isCalendar color="#FF3B30" />
+              <HubItem label="Scale" isScale color="#34C759" />
+            </div>
+            <div style={{ margin: '0 20px 20px', height: '1px', background: '#EEE' }} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
+  );
+}
+
+function HubItem({ label, isCap, isLabTest, isCalendar, isScale, color }) {
+  const getAsset = () => {
+    if (isCap) return (
+      <svg viewBox="0 0 100 100" style={{ width: '28px', height: '28px' }}>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
+      </svg>
+    );
+    if (isCalendar) return (
+      <svg viewBox="0 0 100 100" style={{ width: '28px', height: '28px' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
+      </svg>
+    );
+    if (isScale) return (
+      <svg viewBox="0 0 100 100" style={{ width: '28px', height: '28px' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" />
+        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
+      </svg>
+    );
+    if (isLabTest) return (
+      <svg viewBox="0 0 100 100" style={{ width: '28px', height: '28px' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" />
+      </svg>
+    );
+    return null;
+  };
+
+  return (
+    <motion.div 
+      whileTap={{ scale: 0.9 }}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}
+    >
+      <div style={{ 
+        width: '56px', height: '56px', borderRadius: '18px', 
+        background: '#FFF', border: '1px solid #EEE',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
+      }}>
+        {getAsset()}
+      </div>
+      <span style={{ fontSize: '11px', fontWeight: '700', color: '#555' }}>{label}</span>
+    </motion.div>
   );
 }
 
@@ -118,76 +199,11 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── 3D Service Face (Back of Rituals) ──────────────
-function ServiceFace({ onFlip }) {
-  const services = [
-    { label: 'Coach', desc: 'Expert Consult', isCap: true },
-    { label: 'Labs', desc: 'Blood Work', isLabTest: true },
-    { label: 'Plan', desc: 'Daily Focus', isCalendar: true },
-    { label: 'Scale', desc: 'Body Comp', isScale: true },
-  ];
-
-  const getAsset = (item) => {
-    if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
-      </svg>
-    );
-    if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
-        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-      </svg>
-    );
-    if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
-      </svg>
-    );
-    if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" />
-      </svg>
-    );
-    return null;
-  };
-
-  return (
-    <div style={{ 
-      background: '#FFF', borderRadius: '32px', padding: '24px', height: '100%',
-      display: 'flex', flexDirection: 'column', transform: 'rotateY(180deg)',
-      backfaceVisibility: 'hidden', border: '1px solid #EEE'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Service Hub</h3>
-        <motion.button 
-          whileTap={{ scale: 0.9 }}
-          onClick={onFlip}
-          style={{ background: '#F2F2F7', border: 'none', padding: '8px 12px', borderRadius: '12px', fontSize: '11px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px' }}
-        >
-          <Activity size={14} /> STATUS
-        </motion.button>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', flex: 1 }}>
-        {services.map(s => (
-          <div key={s.label} style={{ background: '#F9F9FB', borderRadius: '20px', padding: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-              {getAsset(s)}
-            </div>
-            <div>
-              <p style={{ fontSize: '12px', fontWeight: '800', color: '#1A1A1A' }}>{s.label}</p>
-              <p style={{ fontSize: '9px', color: '#888', fontWeight: '600' }}>{s.desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+// ─── Shared Utilities ──────────────────────────────
+const getAsset = (item) => {
+  // Shared asset logic if needed elsewhere
+  return null;
+};
 
 const PremiumActionBubbles = () => {
   const actions = [
@@ -360,10 +376,8 @@ const PremiumActionBubbles = () => {
   );
 };
 
-// ─── Daily Rituals (3D FLIP ITERATION 6) ───────────
+// ─── Daily Rituals (IMPROVED) ────────────────────────
 function DailyRituals({ onOpenCalendar }) {
-  const [isFlipped, setIsFlipped] = React.useState(false);
-
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Rise & Shine, Anurag! ☀️";
@@ -379,67 +393,16 @@ function DailyRituals({ onOpenCalendar }) {
   ];
 
   return (
-    <section className="section" style={{ marginTop: '10px', perspective: '1000px', paddingBottom: '20px' }}>
-      <motion.div
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 80 }}
-        style={{ position: 'relative', width: '100%', minHeight: '260px', transformStyle: 'preserve-3d' }}
-      >
-        {/* FRONT FACE (Rituals) */}
-        <div style={{ 
-          backfaceVisibility: 'hidden', 
-          background: '#FFF', borderRadius: '32px', padding: '24px', 
-          border: '1px solid #EEE', height: '100%' 
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
-            <div>
-              <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
-              <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
-            </div>
-            <motion.button 
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsFlipped(true)}
-              style={{ background: '#000', color: '#FFF', border: 'none', padding: '8px 12px', borderRadius: '12px', fontSize: '11px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
-              SERVICES <ChevronRight size={14} />
-            </motion.button>
-          </div>
+    <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
+      <div style={{ marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
+        <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
+      </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
-            {rings.map((r) => (
-              <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                <div style={{ position: 'relative', width: '60px', height: '60px' }}>
-                   <svg style={{ transform: 'rotate(-90deg)', width: '60px', height: '60px' }}>
-                      <circle cx="30" cy="30" r="26" fill="none" stroke="#F0F0F2" strokeWidth="6" />
-                      <motion.circle 
-                        cx="30" cy="30" r="26" fill="none" stroke={r.color} strokeWidth="6" 
-                        strokeDasharray="163.4"
-                        initial={{ strokeDashoffset: 163.4 }}
-                        animate={{ strokeDashoffset: 163.4 - (r.val / r.max) * 163.4 }}
-                        transition={{ duration: 1.5 }}
-                        strokeLinecap="round"
-                      />
-                   </svg>
-                   <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <r.icon size={18} color={r.color} />
-                   </div>
-                </div>
-                <p style={{ fontSize: '10px', fontWeight: '700', color: '#333' }}>{r.label}</p>
-              </div>
-            ))}
-          </div>
+      <PremiumActionBubbles />
 
-          <PremiumActionBubbles />
-        </div>
-
-        {/* BACK FACE (Services) */}
-        <div style={{ position: 'absolute', inset: 0 }}>
-          <ServiceFace onFlip={() => setIsFlipped(false)} />
-        </div>
-      </motion.div>
-
-      {/* Date Pill (Kept Outside Flip) */}
-      <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '12px' }}>
+      {/* Centered Date Pill on Divider */}
+      <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
         <div style={{ 
           position: 'absolute', left: 0, right: 0, height: '1px', 
           background: 'linear-gradient(to right, transparent, #E5E5EA 20%, #E5E5EA 80%, transparent)' 
@@ -448,14 +411,45 @@ function DailyRituals({ onOpenCalendar }) {
           whileTap={{ scale: 0.96 }}
           onClick={onOpenCalendar}
           style={{ 
-            position: 'relative', background: '#E5E5EA', border: 'none', 
-            padding: '6px 16px', borderRadius: '100px', display: 'flex', 
-            alignItems: 'center', gap: '8px', cursor: 'pointer', boxShadow: '0 0 0 4px #F5F5F7' 
+            position: 'relative',
+            background: '#E5E5EA', 
+            border: 'none', 
+            padding: '6px 16px', 
+            borderRadius: '100px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 0 0 4px #F5F5F7' 
           }}
         >
           <span style={{ fontSize: '12px', fontWeight: '800', color: '#000' }}>Today</span>
           <ChevronDown size={14} color="#000" />
         </motion.button>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+        {rings.map((r) => (
+          <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <div style={{ position: 'relative', width: '70px', height: '70px' }}>
+               <svg style={{ transform: 'rotate(-90deg)', width: '70px', height: '70px' }}>
+                  <circle cx="35" cy="30" r="26" fill="none" stroke="#F0F0F2" strokeWidth="6" />
+                  <motion.circle 
+                    cx="35" cy="30" r="26" fill="none" stroke={r.color} strokeWidth="6" 
+                    strokeDasharray="163.4"
+                    initial={{ strokeDashoffset: 163.4 }}
+                    animate={{ strokeDashoffset: 163.4 - (r.val / r.max) * 163.4 }}
+                    transition={{ duration: 1.5 }}
+                    strokeLinecap="round"
+                  />
+               </svg>
+               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <r.icon size={20} color={r.color} />
+               </div>
+            </div>
+            <p style={{ fontSize: '11px', fontWeight: '700', color: '#333' }}>{r.label}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -853,13 +847,14 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
+  const [isHubOpen, setIsHubOpen] = useState(false);
 
   return (
     <IPhoneMockup>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}>
           <div className="app" style={{ paddingBottom: '120px' }}>
-            <Header />
+            <Header onToggleHub={() => setIsHubOpen(!isHubOpen)} isHubOpen={isHubOpen} />
             <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
             <DailyTrackers />
             <EliteCoaching />
