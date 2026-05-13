@@ -160,7 +160,7 @@ function ServiceHubBack({ onFlip }) {
   return (
     <div style={{ 
       width: '100%', height: '100%', background: '#000', 
-      padding: '40px 24px', display: 'flex', flexDirection: 'column'
+      padding: '40px 12px', display: 'flex', flexDirection: 'column'
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
@@ -647,7 +647,7 @@ function LiveSessions() {
 
   return (
     <section className="section" style={{ paddingRight: 0 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '20px', marginBottom: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '12px', marginBottom: '16px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: '900' }}>Live Classes</h3>
         <span style={{ fontSize: '13px', color: '#007AFF', fontWeight: '700' }}>View All</span>
       </div>
@@ -733,12 +733,12 @@ function NutritionBlueprint() {
 
   return (
     <section className="section" style={{ paddingRight: '0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '12px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Nutrition Blueprint</h3>
         <span style={{ fontSize: '13px', fontWeight: '700', color: '#007AFF' }}>View Plan</span>
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingRight: '20px', scrollbarWidth: 'none' }}>
+      <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingRight: '12px', scrollbarWidth: 'none' }}>
         {meals.map((meal, i) => (
           <motion.div 
             key={meal.name}
