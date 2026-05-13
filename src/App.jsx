@@ -118,132 +118,114 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Command Dock (OUT OF THE BOX ITERATION 4) ────────
-function CommandDock({ isOpen, onToggle }) {
+// ─── Magic Arc Hub (OUT OF THE BOX ITERATION 5) ──────
+function MagicArcHub({ isOpen, onToggle }) {
   const services = [
-    { label: 'My Plan', desc: 'Workout & Rituals', isCalendar: true, color: '#F59E0B' },
-    { label: 'Smart Scale', desc: 'Composition', isScale: true, color: '#8B5CF6' },
-    { label: 'Lab Test', desc: 'Vitals & Blood', isLabTest: true, color: '#AF52DE' },
-    { label: 'Coach', desc: 'Elite Guidance', isCap: true, color: '#1A1A1A' },
+    { label: 'Coach', icon: Star, color: '#FFD700', angle: -90, isCap: true },
+    { label: 'Labs', icon: Activity, color: '#AF52DE', angle: -60, isLabTest: true },
+    { label: 'Plan', icon: ClipboardList, color: '#34C759', angle: -30, isCalendar: true },
+    { label: 'Scale', icon: Weight, color: '#007AFF', angle: 0, isScale: true },
   ];
 
   const getAsset = (item) => {
     if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
         <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
     );
-    return <item.icon size={32} color="#FFF" />;
+    return <item.icon size={24} color="#FFF" />;
   };
 
   return (
-    <>
-      {/* Dim Overlay */}
+    <div style={{ position: 'absolute', bottom: '100px', right: '30px', zIndex: 3000 }}>
+      {/* Radial Menu Items */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => onToggle(false)}
-            style={{ position: 'absolute', inset: 0, zIndex: 1500, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}
-          />
-        )}
-      </AnimatePresence>
-
-      <div style={{ 
-        position: 'absolute', bottom: '100px', left: '50%', transform: 'translateX(-50%)', 
-        zIndex: 1600, width: '100%', padding: '0 20px', pointerEvents: 'none' 
-      }}>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ y: 100, opacity: 0, scale: 0.9 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 100, opacity: 0, scale: 0.9 }}
-              transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+        {isOpen && services.map((s, i) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              x: Math.cos(s.angle * (Math.PI / 180)) * 100, 
+              y: Math.sin(s.angle * (Math.PI / 180)) * 100 
+            }}
+            exit={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+            transition={{ type: 'spring', damping: 12, stiffness: 200, delay: i * 0.05 }}
+            style={{ 
+              position: 'absolute',
+              width: '64px', height: '64px',
+              background: 'rgba(0,0,0,0.85)',
+              borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              cursor: 'pointer'
+            }}
+          >
+            {getAsset(s)}
+            <motion.span 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               style={{ 
-                background: 'rgba(26, 26, 26, 0.98)', 
-                borderRadius: '32px', padding: '24px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                pointerEvents: 'auto',
-                marginBottom: '20px'
+                position: 'absolute', bottom: '-22px', fontSize: '10px', 
+                fontWeight: '800', color: '#000', whiteSpace: 'nowrap' 
               }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-                {services.map((s, i) => (
-                  <motion.div
-                    key={s.label}
-                    whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    style={{ 
-                      background: 'rgba(255,255,255,0.05)', 
-                      borderRadius: '24px', padding: '16px',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center',
-                      textAlign: 'center', gap: '12px', cursor: 'pointer'
-                    }}
-                  >
-                    <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {getAsset(s)}
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '13px', fontWeight: '800', color: '#FFF' }}>{s.label}</p>
-                      <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>{s.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* The Main Dock Pill */}
-        <motion.div
-          whileTap={{ scale: 0.92 }}
-          onClick={() => onToggle(!isOpen)}
-          style={{ 
-            pointerEvents: 'auto',
-            background: '#000', 
-            borderRadius: '100px', 
-            padding: '12px 24px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            gap: '12px', border: '1px solid rgba(255,255,255,0.1)',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.4)',
-            cursor: 'pointer',
-            margin: '0 auto',
-            width: 'fit-content'
-          }}
-        >
-          <div style={{ width: '28px', height: '28px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: '900', color: '#000' }}>F</div>
-          <span style={{ fontSize: '14px', fontWeight: '800', color: '#FFF', letterSpacing: '0.5px' }}>Command Hub</span>
-          <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-            <ChevronDown size={18} color="#FFF" />
+              {s.label.toUpperCase()}
+            </motion.span>
           </motion.div>
+        ))}
+      </AnimatePresence>
+
+      {/* Main Trigger Orb */}
+      <motion.button
+        whileTap={{ scale: 0.9 }}
+        onClick={() => onToggle(!isOpen)}
+        style={{ 
+          width: '72px', height: '72px',
+          background: isOpen ? '#000' : 'linear-gradient(135deg, #1A1A1A 0%, #000 100%)',
+          borderRadius: '50%',
+          border: '2px solid rgba(255,255,255,0.1)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
+          cursor: 'pointer',
+          position: 'relative',
+          zIndex: 3001
+        }}
+      >
+        <motion.div animate={{ rotate: isOpen ? 45 : 0 }}>
+          <Plus size={32} color="#FFF" />
         </motion.div>
-      </div>
-    </>
+        
+        {!isOpen && (
+          <motion.div 
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            style={{ position: 'absolute', inset: -4, border: '2px solid #FFF', borderRadius: '50%', opacity: 0.3 }}
+          />
+        )}
+      </motion.button>
+    </div>
   );
 }
 
@@ -891,12 +873,21 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showDock, setShowDock] = useState(false);
+  const [showArc, setShowArc] = useState(false);
 
   return (
     <IPhoneMockup>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
+        {/* Spatial Recession Effect on Dashboard */}
+        <motion.div 
+          animate={{ 
+            scale: showArc ? 0.94 : 1, 
+            filter: showArc ? 'blur(10px) brightness(0.7)' : 'blur(0px) brightness(1)',
+            borderRadius: showArc ? '40px' : '0px'
+          }}
+          transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+          style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}
+        >
           <div className="app" style={{ paddingBottom: '120px' }}>
             <Header />
             <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
@@ -905,11 +896,11 @@ export default function App() {
             <LiveSessions />
             <CommunityHighlights />
           </div>
-        </div>
+        </motion.div>
         
-        <CommandDock 
-          isOpen={showDock} 
-          onToggle={setShowDock} 
+        <MagicArcHub 
+          isOpen={showArc} 
+          onToggle={setShowArc} 
         />
 
         <BottomNav />
