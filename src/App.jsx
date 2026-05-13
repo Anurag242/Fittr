@@ -130,7 +130,7 @@ const PremiumActionBubbles = () => {
       label: 'Lab Test', 
       icon: Activity, 
       color: '#AF52DE',
-      image: 'https://images.unsplash.com/photo-1579152276503-f15a9670d44a?auto=format&fit=crop&w=256&q=80'
+      isLabTest: true
     },
     { 
       label: 'Refer & Earn', 
@@ -234,15 +234,25 @@ const PremiumActionBubbles = () => {
                 ) : item.isScale ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
                     <svg viewBox="0 0 100 100" style={{ width: '85%', height: '85%', filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.15))' }}>
-                      {/* Scale Platform */}
                       <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFFFFF" stroke="#E5E5E7" strokeWidth="1" />
                       <rect x="15" y="25" width="70" height="60" rx="8" fill="rgba(0,122,255,0.03)" />
-                      {/* Sensors */}
                       <rect x="20" y="30" width="15" height="50" rx="4" fill="rgba(0,0,0,0.04)" />
                       <rect x="65" y="30" width="15" height="50" rx="4" fill="rgba(0,0,0,0.04)" />
-                      {/* Digital Display */}
                       <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
                       <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="900" fill="#34C759" fontFamily="monospace">72.4</text>
+                    </svg>
+                  </div>
+                ) : item.isLabTest ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
+                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }}>
+                      {/* Tube 1 */}
+                      <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
+                      <rect x="30" y="40" width="12" height="35" rx="6" fill="#EF4444" />
+                      <rect x="28" y="15" width="16" height="10" rx="2" fill="#D21414" />
+                      {/* Tube 2 */}
+                      <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
+                      <rect x="55" y="50" width="12" height="35" rx="6" fill="#D21414" />
+                      <rect x="53" y="25" width="16" height="10" rx="2" fill="#EF4444" />
                     </svg>
                   </div>
                 ) : item.image ? (
