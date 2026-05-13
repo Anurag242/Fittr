@@ -101,7 +101,7 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
                   onClick={() => { onSelect(d); onClose(); }}
                   style={{ 
                     height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    borderRadius: '12px', fontSize: '14px', fontWeight: '700',
+                    borderRadius: '12px', fontSize: '14px', fontWeight: '600',
                     background: d === 13 ? '#000' : 'transparent',
                     color: d === 13 ? '#FFF' : '#000',
                     cursor: 'pointer'
@@ -133,7 +133,7 @@ function ServiceHubBack({ onFlip }) {
     if (item.isCap) return (
       <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="600" fill="#D4AF37">F</text>
       </svg>
     );
     if (item.isCalendar) return (
@@ -164,38 +164,38 @@ function ServiceHubBack({ onFlip }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
-          <h2 style={{ fontSize: '28px', color: '#FFF' }}>SERVICE HUB</h2>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', fontWeight: '500' }}>The power behind your progress</p>
+          <h2 style={{ fontSize: '28px', color: '#FFF', fontWeight: '800' }}>SERVICE HUB</h2>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: '400' }}>The power behind your progress</p>
         </div>
         <motion.button 
           whileTap={{ scale: 0.9 }}
           onClick={onFlip}
-          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', textTransform: 'none' }}
+          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <Plus size={24} color="#FFF" style={{ transform: 'rotate(45deg)' }} />
         </motion.button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
         {services.map((s, i) => (
           <motion.div
             key={s.label}
             whileTap={{ scale: 0.95 }}
             style={{ 
-              background: 'rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px',
+              background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '24px',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
               textAlign: 'center', border: '1px solid rgba(255,255,255,0.08)'
             }}
           >
             <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
-            <h4 style={{ fontSize: '14px', color: '#FFF', letterSpacing: '1px', fontWeight: '600' }}>{s.label}</h4>
-            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>{s.desc.toUpperCase()}</p>
+            <h4 style={{ fontSize: '13px', color: '#FFF', letterSpacing: '0.05em', fontWeight: '700' }}>{s.label}</h4>
+            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '500' }}>{s.desc.toUpperCase()}</p>
           </motion.div>
         ))}
       </div>
 
       <div style={{ marginTop: 'auto', textAlign: 'center' }}>
-        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.2)', fontWeight: '800', letterSpacing: '2px' }}>FITTR ELITE • BACKSIDE</p>
+        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.2)', fontWeight: '700', letterSpacing: '2px' }}>FITTR ELITE • BACKSIDE</p>
       </div>
     </div>
   );
@@ -203,38 +203,13 @@ function ServiceHubBack({ onFlip }) {
 
 const PremiumActionBubbles = () => {
   const actions = [
-    { 
-      label: 'Get A Coach', 
-      icon: Dumbbell, 
-      color: '#1A1A1A',
-      isCap: true
-    }, 
-    { 
-      label: 'Lab Test', 
-      icon: Activity, 
-      color: '#AF52DE',
-      isLabTest: true
-    },
-    { 
-      label: 'Refer & Earn', 
-      icon: Gift, 
-      color: '#FF3B30',
-      image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80'
-    },
-    { 
-      label: 'My Plan', 
-      icon: ClipboardCheck, 
-      color: '#F59E0B',
-      isCalendar: true
-    }, 
-    { 
-      label: 'Smart Scale', 
-      icon: Scale, 
-      color: '#8B5CF6',
-      isScale: true
-    },   
-    { label: 'Challenges', icon: Target, color: '#EF4444' },     
-    { label: 'Shop', icon: ShoppingBag, color: '#10B981' },       
+    { label: 'Get A Coach', icon: Dumbbell, color: '#000', isCap: true }, 
+    { label: 'Lab Test', icon: Activity, color: '#000', isLabTest: true },
+    { label: 'Refer & Earn', icon: Gift, color: '#000', image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80' },
+    { label: 'My Plan', icon: ClipboardCheck, color: '#000', isCalendar: true }, 
+    { label: 'Smart Scale', icon: Scale, color: '#000', isScale: true },   
+    { label: 'Challenges', icon: Target, color: '#000' },     
+    { label: 'Shop', icon: ShoppingBag, color: '#000' },       
   ];
 
   return (
@@ -268,17 +243,16 @@ const PremiumActionBubbles = () => {
               }}
             >
               <motion.div
-                whileTap={{ scale: 0.92, backgroundColor: `${item.color}25` }}
+                whileTap={{ scale: 0.92 }}
                 style={{
                   width: '64px',
                   height: '64px',
                   borderRadius: '50%',
-                  background: (item.isCap || item.image) ? 'transparent' : `${item.color}12`,
+                  background: '#F0F0F2',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s ease',
                   position: 'relative',
                   border: 'none',
                   overflow: 'hidden'
@@ -286,10 +260,9 @@ const PremiumActionBubbles = () => {
               >
                 {item.isCap ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' }}>
-                      <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
-                      <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
-                      <path d="M50,30 Q50,25 45,25 Q40,25 40,30" fill="#222" />
+                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%' }}>
+                      <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+                      <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#333" />
                     </svg>
                     <div style={{
                       position: 'absolute',
@@ -297,68 +270,48 @@ const PremiumActionBubbles = () => {
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
                       fontSize: '11px',
-                      fontWeight: '900',
+                      fontWeight: '800',
                       color: '#D4AF37',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.4)',
-                      fontFamily: 'Outfit, sans-serif'
                     }}>F</div>
                   </div>
                 ) : item.isCalendar ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '75%', height: '75%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }}>
-                      <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+                    <svg viewBox="0 0 100 100" style={{ width: '75%', height: '75%' }}>
+                      <rect x="15" y="25" width="70" height="60" rx="10" fill="#E5E5E5" />
                       <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-                      <rect x="25" y="45" width="50" height="4" rx="2" fill="#E5E5E7" />
-                      <rect x="25" y="55" width="50" height="4" rx="2" fill="#E5E5E7" />
-                      <rect x="25" y="65" width="30" height="4" rx="2" fill="#E5E5E7" />
-                      <path d="M60,65 L70,75 L90,50" fill="none" stroke="#F59E0B" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M60,65 L70,75 L90,50" fill="none" stroke="#000" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                 ) : item.isScale ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '85%', height: '85%', filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.15))' }}>
-                      <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFFFFF" stroke="#E5E5E7" strokeWidth="1" />
-                      <rect x="15" y="25" width="70" height="60" rx="8" fill="rgba(0,122,255,0.03)" />
-                      <rect x="20" y="30" width="15" height="50" rx="4" fill="rgba(0,0,0,0.04)" />
-                      <rect x="65" y="30" width="15" height="50" rx="4" fill="rgba(0,0,0,0.04)" />
-                      <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
-                      <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="900" fill="#34C759" fontFamily="monospace">72.4</text>
+                    <svg viewBox="0 0 100 100" style={{ width: '85%', height: '85%' }}>
+                      <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#000" strokeWidth="2" />
+                      <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
+                      <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFF">72.4</text>
                     </svg>
                   </div>
                 ) : item.isLabTest ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }}>
-                      {/* Tube 1 */}
-                      <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-                      <rect x="30" y="40" width="12" height="35" rx="6" fill="#EF4444" />
-                      <rect x="28" y="15" width="16" height="10" rx="2" fill="#D21414" />
-                      {/* Tube 2 */}
-                      <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
-                      <rect x="55" y="50" width="12" height="35" rx="6" fill="#D21414" />
-                      <rect x="53" y="25" width="16" height="10" rx="2" fill="#EF4444" />
+                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%' }}>
+                      <rect x="30" y="20" width="12" height="55" rx="6" fill="#000" opacity="0.8" />
+                      <rect x="55" y="30" width="12" height="55" rx="6" fill="#000" opacity="0.8" />
                     </svg>
                   </div>
                 ) : item.image ? (
                   <img 
                     src={item.image} 
                     alt={item.label} 
-                    style={{ 
-                      width: '100%', 
-                      height: '100%', 
-                      objectFit: 'cover',
-                      borderRadius: '50%',
-                      filter: 'contrast(1.1) brightness(1.05)'
-                    }} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} 
                   />
                 ) : (
-                  <Icon size={26} color={item.color} strokeWidth={2.2} />
+                  <Icon size={26} color="#000" strokeWidth={2} />
                 )}
               </motion.div>
               
               <div style={{ textAlign: 'center' }}>
                 <p style={{ 
                   fontSize: '11px', 
-                  fontWeight: '700', 
+                  fontWeight: '600', 
                   color: '#2D2D2D',
                   letterSpacing: '-0.2px',
                   whiteSpace: 'nowrap'
@@ -382,17 +335,27 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
   };
 
   const rings = [
-    { label: 'Cals', val: 1240, max: 2000, color: '#FF3B30', icon: Flame },
-    { label: 'Water', val: 1.2, max: 3, color: '#007AFF', icon: Droplets },
-    { label: 'Steps', val: 6420, max: 10000, color: '#34C759', icon: Zap },
-    { label: 'Sleep', val: 6.5, max: 8, color: '#AF52DE', icon: Clock },
+    { label: 'Cals', val: 1240, max: 2000, color: '#000', icon: Flame },
+    { label: 'Water', val: 1.2, max: 3, color: '#000', icon: Droplets },
+    { label: 'Steps', val: 6420, max: 10000, color: '#000', icon: Zap },
+    { label: 'Sleep', val: 6.5, max: 8, color: '#000', icon: Clock },
   ];
 
   return (
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
       <div style={{ marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
-        <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
+        <h2 style={{ fontSize: '26px', fontWeight: '800' }}>{getGreeting()}</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <p style={{ fontSize: '13px', color: '#888', fontWeight: '400' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
+          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#DDD' }} />
+          <motion.button 
+            whileTap={{ scale: 0.96 }}
+            onClick={onFlip}
+            style={{ fontSize: '12px', fontWeight: '600', color: '#000', textTransform: 'none', border: 'none', background: 'transparent' }}
+          >
+            Open Hub
+          </motion.button>
+        </div>
       </div>
 
       <PremiumActionBubbles />
@@ -692,30 +655,30 @@ function PerformanceMatrix() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
         <div>
           <h3>Performance Matrix</h3>
-          <p style={{ fontSize: '12px', color: '#888', fontWeight: '500' }}>LAST 7 DAYS CONSISTENCY</p>
+          <p style={{ fontSize: '11px', color: '#888', fontWeight: '500', letterSpacing: '0.05em' }}>LAST 7 DAYS CONSISTENCY</p>
         </div>
         <div style={{ textAlign: 'right' }}>
           <span style={{ fontSize: '22px', color: '#34C759', fontWeight: '600' }}>+12%</span>
-          <p style={{ fontSize: '10px', color: '#888', fontWeight: '600', letterSpacing: '1px' }}>VS LAST WEEK</p>
+          <p style={{ fontSize: '10px', color: '#888', fontWeight: '500', letterSpacing: '1px' }}>VS LAST WEEK</p>
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '140px', padding: '0 10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '120px', padding: '0 8px' }}>
         {weeklyData.map((d, i) => (
-          <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', flex: 1 }}>
-            <div style={{ width: '30px', height: '100px', background: '#F2F2F7', borderRadius: '8px', position: 'relative', overflow: 'hidden' }}>
+          <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', flex: 1 }}>
+            <div style={{ width: '28px', height: '80px', background: 'rgba(0,0,0,0.03)', borderRadius: '6px', position: 'relative', overflow: 'hidden' }}>
               <motion.div 
                 initial={{ height: 0 }}
                 animate={{ height: `${d.val}%` }}
-                transition={{ delay: i * 0.1, duration: 1, ease: 'easeOut' }}
+                transition={{ delay: i * 0.1, duration: 1 }}
                 style={{ 
                   position: 'absolute', bottom: 0, left: 0, right: 0, 
-                  background: d.val === 100 ? '#000' : 'linear-gradient(to top, #000, #333)', 
-                  borderRadius: '8px' 
+                  background: '#000', 
+                  borderRadius: '6px' 
                 }} 
               />
             </div>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: i === 5 ? '#000' : '#BBB' }}>{d.day}</span>
+            <span style={{ fontSize: '11px', fontWeight: '500', color: i === 5 ? '#000' : '#AAA' }}>{d.day}</span>
           </div>
         ))}
       </div>
