@@ -15,670 +15,71 @@ import IPhoneMockup from './components/IPhoneMockup.jsx';
 // ─── Header ──────────────────────────────────────────
 function Header() {
   return (
-    <header className="header">
+    <header className="header" style={{ background: '#000', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
       <div className="header-left">
         <div style={{ position: 'relative' }}>
           <img
             className="avatar"
             src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
             alt="User"
-            style={{ border: '2px solid #FFF', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+            style={{ border: '2px solid rgba(255,255,255,0.1)' }}
           />
-          <div style={{
-            position: 'absolute',
-            bottom: '-8px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: '#000',
-            borderRadius: '12px',
-            padding: '2px 10px',
-            border: '1px solid rgba(255,255,255,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
-            height: '22px',
-            boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
-          }}>
-            <div style={{ width: '12px', height: '12px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px', color: '#000', fontWeight: '900' }}>F</div>
-            <span style={{ fontSize: '11px', fontWeight: '800', color: '#FFF' }}>120</span>
-          </div>
         </div>
       </div>
       <div className="header-icons" style={{ gap: '12px' }}>
-        <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} /></button>
-        <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
-          <Bell size={20} />
+        <button className="icon-btn" style={{ background: 'rgba(255,255,255,0.1)' }}><Search size={20} color="#FFF" /></button>
+        <button className="icon-btn" style={{ position: 'relative', background: 'rgba(255,255,255,0.1)' }}>
+          <Bell size={20} color="#FFF" />
           <span className="notif-dot" style={{ background: '#FF3B30' }} />
         </button>
-        <button className="icon-btn" style={{ background: '#FFF' }}><MessageCircle size={20} /></button>
       </div>
     </header>
   );
 }
 
-// ─── Calendar Overlay (NEW) ──────────────────────────
-function CalendarOverlay({ isOpen, onClose, onSelect }) {
-  const dates = Array.from({ length: 31 }, (_, i) => i + 1);
-  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, backdropFilter: 'blur(4px)' }}
-          />
-          <motion.div 
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            style={{ 
-              position: 'absolute', bottom: 0, left: 0, right: 0, 
-              background: '#FFF', borderRadius: '32px 32px 0 0', 
-              padding: '24px', zIndex: 1001,
-              boxShadow: '0 -10px 40px rgba(0,0,0,0.2)'
-            }}
-          >
-            <div style={{ width: '40px', height: '4px', background: '#DDD', borderRadius: '2px', margin: '0 auto 24px' }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-              <h3 style={{ fontSize: '20px', fontWeight: '900' }}>October 2023</h3>
-              <button onClick={onClose} style={{ padding: '8px 16px', borderRadius: '12px', background: '#F0F0F2', border: 'none', fontWeight: '700', fontSize: '13px' }}>Done</button>
-            </div>
-            
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', marginBottom: '16px' }}>
-              {days.map(d => (
-                <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: '700', color: '#BBB' }}>{d}</div>
-              ))}
-              {dates.map(d => (
-                <motion.div 
-                  key={d} 
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => { onSelect(d); onClose(); }}
-                  style={{ 
-                    height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    borderRadius: '12px', fontSize: '14px', fontWeight: '600',
-                    background: d === 13 ? '#000' : 'transparent',
-                    color: d === 13 ? '#FFF' : '#000',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {d}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
-}
-
-// ─── Service Hub Back (OUT OF THE BOX ITERATION 7) ────
-function ServiceHubBack({ onFlip }) {
-  const services = [
-    { label: 'COACH', desc: 'Expert Guidance', isCap: true },
-    { label: 'LABS', desc: 'Blood & Vitals', isLabTest: true },
-    { label: 'PLAN', desc: 'Daily Routine', isCalendar: true },
-    { label: 'SCALE', desc: 'Composition', isScale: true },
-    { label: 'EARN', desc: 'Rewards', icon: Gift },
-    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag },
+// ─── Daily Pulse Dashboard (CORE) ────────────────────
+function DailyPulseHeader({ onFlip }) {
+  const metrics = [
+    { label: 'Nutrition', val: 1240, max: 2000, color: '#FF9500', unit: 'kcal', icon: Flame },
+    { label: 'Hydration', val: 1.2, max: 3, color: '#007AFF', unit: 'L', icon: Droplets },
+    { label: 'Activity', val: 6420, max: 10000, color: '#34C759', unit: 'steps', icon: Zap },
+    { label: 'Recovery', val: 6.5, max: 8, color: '#AF52DE', unit: 'hrs', icon: Clock },
   ];
 
-  const getAsset = (item) => {
-    if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="600" fill="#D4AF37">F</text>
-      </svg>
-    );
-    if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="rgba(255,255,255,0.1)" />
-        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-      </svg>
-    );
-    if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
-      </svg>
-    );
-    if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
-      </svg>
-    );
-    return <item.icon size={32} color="#FFF" />;
-  };
-
   return (
-    <div style={{ 
-      width: '100%', height: '100%', background: '#000', 
-      padding: '40px 16px', display: 'flex', flexDirection: 'column'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+    <section className="section" style={{ marginTop: '20px' }}>
+      <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h2 style={{ fontSize: '28px', color: '#FFF', fontWeight: '800' }}>SERVICE HUB</h2>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: '400' }}>The power behind your progress</p>
+          <h1 style={{ fontSize: '28px', color: '#FFF', marginBottom: '4px' }}>Pulse Dashboard</h1>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.4)', fontWeight: '400' }}>Your physiological signals are optimal.</p>
         </div>
-        <motion.button 
+        <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={onFlip}
-          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <Plus size={24} color="#FFF" style={{ transform: 'rotate(45deg)' }} />
+          <Activity size={20} color="#FFF" />
         </motion.button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-        {services.map((s, i) => (
-          <motion.div
-            key={s.label}
-            whileTap={{ scale: 0.95 }}
-            style={{ 
-              background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '24px',
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              textAlign: 'center', border: '1px solid rgba(255,255,255,0.08)'
-            }}
-          >
-            <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
-            <h4 style={{ fontSize: '13px', color: '#FFF', letterSpacing: '0.05em', fontWeight: '700' }}>{s.label}</h4>
-            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '500' }}>{s.desc.toUpperCase()}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      <div style={{ marginTop: 'auto', textAlign: 'center' }}>
-        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.2)', fontWeight: '700', letterSpacing: '2px' }}>FITTR ELITE • BACKSIDE</p>
-      </div>
-    </div>
-  );
-}
-
-const PremiumActionBubbles = () => {
-  const actions = [
-    { label: 'Get A Coach', icon: Dumbbell, color: '#000', isCap: true }, 
-    { label: 'Lab Test', icon: Activity, color: '#000', isLabTest: true },
-    { label: 'Refer & Earn', icon: Gift, color: '#000', image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80' },
-    { label: 'My Plan', icon: ClipboardCheck, color: '#000', isCalendar: true }, 
-    { label: 'Smart Scale', icon: Scale, color: '#000', isScale: true },   
-    { label: 'Challenges', icon: Target, color: '#000' },     
-    { label: 'Shop', icon: ShoppingBag, color: '#000' },       
-  ];
-
-  return (
-    <section style={{ padding: '20px 0', overflow: 'hidden' }}>
-      <div 
-        className="no-scrollbar"
-        style={{ 
-          display: 'flex', 
-          overflowX: 'auto',
-          padding: '0 16px 8px',
-          gap: '8px',
-          scrollSnapType: 'x mandatory'
-        }}
-      >
-        {actions.map((item, i) => {
-          const Icon = item.icon;
-          return (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.05 }}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '12px',
-                flexShrink: 0,
-                width: '74px',
-                scrollSnapAlign: 'start'
-              }}
-            >
-              <motion.div
-                whileTap={{ scale: 0.92 }}
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '50%',
-                  background: '#F0F0F2',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  border: 'none',
-                  overflow: 'hidden'
-                }}
-              >
-                {item.isCap ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%' }}>
-                      <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
-                      <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#333" />
-                    </svg>
-                    <div style={{
-                      position: 'absolute',
-                      top: '46%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      fontSize: '11px',
-                      fontWeight: '800',
-                      color: '#D4AF37',
-                    }}>F</div>
-                  </div>
-                ) : item.isCalendar ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '75%', height: '75%' }}>
-                      <rect x="15" y="25" width="70" height="60" rx="10" fill="#E5E5E5" />
-                      <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-                      <path d="M60,65 L70,75 L90,50" fill="none" stroke="#000" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                ) : item.isScale ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.2' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '85%', height: '85%' }}>
-                      <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#000" strokeWidth="2" />
-                      <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
-                      <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFF">72.4</text>
-                    </svg>
-                  </div>
-                ) : item.isLabTest ? (
-                  <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', scale: '1.1' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '80%', height: '80%' }}>
-                      <rect x="30" y="20" width="12" height="55" rx="6" fill="#000" opacity="0.8" />
-                      <rect x="55" y="30" width="12" height="55" rx="6" fill="#000" opacity="0.8" />
-                    </svg>
-                  </div>
-                ) : item.image ? (
-                  <img 
-                    src={item.image} 
-                    alt={item.label} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} 
-                  />
-                ) : (
-                  <Icon size={26} color="#000" strokeWidth={2} />
-                )}
-              </motion.div>
-              
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ 
-                  fontSize: '11px', 
-                  fontWeight: '600', 
-                  color: '#2D2D2D',
-                  letterSpacing: '-0.2px',
-                  whiteSpace: 'nowrap'
-                }}>{item.label}</p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    </section>
-  );
-};
-
-// ─── Daily Rituals (IMPROVED) ────────────────────────
-function DailyRituals({ onOpenCalendar, onFlip }) {
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Rise & Shine, Anurag! ☀️";
-    if (hour < 17) return "Keep crushing it, Anurag! ⚡️";
-    return "Finishing strong, Anurag? 🔥";
-  };
-
-  const rings = [
-    { label: 'Cals', val: 1240, max: 2000, color: '#000', icon: Flame },
-    { label: 'Water', val: 1.2, max: 3, color: '#000', icon: Droplets },
-    { label: 'Steps', val: 6420, max: 10000, color: '#000', icon: Zap },
-    { label: 'Sleep', val: 6.5, max: 8, color: '#000', icon: Clock },
-  ];
-
-  return (
-    <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
-      <div style={{ marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '26px', fontWeight: '800' }}>{getGreeting()}</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <p style={{ fontSize: '13px', color: '#888', fontWeight: '400' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
-          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#DDD' }} />
-          <motion.button 
-            whileTap={{ scale: 0.96 }}
-            onClick={onFlip}
-            style={{ fontSize: '12px', fontWeight: '600', color: '#000', textTransform: 'none', border: 'none', background: 'transparent' }}
-          >
-            Open Hub
-          </motion.button>
-        </div>
-      </div>
-
-      <PremiumActionBubbles />
-
-      {/* Centered Date Pill on Divider */}
-      <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
-        <div style={{ 
-          position: 'absolute', left: 0, right: 0, height: '1px', 
-          background: 'linear-gradient(to right, transparent, #E5E5EA 20%, #E5E5EA 80%, transparent)' 
-        }} />
-        <motion.button 
-          whileTap={{ scale: 0.96 }}
-          onClick={onOpenCalendar}
-          style={{ 
-            position: 'relative',
-            background: '#E5E5EA', 
-            border: 'none', 
-            padding: '6px 16px', 
-            borderRadius: '100px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            cursor: 'pointer',
-            boxShadow: '0 0 0 4px #F5F5F7' 
-          }}
-        >
-          <span style={{ fontSize: '12px', fontWeight: '800', color: '#000' }}>Today</span>
-          <ChevronDown size={14} color="#000" />
-        </motion.button>
-      </div>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-        {rings.map((r) => (
-          <div key={r.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-            <div style={{ position: 'relative', width: '70px', height: '70px' }}>
-               <svg style={{ transform: 'rotate(-90deg)', width: '70px', height: '70px' }}>
-                  <circle cx="35" cy="35" r="30" fill="none" stroke="#F0F0F2" strokeWidth="6" />
-                  <motion.circle 
-                    cx="35" cy="35" r="30" fill="none" stroke={r.color} strokeWidth="6" 
-                    strokeDasharray="188.5"
-                    initial={{ strokeDashoffset: 188.5 }}
-                    animate={{ strokeDashoffset: 188.5 - (r.val / r.max) * 188.5 }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    strokeLinecap="round"
-                  />
-               </svg>
-               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <r.icon size={20} color={r.color} />
-               </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+        {metrics.map((m) => (
+          <div key={m.label} className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', fontWeight: '600', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>{m.label.toUpperCase()}</span>
+              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: m.color, boxShadow: `0 0 12px ${m.color}` }} />
             </div>
-            <p style={{ fontSize: '11px', fontWeight: '700', color: '#333' }}>{r.label}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Action Cards (IMPROVED - Full Width) ─────────────
-function DailyTrackers() {
-  return (
-    <div className="section" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-      
-      {/* Nutrition Card */}
-      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #FFF9F0 100%)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <div style={{ padding: '6px', borderRadius: '8px', background: '#FF950015' }}>
-                <Utensils size={18} color="#FF9500" />
-              </div>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: '#FF9500', letterSpacing: '0.5px' }}>NUTRITION</span>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+              <span style={{ fontSize: '24px', fontWeight: '700', color: '#FFF' }}>{m.val}</span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>{m.unit}</span>
             </div>
-            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>1,240 <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 2000 kcal</span></h3>
-            <p style={{ fontSize: '12px', color: '#888' }}>You have 760 kcal remaining for today.</p>
-          </div>
-          <button style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#000', color: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Plus size={20} />
-          </button>
-        </div>
-        <div style={{ width: '100%', height: '6px', background: '#F0F0F2', borderRadius: '3px', marginTop: '16px', overflow: 'hidden' }}>
-          <div style={{ width: '62%', height: '100%', background: '#FF9500', borderRadius: '3px' }} />
-        </div>
-      </motion.div>
-
-      {/* Water Card */}
-      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #F0F7FF 100%)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <div style={{ padding: '6px', borderRadius: '8px', background: '#007AFF15' }}>
-                <Droplets size={18} color="#007AFF" />
-              </div>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: '#007AFF', letterSpacing: '0.5px' }}>HYDRATION</span>
-            </div>
-            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>1.2 <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 3.0 ltr</span></h3>
-            <p style={{ fontSize: '12px', color: '#888' }}>Drink 3 more glasses to reach your goal.</p>
-          </div>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} style={{ width: '12px', height: '24px', borderRadius: '4px', background: i <= 2 ? '#007AFF' : '#E5E5EA' }} />
-            ))}
-            <button style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#007AFF15', color: '#007AFF', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '4px' }}>
-              <Plus size={18} />
-            </button>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Workout Card */}
-      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #FFF0F3 100%)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <div style={{ padding: '6px', borderRadius: '8px', background: '#FF2D5515' }}>
-                <Dumbbell size={18} color="#FF2D55" />
-              </div>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: '#FF2D55', letterSpacing: '0.5px' }}>ACTIVITY</span>
-            </div>
-            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>Abs Workout</h3>
-            <p style={{ fontSize: '12px', color: '#888' }}>45 mins • Intermediate • 320 kcal</p>
-          </div>
-          <button style={{ background: '#000', color: '#FFF', padding: '10px 20px', borderRadius: '12px', fontSize: '13px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            Start <Play size={14} fill="#FFF" />
-          </button>
-        </div>
-      </motion.div>
-
-      {/* Sleep Card */}
-      <motion.div className="glass-card" whileTap={{ scale: 0.98 }} style={{ padding: '20px', background: 'linear-gradient(135deg, #FFF 0%, #F5F0FF 100%)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <div style={{ padding: '6px', borderRadius: '8px', background: '#AF52DE15' }}>
-                <Clock size={18} color="#AF52DE" />
-              </div>
-              <span style={{ fontSize: '12px', fontWeight: '800', color: '#AF52DE', letterSpacing: '0.5px' }}>RECOVERY</span>
-            </div>
-            <h3 style={{ fontSize: '20px', fontWeight: '900', marginBottom: '4px' }}>6h 45m <span style={{ fontSize: '14px', fontWeight: '500', color: '#666' }}>/ 8h 00m</span></h3>
-            <p style={{ fontSize: '12px', color: '#888' }}>You slept 1h 15m less than your target.</p>
-          </div>
-          <button style={{ padding: '10px 16px', borderRadius: '12px', border: '1px solid #EEE', background: '#FFF', fontSize: '12px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            Log Sleep <Plus size={14} />
-          </button>
-        </div>
-        <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ flex: 1, height: '6px', background: '#F0F0F2', borderRadius: '3px', overflow: 'hidden' }}>
-            <div style={{ width: '84%', height: '100%', background: '#AF52DE', borderRadius: '3px' }} />
-          </div>
-          <span style={{ fontSize: '11px', fontWeight: '700', color: '#AF52DE' }}>84%</span>
-        </div>
-      </motion.div>
-
-    </div>
-  );
-}
-
-// ─── Service Hub (High-End Action Hub) ───────────────
-// ─── Editorial Hub (High-End Product Canvas) ────────
-function EditorialHub() {
-  const items = [
-    { label: 'COACH', title: 'Consult Experts', icon: Star, color: '#FFD700', size: 'hero', grad: 'linear-gradient(135deg, #FFD700 0%, #FF8C00 100%)' },
-    { label: 'LABS', title: 'Check Vitals', icon: Activity, color: '#AF52DE', size: 'normal', grad: 'linear-gradient(135deg, #AF52DE 0%, #6A11CB 100%)' },
-    { label: 'PLAN', title: 'My Daily Routine', icon: ClipboardList, color: '#34C759', size: 'normal', grad: 'linear-gradient(135deg, #34C759 0%, #11998E 100%)' },
-    { label: 'SHOP', title: 'Gear', icon: ShoppingBag, color: '#007AFF', size: 'normal', grad: 'linear-gradient(135deg, #007AFF 0%, #00C6FF 100%)' },
-    { label: 'GOALS', title: 'Scale', icon: Weight, color: '#5856D6', size: 'normal', grad: 'linear-gradient(135deg, #5856D6 0%, #21D4FD 100%)' },
-  ];
-
-  return (
-    <section className="section" style={{ paddingTop: '10px', paddingBottom: '32px' }}>
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(2, 1fr)', 
-        gridAutoRows: 'minmax(90px, auto)',
-        gap: '14px'
-      }}>
-        {/* HERO CARD */}
-        <motion.div
-          whileTap={{ scale: 0.97 }}
-          style={{
-            gridColumn: 'span 2',
-            height: '140px',
-            background: items[0].grad,
-            borderRadius: '32px',
-            padding: '24px',
-            position: 'relative',
-            overflow: 'hidden',
-            boxShadow: '0 20px 40px rgba(255, 140, 0, 0.2)',
-            cursor: 'pointer'
-          }}
-        >
-          {(() => {
-            const HeroIcon = items[0].icon;
-            return (
-              <>
-                <div style={{ position: 'relative', zIndex: 2 }}>
-                  <span style={{ fontSize: '10px', fontWeight: '900', color: 'rgba(255,255,255,0.7)', letterSpacing: '2px', textTransform: 'uppercase' }}>{items[0].label}</span>
-                  <h3 style={{ fontSize: '24px', fontWeight: '900', color: '#FFF', letterSpacing: '-0.5px', marginTop: '4px' }}>{items[0].title}</h3>
-                </div>
-                <div style={{ position: 'absolute', bottom: '20px', right: '24px', opacity: 0.2 }}>
-                  <HeroIcon size={64} color="#FFF" />
-                </div>
-              </>
-            );
-          })()}
-        </motion.div>
-
-        {/* SMALL CARDS */}
-        {items.slice(1).map((item) => {
-          const Icon = item.icon;
-          return (
-            <motion.div
-              key={item.label}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                background: '#FFF',
-                borderRadius: '28px',
-                padding: '18px',
-                border: '1px solid rgba(0,0,0,0.03)',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.02)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                cursor: 'pointer'
-              }}
-            >
-              <div style={{ 
-                width: '40px', height: '40px', borderRadius: '12px', 
-                background: `${item.color}15`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}>
-                <Icon size={20} color={item.color} strokeWidth={2.5} />
-              </div>
-              <div>
-                <span style={{ fontSize: '9px', fontWeight: '900', color: '#8E8E93', letterSpacing: '1px' }}>{item.label}</span>
-                <p style={{ fontSize: '13px', fontWeight: '800', color: '#1A1A1A', marginTop: '2px' }}>{item.title}</p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-// ─── Live Sessions (NEW) ──────────────────────────────
-function LiveSessions() {
-  const sessions = [
-    { title: 'HIIT Burn', coach: 'Mike Ross', time: 'LIVE NOW', img: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&q=80', users: '1.2k' },
-    { title: 'Zen Yoga', coach: 'Sarah J.', time: '10:30 AM', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&q=80', users: '800' },
-  ];
-
-  return (
-    <section className="section" style={{ paddingRight: 0 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '16px', marginBottom: '16px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: '900' }}>Live Classes</h3>
-        <span style={{ fontSize: '13px', color: '#007AFF', fontWeight: '700' }}>View All</span>
-      </div>
-      <div className="h-scroll" style={{ gap: '16px' }}>
-        {sessions.map((s) => (
-          <div key={s.title} style={{ minWidth: '240px', position: 'relative', borderRadius: '20px', overflow: 'hidden' }}>
-             <img src={s.img} style={{ width: '100%', height: '140px', objectFit: 'cover' }} />
-             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} />
-             <div style={{ position: 'absolute', top: '12px', left: '12px', padding: '4px 8px', borderRadius: '6px', background: s.time === 'LIVE NOW' ? '#FF3B30' : 'rgba(0,0,0,0.5)', color: '#FFF', fontSize: '10px', fontWeight: '800' }}>
-               {s.time}
-             </div>
-             <div style={{ position: 'absolute', bottom: '12px', left: '12px', right: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <div>
-                   <p style={{ color: '#FFF', fontSize: '15px', fontWeight: '800' }}>{s.title}</p>
-                   <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '12px' }}>{s.coach}</p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#FFF', fontSize: '10px', fontWeight: '700' }}>
-                   <Users size={12} /> {s.users}
-                </div>
-             </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Performance Matrix (Weekly Trends) ──────────────
-function PerformanceMatrix() {
-  const weeklyData = [
-    { day: 'Mon', val: 65 },
-    { day: 'Tue', val: 80 },
-    { day: 'Wed', val: 45 },
-    { day: 'Thu', val: 90 },
-    { day: 'Fri', val: 70 },
-    { day: 'Sat', val: 100 },
-    { day: 'Sun', val: 62 },
-  ];
-
-  return (
-    <section className="section" style={{ paddingTop: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
-        <div>
-          <h3>Performance Matrix</h3>
-          <p style={{ fontSize: '11px', color: '#888', fontWeight: '500', letterSpacing: '0.05em' }}>LAST 7 DAYS CONSISTENCY</p>
-        </div>
-        <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '22px', color: '#34C759', fontWeight: '600' }}>+12%</span>
-          <p style={{ fontSize: '10px', color: '#888', fontWeight: '500', letterSpacing: '1px' }}>VS LAST WEEK</p>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '120px', padding: '0 8px' }}>
-        {weeklyData.map((d, i) => (
-          <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', flex: 1 }}>
-            <div style={{ width: '28px', height: '80px', background: 'rgba(0,0,0,0.03)', borderRadius: '6px', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
               <motion.div 
-                initial={{ height: 0 }}
-                animate={{ height: `${d.val}%` }}
-                transition={{ delay: i * 0.1, duration: 1 }}
-                style={{ 
-                  position: 'absolute', bottom: 0, left: 0, right: 0, 
-                  background: '#000', 
-                  borderRadius: '6px' 
-                }} 
+                initial={{ width: 0 }}
+                animate={{ width: `${(m.val/m.max)*100}%` }}
+                style={{ height: '100%', background: m.color, boxShadow: `0 0 10px ${m.color}` }}
               />
             </div>
-            <span style={{ fontSize: '11px', fontWeight: '500', color: i === 5 ? '#000' : '#AAA' }}>{d.day}</span>
           </div>
         ))}
       </div>
@@ -686,15 +87,8 @@ function PerformanceMatrix() {
   );
 }
 
-// ─── Progress Core (MERGED: Trackers + Matrix) ───────
+// ─── Progress Core (Weekly Diagnostic) ───────────────
 function ProgressCore() {
-  const rings = [
-    { label: 'Cals', val: 1240, max: 2000, color: '#000', icon: Flame },
-    { label: 'Water', val: 1.2, max: 3, color: '#000', icon: Droplets },
-    { label: 'Steps', val: 6420, max: 10000, color: '#000', icon: Zap },
-    { label: 'Sleep', val: 6.5, max: 8, color: '#000', icon: Clock },
-  ];
-
   const weeklyData = [
     { day: 'M', val: 65 }, { day: 'T', val: 80 }, { day: 'W', val: 45 },
     { day: 'T', val: 90 }, { day: 'F', val: 70 }, { day: 'S', val: 100 }, { day: 'S', val: 62 },
@@ -702,40 +96,27 @@ function ProgressCore() {
 
   return (
     <section className="section">
-      <div style={{ background: '#FFF', borderRadius: '32px', padding: '24px', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
-          {rings.map((r) => (
-            <div key={r.label} style={{ textAlign: 'center' }}>
-              <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', marginBottom: '8px' }}>
-                <svg viewBox="0 0 36 36" style={{ transform: 'rotate(-90deg)' }}>
-                  <circle cx="18" cy="18" r="16" fill="none" stroke="#F5F5F7" strokeWidth="3" />
-                  <motion.circle 
-                    cx="18" cy="18" r="16" fill="none" stroke="#000" strokeWidth="3" strokeDasharray="100 100"
-                    initial={{ strokeDashoffset: 100 }}
-                    animate={{ strokeDashoffset: 100 - (r.val/r.max * 100) }}
-                    transition={{ duration: 1.5, ease: 'easeOut' }}
-                  />
-                </svg>
-                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyCenter: 'center', justifyContent: 'center' }}>
-                  <r.icon size={14} color="#000" />
-                </div>
-              </div>
-              <span style={{ fontSize: '10px', fontWeight: '600', color: '#888' }}>{r.label}</span>
-            </div>
-          ))}
+      <div className="glass-card" style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+           <div>
+              <h3 style={{ fontSize: '16px', color: '#FFF' }}>Performance Matrix</h3>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>7-DAY BIO-CONSISTENCY</p>
+           </div>
+           <div style={{ textAlign: 'right' }}>
+              <span style={{ fontSize: '20px', color: '#34C759', fontWeight: '600' }}>+12%</span>
+           </div>
         </div>
-
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '60px', padding: '0 8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '60px' }}>
           {weeklyData.map((d, i) => (
             <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
-              <div style={{ width: '100%', maxWidth: '20px', height: '40px', background: 'rgba(0,0,0,0.03)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
+              <div style={{ width: '100%', maxWidth: '16px', height: '40px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
                 <motion.div 
                   initial={{ height: 0 }}
                   animate={{ height: `${d.val}%` }}
-                  style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: i === 5 ? '#34C759' : '#000' }} 
+                  style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: i === 5 ? '#34C759' : '#FFF', boxShadow: i === 5 ? '0 0 12px #34C759' : 'none' }} 
                 />
               </div>
-              <span style={{ fontSize: '10px', fontWeight: '600', color: i === 6 ? '#000' : '#AAA' }}>{d.day}</span>
+              <span style={{ fontSize: '10px', fontWeight: '600', color: i === 6 ? '#FFF' : 'rgba(255,255,255,0.3)' }}>{d.day}</span>
             </div>
           ))}
         </div>
@@ -744,33 +125,7 @@ function ProgressCore() {
   );
 }
 
-// ─── Achievement Ticker (NEW) ────────────────────────
-function AchievementTicker() {
-  const ach = [
-    { label: '7 DAY STREAK', icon: '🔥' },
-    { label: 'HEAVY LIFTER', icon: '🏋️' },
-    { label: 'HYDRATION PRO', icon: '💧' },
-  ];
-
-  return (
-    <div style={{ padding: '0 16px', marginBottom: '24px' }}>
-      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', scrollbarWidth: 'none' }}>
-        {ach.map(a => (
-          <div key={a.label} style={{ 
-            display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', 
-            background: '#FFF', borderRadius: '100px', border: '1px solid rgba(0,0,0,0.05)',
-            whiteSpace: 'nowrap'
-          }}>
-            <span style={{ fontSize: '14px' }}>{a.icon}</span>
-            <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.05em' }}>{a.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── Coach Conversion (SENIOR DESIGN) ───────────────
+// ─── Coach Conversion ────────────────────────────────
 function CoachConversion() {
   return (
     <section className="section">
@@ -796,7 +151,7 @@ function CoachConversion() {
   );
 }
 
-// ─── Daily Log Feed (HORIZONTAL) ───────────────────
+// ─── Daily Protocol Feed ─────────────────────────────
 function DailyLogFeed() {
   const items = [
     { type: 'WORKOUT', title: 'Strength Protocol', meta: '45 mins • Advanced', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80' },
@@ -827,273 +182,143 @@ function DailyLogFeed() {
   );
 }
 
-// ─── Nutrition Blueprint (Today's Meals) ─────────────
-function NutritionBlueprint() {
-  const meals = [
-    { type: 'BREAKFAST', name: 'Oatmeal & Berries', cals: '340 kcal', img: 'https://images.unsplash.com/photo-1517673400267-0251440c45dc?auto=format&fit=crop&w=300&q=80' },
-    { type: 'LUNCH', name: 'Grilled Salmon', cals: '520 kcal', img: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=300&q=80' },
-    { type: 'DINNER', name: 'Quinoa Buddha Bowl', cals: '410 kcal', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=300&q=80' },
-  ];
-
-  return (
-    <section className="section" style={{ paddingRight: '0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', paddingRight: '16px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Nutrition Blueprint</h3>
-        <span style={{ fontSize: '13px', fontWeight: '700', color: '#007AFF' }}>View Plan</span>
-      </div>
-
-      <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingRight: '16px', scrollbarWidth: 'none' }}>
-        {meals.map((meal, i) => (
-          <motion.div 
-            key={meal.name}
-            whileTap={{ scale: 0.97 }}
-            style={{ 
-              minWidth: '220px', background: '#FFF', borderRadius: '24px', 
-              overflow: 'hidden', border: '1px solid #EEE' 
-            }}
-          >
-            <div style={{ height: '120px', position: 'relative' }}>
-              <img src={meal.img} alt={meal.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', top: '12px', left: '12px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', padding: '4px 10px', borderRadius: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: '800', color: '#FFF', letterSpacing: '1px' }}>{meal.type}</span>
-              </div>
-            </div>
-            <div style={{ padding: '16px' }}>
-              <h4 style={{ fontSize: '15px', fontWeight: '800', marginBottom: '4px' }}>{meal.name}</h4>
-              <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>{meal.cals} • High Protein</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Fitness Wisdom (Editorial) ──────────────
+// ─── Fitness Wisdom (Editorial) ──────────────────────
 function FitnessWisdom() {
   return (
     <section className="section">
-      <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px', marginBottom: '16px' }}>Fitness Wisdom</h3>
+      <h3 style={{ fontSize: '18px', color: '#FFF', marginBottom: '16px' }}>Fitness Wisdom</h3>
       <motion.div 
         whileTap={{ scale: 0.98 }}
-        style={{ 
-          position: 'relative', height: '240px', borderRadius: '32px', 
-          overflow: 'hidden', background: '#000' 
-        }}
+        className="glass-card"
+        style={{ position: 'relative', height: '240px', overflow: 'hidden' }}
       >
         <img 
           src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80" 
           alt="Wisdom" 
-          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.6 }} 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.5 }} 
         />
         <div style={{ position: 'absolute', inset: 0, padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <div style={{ background: '#FFD700', color: '#000', padding: '4px 12px', borderRadius: '8px', width: 'fit-content', fontSize: '11px', fontWeight: '900', marginBottom: '12px' }}>EXPERT INSIGHT</div>
-          <h2 style={{ color: '#FFF', fontSize: '24px', fontWeight: '900', lineHeight: '1.2', marginBottom: '12px', letterSpacing: '-0.5px' }}>The Science of Circadian Rhythms & Muscle Recovery</h2>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '13px', fontWeight: '600' }}>6 min read • Dr. Sarah Jenkins</span>
-          </div>
+          <div style={{ background: '#FFF', color: '#000', padding: '4px 12px', borderRadius: '8px', width: 'fit-content', fontSize: '10px', fontWeight: '900', marginBottom: '12px' }}>EXPERT INSIGHT</div>
+          <h2 style={{ color: '#FFF', fontSize: '22px', fontWeight: '700', lineHeight: '1.2' }}>The Science of Circadian Rhythms & Recovery</h2>
         </div>
       </motion.div>
     </section>
   );
 }
 
-// ─── Elite Coaching (IMPROVED) ────────────────────────
-function EliteCoaching() {
-  return (
-    <section className="section">
-      <div style={{ 
-        background: 'linear-gradient(135deg, #111 0%, #333 100%)', 
-        borderRadius: '24px', 
-        padding: '24px', 
-        position: 'relative', 
-        overflow: 'hidden',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.2)'
-      }}>
-        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '150px', height: '150px', background: 'radial-gradient(circle, rgba(207,255,4,0.15) 0%, transparent 70%)', filter: 'blur(30px)' }} />
-        
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-          <div style={{ padding: '4px 10px', borderRadius: '100px', background: '#CFFF04', color: '#000', fontSize: '10px', fontWeight: '900', letterSpacing: '0.5px' }}>ELITE COACHING</div>
-          <Star size={14} color="#CFFF04" fill="#CFFF04" />
-        </div>
-
-        <h2 style={{ color: '#FFF', fontSize: '26px', fontWeight: '900', lineHeight: '1.1', marginBottom: '12px' }}>Transform with<br/>Expert Guidance.</h2>
-        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '14px', marginBottom: '24px', maxWidth: '80%' }}>Get a personalized nutrition & training plan from India's top 1% coaches.</p>
-        
-        <button style={{ 
-          background: '#FFF', 
-          color: '#000', 
-          width: '100%', 
-          padding: '16px', 
-          borderRadius: '16px', 
-          fontWeight: '900', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          gap: '10px',
-          boxShadow: '0 4px 0 #CCC'
-        }}>
-          Match with my Coach <ArrowRight size={20} />
-        </button>
-      </div>
-    </section>
-  );
-}
-
-// ─── Community Highlights (IMPROVED) ──────────────────
+// ─── Community Highlights (Vertical Feed) ─────────────
 function CommunityHighlights() {
   const stories = [
-    {
-      id: 1,
-      name: 'Rahul Sharma',
-      views: '2.4k',
-      title: 'Lost 12kg in 3 months!',
-      desc: '"Fittr changed my life. The diet plan was so sustainable..."',
-      avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80',
-      img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
-      accent: '#FF9500'
-    },
-    {
-      id: 2,
-      name: 'Anjali Gupta',
-      views: '1.8k',
-      title: 'PCOS Transformation',
-      desc: '"From 85kg to 62kg. FITTR showed me that PCOS isn\'t a dead end."',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80',
-      img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80',
-      accent: '#FF2D55'
-    },
-    {
-      id: 3,
-      name: 'Vikram Singh',
-      views: '3.1k',
-      title: 'Muscle Gain Journey',
-      desc: '"Consistency is key. Strength is not just physical, it\'s mental balance."',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=128&q=80',
-      img: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80',
-      accent: '#007AFF'
-    }
+    { id: 1, name: 'Rahul M.', views: '2.4k', title: 'Lost 12kg in 3 months!', avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80', accent: '#FF9500' },
+    { id: 2, name: 'Anjali G.', views: '1.8k', title: 'PCOS Transformation', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80', accent: '#FF2D55' },
   ];
 
   return (
     <section className="section" style={{ paddingBottom: '60px' }}>
-       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: '900' }}>Community Stories</h3>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="icon-btn" style={{ background: '#FFF' }}><Share2 size={16} color="#666" /></button>
-          <button className="icon-btn" style={{ background: '#FFF' }}><Users size={16} color="#666" /></button>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <h3 style={{ fontSize: '18px', color: '#FFF', marginBottom: '20px' }}>Community Stories</h3>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {stories.map((s) => (
-          <motion.div 
-            key={s.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ borderRadius: '24px', background: '#FFF', border: '1px solid #EEE', overflow: 'hidden', boxShadow: '0 8px 24px rgba(0,0,0,0.04)' }}
-          >
-             <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                   <img src={s.avatar} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} alt={s.name} />
-                   <div>
-                      <p style={{ fontSize: '14px', fontWeight: '800' }}>{s.name}</p>
-                      <p style={{ fontSize: '11px', color: '#888' }}>Transformation • {s.views} views</p>
-                   </div>
+          <div key={s.id} className="glass-card" style={{ overflow: 'hidden' }}>
+             <div style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <img src={s.avatar} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                <div>
+                   <p style={{ fontSize: '14px', fontWeight: '700', color: '#FFF' }}>{s.name}</p>
+                   <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)' }}>{s.views} views</p>
                 </div>
-                <Trophy size={18} color={s.accent} />
              </div>
-             
-             <div style={{ position: 'relative', height: '320px' }}>
-                <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={s.title} />
+             <div style={{ position: 'relative', height: '300px' }}>
+                <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} />
-                <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
-                   <p style={{ color: '#FFF', fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{s.title}</p>
-                   <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '13px', lineHeight: '1.4' }}>{s.desc}</p>
+                <div style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
+                   <p style={{ color: '#FFF', fontSize: '18px', fontWeight: '700' }}>{s.title}</p>
                 </div>
              </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     </section>
   );
 }
 
-// ─── Bottom Nav ────────────────────────────────────────
-function BottomNav() {
-  const [active, setActive] = useState('home');
-  const items = [
-    { id: 'home',      icon: Home,           label: 'Home' },
-    { id: 'lab',       icon: Activity,       label: 'Lab Tests' },
-    { id: 'coach',     icon: Star,           label: 'Get a Coach' },
-    { id: 'health',    icon: TrendingUp,     label: 'My Health' },
-    { id: 'me',        icon: User,           label: 'Me' },
+// ─── Service Hub Back ────────────────────────────────
+function ServiceHubBack({ onFlip }) {
+  const services = [
+    { label: 'COACH', desc: 'Expert Guidance', icon: Star },
+    { label: 'LABS', desc: 'Blood & Vitals', icon: Activity },
+    { label: 'PLAN', desc: 'Daily Routine', icon: ClipboardCheck },
+    { label: 'SCALE', desc: 'Composition', icon: Scale },
+    { label: 'EARN', desc: 'Rewards', icon: Gift },
+    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag },
   ];
 
   return (
-    <nav className="bottom-nav">
-      {items.map(({ id, icon: Icon, label }) => {
-        return (
-          <div
-            key={id}
-            className={`nav-item ${active === id ? 'active' : ''}`}
-            onClick={() => setActive(id)}
-            style={{ position: 'relative' }}
-          >
-            {id === 'coach' && (
-              <span style={{
-                position: 'absolute',
-                top: '-4px',
-                right: '4px',
-                width: '8px',
-                height: '8px',
-                background: '#FF3B30',
-                borderRadius: '50%',
-                border: '1.5px solid #FFF',
-                zIndex: 10
-              }}></span>
-            )}
-            <Icon size={22} strokeWidth={1.8} />
-            <span>{label}</span>
-          </div>
-        );
-      })}
+    <div style={{ width: '100%', height: '100%', background: '#000', padding: '40px 16px', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+        <div>
+          <h2 style={{ fontSize: '28px', color: '#FFF', fontWeight: '800' }}>SERVICE HUB</h2>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)' }}>The power behind your progress</p>
+        </div>
+        <motion.button whileTap={{ scale: 0.9 }} onClick={onFlip} style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Plus size={24} color="#FFF" style={{ transform: 'rotate(45deg)' }} />
+        </motion.button>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        {services.map((s) => (
+          <motion.div key={s.label} whileTap={{ scale: 0.95 }} style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '24px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <s.icon size={32} color="#FFF" style={{ marginBottom: '16px' }} />
+            <h4 style={{ fontSize: '13px', color: '#FFF', fontWeight: '700' }}>{s.label}</h4>
+            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>{s.desc.toUpperCase()}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Bottom Nav ──────────────────────────────────────
+function BottomNav() {
+  const items = [
+    { id: 'home', icon: Home },
+    { id: 'search', icon: Search },
+    { id: 'plus', icon: Plus, isAction: true },
+    { id: 'stats', icon: Activity },
+    { id: 'user', icon: User },
+  ];
+
+  return (
+    <nav className="bottom-nav" style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+      {items.map((item) => (
+        <div key={item.id} style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+          {item.isAction ? (
+            <div style={{ width: '44px', height: '44px', background: '#FFF', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Plus size={24} color="#000" />
+            </div>
+          ) : (
+            <item.icon size={22} color="rgba(255,255,255,0.4)" />
+          )}
+        </div>
+      ))}
     </nav>
   );
 }
 
-
-
-// ─── App ─────────────────────────────────────────────
+// ─── Main App ────────────────────────────────────────
 export default function App() {
-  const [showCalendar, setShowCalendar] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ 
-        height: '100%', minHeight: '852px', position: 'relative', 
-        perspective: '1200px', background: '#000' 
-      }}>
-        <motion.div 
+      <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative', perspective: '1200px' }}>
+        <motion.div
+          initial={false}
           animate={{ rotateY: isFlipped ? 180 : 0 }}
           transition={{ type: 'spring', damping: 20, stiffness: 80 }}
-          style={{ 
-            width: '100%', height: '100%', 
-            position: 'relative', transformStyle: 'preserve-3d' 
-          }}
+          style={{ width: '100%', height: '100%', position: 'relative', transformStyle: 'preserve-3d' }}
         >
-          {/* FRONT SIDE (Dashboard) */}
-          <motion.div 
-            style={{ 
-              position: 'absolute', inset: 0, 
-              backfaceVisibility: 'hidden', zIndex: 1,
-              background: '#F5F5F7', display: 'flex', flexDirection: 'column'
-            }}
-          >
-            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
-              <div className="app" style={{ paddingBottom: '40px' }}>
+          {/* FRONT SIDE */}
+          <motion.div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', zIndex: 1, background: '#000', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'none' }}>
+              <div className="app" style={{ paddingBottom: '80px' }}>
                 <Header />
                 <DailyPulseHeader onFlip={() => setIsFlipped(true)} />
                 <ProgressCore />
@@ -1106,24 +331,11 @@ export default function App() {
             <BottomNav />
           </motion.div>
 
-          {/* BACK SIDE (Service Hub) */}
-          <motion.div 
-            style={{ 
-              position: 'absolute', inset: 0, 
-              backfaceVisibility: 'hidden', zIndex: 0,
-              transform: 'rotateY(180deg)',
-              background: '#000'
-            }}
-          >
+          {/* BACK SIDE */}
+          <motion.div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', zIndex: 0, transform: 'rotateY(180deg)', background: '#000' }}>
             <ServiceHubBack onFlip={() => setIsFlipped(false)} />
           </motion.div>
         </motion.div>
-        
-        <CalendarOverlay 
-          isOpen={showCalendar} 
-          onClose={() => setShowCalendar(false)} 
-          onSelect={(d) => console.log('Selected:', d)} 
-        />
       </div>
     </IPhoneMockup>
   );
