@@ -117,82 +117,106 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Service Floor (OUT OF THE BOX ITERATION 9) ──────
-function ServiceFloor({ isOpen }) {
+// ─── Service Deck (OUT OF THE BOX ITERATION 10) ──────
+function ServiceDeck({ isOpen, onToggle }) {
   const services = [
-    { label: 'Coach', icon: Star, color: '#FFD700', isCap: true },
-    { label: 'Labs', icon: Activity, color: '#AF52DE', isLabTest: true },
-    { label: 'Plan', icon: ClipboardList, color: '#34C759', isCalendar: true },
-    { label: 'Scale', icon: Weight, color: '#007AFF', isScale: true },
+    { label: 'Elite Coach', desc: 'Expert guidance & 1-on-1 calls', color: 'linear-gradient(135deg, #1A1A1A 0%, #000 100%)', isCap: true },
+    { label: 'Smart Scale', desc: 'Sync your weight & composition', color: 'linear-gradient(135deg, #007AFF 0%, #0040A0 100%)', isScale: true },
+    { label: 'Lab Tests', desc: 'Book vitals & blood work', color: 'linear-gradient(135deg, #AF52DE 0%, #7030A0 100%)', isLabTest: true },
+    { label: 'My Plan', desc: 'Workout & Nutrition strategy', color: 'linear-gradient(135deg, #FF3B30 0%, #A01010 100%)', isCalendar: true },
   ];
 
   const getAsset = (s) => {
     if (s.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (s.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (s.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (s.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" />
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
     );
     return null;
   };
 
   return (
-    <motion.div 
-      initial={{ y: '100%' }}
-      animate={{ y: isOpen ? 0 : '100%' }}
-      transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-      style={{ 
-        position: 'absolute', bottom: 0, left: 0, right: 0, 
-        height: '340px', background: '#FFF', zIndex: 5,
-        borderRadius: '40px 40px 0 0', padding: '32px 20px',
-        boxShadow: '0 -20px 60px rgba(0,0,0,0.1)',
-        borderTop: '1px solid #EEE'
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h3 style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px' }}>Service Command</h3>
-        <div style={{ background: '#000', color: '#FFF', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: '800' }}>ELITE ACCESS</div>
-      </div>
+    <AnimatePresence>
+      {isOpen && (
+        <div style={{ position: 'absolute', inset: 0, zIndex: 2000, overflow: 'hidden' }}>
+          {/* Blur Overlay */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => onToggle(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(20px)' }}
+          />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        {services.map(s => (
-          <motion.div
-            key={s.label}
-            whileTap={{ scale: 0.95 }}
-            style={{ 
-              background: '#F9F9FB', borderRadius: '24px', padding: '16px',
-              display: 'flex', alignItems: 'center', gap: '12px', border: '1px solid #EEE'
-            }}
-          >
-            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-              {getAsset(s)}
+          <div style={{ position: 'relative', height: '100%', padding: '80px 24px 120px' }}>
+            <motion.h2 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{ color: '#FFF', fontSize: '28px', fontWeight: '900', marginBottom: '32px', textAlign: 'center' }}
+            >
+              Service Hub
+            </motion.h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {services.map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, x: 40, y: 20, rotate: 5 }}
+                  animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+                  exit={{ opacity: 0, x: 40, y: 20, rotate: 5 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 100, delay: i * 0.1 }}
+                  whileTap={{ scale: 0.98 }}
+                  style={{ 
+                    background: s.color, borderRadius: '32px', padding: '24px',
+                    display: 'flex', alignItems: 'center', gap: '20px',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {getAsset(s)}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ color: '#FFF', fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{s.label}</h3>
+                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', fontWeight: '600' }}>{s.desc}</p>
+                  </div>
+                  <ChevronRight color="rgba(255,255,255,0.3)" />
+                </motion.div>
+              ))}
             </div>
-            <div>
-              <p style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A' }}>{s.label}</p>
-              <p style={{ fontSize: '11px', color: '#888', fontWeight: '600' }}>Tap to launch</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.div>
+            
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => onToggle(false)}
+              style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: 'none', color: '#FFF', fontSize: '14px', fontWeight: '800', opacity: 0.5 }}
+            >
+              TAP TO CLOSE
+            </motion.button>
+          </div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -844,23 +868,23 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showFloor, setShowFloor] = useState(false);
+  const [showDeck, setShowDeck] = useState(false);
 
   return (
     <IPhoneMockup>
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#000', perspective: '1200px' }}>
         
-        {/* The Service Floor (Revealed as App Tilts) */}
-        <ServiceFloor isOpen={showFloor} />
+        {/* The Service Deck (revealed on flick) */}
+        <ServiceDeck isOpen={showDeck} onToggle={setShowDeck} />
 
-        {/* MAIN DASHBOARD (Tilts Back in 3D Space) */}
+        {/* MAIN DASHBOARD (Recedes into background) */}
         <motion.div
           animate={{ 
-            rotateX: showFloor ? 25 : 0, 
-            y: showFloor ? -180 : 0,
-            z: showFloor ? -200 : 0,
-            scale: showFloor ? 0.9 : 1,
-            opacity: showFloor ? 0.6 : 1
+            scale: showDeck ? 0.85 : 1, 
+            y: showDeck ? -40 : 0,
+            rotateX: showDeck ? 10 : 0,
+            opacity: showDeck ? 0.4 : 1,
+            filter: showDeck ? 'blur(10px)' : 'blur(0px)'
           }}
           transition={{ type: 'spring', damping: 20, stiffness: 100 }}
           style={{ 
@@ -869,9 +893,8 @@ export default function App() {
             zIndex: 10, 
             overflowY: 'auto', 
             scrollbarWidth: 'none',
-            transformStyle: 'preserve-3d',
-            borderRadius: showFloor ? '40px' : '0px',
-            boxShadow: showFloor ? '0 40px 100px rgba(0,0,0,0.5)' : 'none'
+            borderRadius: showDeck ? '40px' : '0px',
+            transformStyle: 'preserve-3d'
           }}
         >
           <div className="app" style={{ paddingBottom: '120px' }}>
@@ -884,21 +907,20 @@ export default function App() {
           </div>
         </motion.div>
 
-        {/* The Spatial Trigger (Bottom Center) */}
-        <div style={{ position: 'absolute', bottom: '100px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
+        {/* The Deck Trigger (Floating Pill) */}
+        <div style={{ position: 'absolute', bottom: '100px', right: '30px', zIndex: 100 }}>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            onClick={() => setShowFloor(!showFloor)}
+            onClick={() => setShowDeck(true)}
             style={{ 
-              width: '64px', height: '64px', borderRadius: '50%', 
-              background: '#000', border: '2px solid rgba(255,255,255,0.2)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: '#000', borderRadius: '100px', 
+              padding: '12px 24px', border: '1px solid rgba(255,255,255,0.2)',
+              display: 'flex', alignItems: 'center', gap: '10px',
               boxShadow: '0 10px 30px rgba(0,0,0,0.5)', cursor: 'pointer'
             }}
           >
-            <motion.div animate={{ rotate: showFloor ? 180 : 0 }}>
-               <Plus size={28} color="#FFF" />
-            </motion.div>
+            <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '900', color: '#000' }}>F</div>
+            <span style={{ color: '#FFF', fontSize: '14px', fontWeight: '800' }}>COMMAND</span>
           </motion.button>
         </div>
 
