@@ -390,24 +390,9 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
 
   return (
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
-      <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div>
-          <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
-          <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
-        </div>
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={onFlip}
-          style={{ 
-            background: '#000', color: '#FFF', 
-            padding: '10px 18px', borderRadius: '14px', 
-            fontSize: '11px', fontWeight: '600',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-            textTransform: 'uppercase'
-          }}
-        >
-          Services
-        </motion.button>
+      <div style={{ marginBottom: '16px' }}>
+        <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
+        <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
       </div>
 
       <PremiumActionBubbles />
