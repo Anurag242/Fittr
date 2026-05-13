@@ -392,8 +392,8 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
       <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
-          <p style={{ fontSize: '13px', color: '#666', fontWeight: '600' }}>You're at <span style={{ color: '#000', fontWeight: '800' }}>62%</span> of your daily goal</p>
+          <h2 style={{ fontSize: '24px' }}>{getGreeting()}</h2>
+          <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '700' }}>62%</span> of your daily goal</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.9 }}
@@ -706,11 +706,11 @@ function PerformanceMatrix() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
         <div>
           <h3>Performance Matrix</h3>
-          <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>LAST 7 DAYS CONSISTENCY</p>
+          <p style={{ fontSize: '12px', color: '#888', fontWeight: '500', letterSpacing: '0.5px' }}>LAST 7 DAYS CONSISTENCY</p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '22px', color: '#34C759' }}>+12%</span>
-          <p style={{ fontSize: '10px', color: '#888', fontWeight: '800', letterSpacing: '1px' }}>VS LAST WEEK</p>
+          <span style={{ fontSize: '22px', color: '#34C759', fontWeight: '700' }}>+12%</span>
+          <p style={{ fontSize: '10px', color: '#888', fontWeight: '700', letterSpacing: '1px' }}>VS LAST WEEK</p>
         </div>
       </div>
 
