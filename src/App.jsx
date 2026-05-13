@@ -117,36 +117,47 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Dynamic Island Hub (OUT OF THE BOX ITERATION 11) ─
-function DynamicIslandHub({ isOpen, onToggle }) {
-  const services = [
-    { label: 'Coach', desc: '1-on-1 Elite Coaching', icon: Star, color: '#FFD700', isCap: true },
-    { label: 'Labs', desc: 'Blood Work & Vitals', icon: Activity, color: '#AF52DE', isLabTest: true },
-    { label: 'Plan', desc: 'Daily Focus & Strategy', icon: ClipboardList, color: '#34C759', isCalendar: true },
-    { label: 'Scale', desc: 'Body Composition', icon: Weight, color: '#007AFF', isScale: true },
+// ─── Holographic 3D Prism (OUT OF THE BOX ITERATION 12) 
+function PerspectivePrism({ isOpen }) {
+  const [rotation, setRotation] = useState(0);
+
+  useEffect(() => {
+    if (isOpen) {
+      const interval = setInterval(() => {
+        setRotation(prev => (prev + 1) % 360);
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
+
+  const faces = [
+    { label: 'Coach', color: '#000', icon: Star, isCap: true, rotateY: 0 },
+    { label: 'Labs', color: '#AF52DE', icon: Activity, isLabTest: true, rotateY: 90 },
+    { label: 'Plan', color: '#FF3B30', icon: ClipboardList, isCalendar: true, rotateY: 180 },
+    { label: 'Scale', color: '#007AFF', icon: Weight, isScale: true, rotateY: 270 },
   ];
 
   const getAsset = (s) => {
     if (s.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (s.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
         <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (s.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
         <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (s.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
         <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
         <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
@@ -155,95 +166,53 @@ function DynamicIslandHub({ isOpen, onToggle }) {
   };
 
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 3000, display: 'flex', justifyContent: 'center' }}>
-      <motion.div
-        animate={{ 
-          width: isOpen ? '100%' : '140px',
-          height: isOpen ? '852px' : '40px',
-          borderRadius: isOpen ? '0px' : '20px',
-          y: isOpen ? 0 : 10
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        style={{ 
-          background: '#000', 
-          overflow: 'hidden',
-          display: 'flex', flexDirection: 'column',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-          cursor: 'pointer',
-          position: 'relative'
-        }}
-        onClick={() => !isOpen && onToggle(true)}
-      >
-        {/* Closed Island State */}
-        {!isOpen && (
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-            <motion.div 
-              animate={{ scale: [1, 1.2, 1] }} 
-              transition={{ repeat: Infinity, duration: 2 }}
-              style={{ width: '8px', height: '8px', background: '#34C759', borderRadius: '50%' }} 
-            />
-            <span style={{ color: '#FFF', fontSize: '10px', fontWeight: '800', letterSpacing: '0.5px' }}>FITTR HUB</span>
-          </div>
-        )}
-
-        {/* Opened Island State */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              style={{ flex: 1, padding: '100px 24px 40px', display: 'flex', flexDirection: 'column' }}
-            >
-              <div style={{ marginBottom: '40px' }}>
-                <h2 style={{ color: '#FFF', fontSize: '32px', fontWeight: '900', letterSpacing: '-1px' }}>Command Center</h2>
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', fontWeight: '600' }}>System Utility Hub</p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-                {services.map((s, i) => (
-                  <motion.div
-                    key={s.label}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: i * 0.1 + 0.2 }}
-                    whileTap={{ scale: 0.98 }}
-                    style={{ 
-                      background: 'rgba(255,255,255,0.05)', borderRadius: '28px', padding: '20px',
-                      display: 'flex', alignItems: 'center', gap: '20px',
-                      border: '1px solid rgba(255,255,255,0.05)'
-                    }}
-                  >
-                    <div style={{ width: '60px', height: '60px', borderRadius: '18px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {getAsset(s)}
-                    </div>
-                    <div>
-                      <h3 style={{ color: '#FFF', fontSize: '18px', fontWeight: '800' }}>{s.label}</h3>
-                      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: '600' }}>{s.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={(e) => { e.stopPropagation(); onToggle(false); }}
-                style={{ 
-                  marginTop: 'auto', background: 'rgba(255,255,255,0.1)', 
-                  border: 'none', color: '#FFF', padding: '16px', 
-                  borderRadius: '100px', fontWeight: '800', fontSize: '14px',
-                  cursor: 'pointer'
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          style={{ 
+            height: '320px', width: '100%', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            perspective: '1000px', margin: '20px 0'
+          }}
+        >
+          <motion.div
+            animate={{ rotateY: rotation }}
+            transition={{ type: 'tween', ease: 'linear' }}
+            style={{ 
+              width: '160px', height: '160px', 
+              position: 'relative', transformStyle: 'preserve-3d' 
+            }}
+          >
+            {faces.map((f, i) => (
+              <div
+                key={f.label}
+                style={{
+                  position: 'absolute', inset: 0,
+                  background: f.color,
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center', gap: '12px',
+                  transform: `rotateY(${f.rotateY}deg) translateZ(80px)`,
+                  boxShadow: 'inset 0 0 40px rgba(255,255,255,0.1)',
+                  borderRadius: '24px',
+                  backfaceVisibility: 'hidden'
                 }}
               >
-                COLLAPSE HUB
-              </motion.button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
-    </div>
+                {getAsset(f)}
+                <span style={{ color: '#FFF', fontSize: '12px', fontWeight: '900', letterSpacing: '1px' }}>{f.label.toUpperCase()}</span>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
+
+// ─── Shared Utilities ──────────────────────────────
 
 // ─── Shared Utilities ──────────────────────────────
 const getAsset = (item) => {
@@ -893,42 +862,35 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isIslandOpen, setIsIslandOpen] = useState(false);
+  const [isPrismOpen, setIsPrismOpen] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#F5F5F7' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}>
+        <Header />
         
-        {/* The Fittr Dynamic Island (System Hub) */}
-        <DynamicIslandHub isOpen={isIslandOpen} onToggle={setIsIslandOpen} />
-
-        {/* MAIN DASHBOARD */}
-        <motion.div
-          animate={{ 
-            scale: isIslandOpen ? 0.94 : 1, 
-            y: isIslandOpen ? 120 : 0,
-            opacity: isIslandOpen ? 0.4 : 1,
-            filter: isIslandOpen ? 'blur(20px)' : 'blur(0px)'
-          }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          style={{ 
-            flex: 1, 
-            background: '#F5F5F7', 
-            zIndex: 10, 
-            overflowY: 'auto', 
-            scrollbarWidth: 'none',
-            borderRadius: isIslandOpen ? '40px' : '0px'
-          }}
-        >
-          <div className="app" style={{ paddingBottom: '120px' }}>
-            <Header />
-            <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
-            <DailyTrackers />
-            <EliteCoaching />
-            <LiveSessions />
-            <CommunityHighlights />
+        <div style={{ padding: '0 20px' }}>
+          <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
+          
+          {/* V12 Comparison Header */}
+          <div style={{ margin: '20px 0 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>HOLOGRAPHIC PRISM</h3>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setIsPrismOpen(!isPrismOpen)}
+              style={{ background: '#000', color: '#FFF', border: 'none', borderRadius: '100px', padding: '4px 12px', fontSize: '10px', fontWeight: '800' }}
+            >
+              {isPrismOpen ? 'CLOSE HUB' : 'LAUNCH HUB'}
+            </motion.button>
           </div>
-        </motion.div>
+
+          <PerspectivePrism isOpen={isPrismOpen} />
+          
+          <DailyTrackers />
+          <EliteCoaching />
+          <LiveSessions />
+          <CommunityHighlights />
+        </div>
 
         <BottomNav />
         
