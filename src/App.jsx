@@ -1,343 +1,634 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Bell, Droplets, Flame, Activity,
-  Plus, Home, Search, MessageCircle, User,
-  Zap, ChevronRight, Camera, Weight, Apple,
-  Dumbbell, TrendingUp, Star, Lock, Info,
-  ShoppingBag, Target, Share2, ClipboardList, ClipboardCheck,
-  ChevronDown, ArrowRight, Play, Utensils,
-  Clock, Heart, Trophy, Users, Scale, Gift
+  Search, Bell, MessageCircle, ChevronDown, 
+  ChevronRight, Lock, Plus, Home, 
+  Activity, Star, Heart, User, ArrowRight,
+  Flame, Droplets, Clock, Zap,
+  MoreHorizontal, Share2, Bookmark
 } from 'lucide-react';
 import './index.css';
 import IPhoneMockup from './components/IPhoneMockup.jsx';
 
 // ─── Header ──────────────────────────────────────────
-function Header() {
+function TopHeader() {
   return (
-    <header className="header" style={{ background: '#F5F5F7', borderBottom: '1px solid rgba(0,0,0,0.03)' }}>
-      <div className="header-left">
-        <div style={{ position: 'relative' }}>
-          <img
-            className="avatar"
-            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80"
-            alt="User"
-            style={{ border: '2px solid #FFF', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
-          />
-        </div>
-      </div>
-      <div className="header-icons" style={{ gap: '12px' }}>
-        <button className="icon-btn" style={{ background: '#FFF' }}><Search size={20} color="#000" /></button>
-        <button className="icon-btn" style={{ position: 'relative', background: '#FFF' }}>
-          <Bell size={20} color="#000" />
-          <span className="notif-dot" style={{ background: '#FF3B30' }} />
-        </button>
-      </div>
-    </header>
-  );
-}
-
-// ─── Daily Pulse Dashboard (LIGHT) ────────────────────
-function DailyPulseHeader({ onFlip }) {
-  const metrics = [
-    { label: 'Nutrition', val: 1240, max: 2000, color: '#FF9500', unit: 'kcal' },
-    { label: 'Hydration', val: 1.2, max: 3, color: '#007AFF', unit: 'L' },
-    { label: 'Activity', val: 6420, max: 10000, color: '#34C759', unit: 'steps' },
-    { label: 'Recovery', val: 6.5, max: 8, color: '#AF52DE', unit: 'hrs' },
-  ];
-
-  return (
-    <section className="section" style={{ marginTop: '20px' }}>
-      <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div>
-          <h1 style={{ fontSize: '28px', color: '#000', marginBottom: '4px' }}>Pulse Dashboard</h1>
-          <p style={{ fontSize: '14px', color: '#86868B', fontWeight: '400' }}>Your health vitals are looking optimal.</p>
-        </div>
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={onFlip}
-          style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#FFF', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}
-        >
-          <Activity size={20} color="#000" />
-        </motion.button>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
-        {metrics.map((m) => (
-          <div key={m.label} className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '11px', fontWeight: '600', color: '#86868B', letterSpacing: '0.05em' }}>{m.label.toUpperCase()}</span>
-              <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: m.color }} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-              <span style={{ fontSize: '24px', fontWeight: '700', color: '#000' }}>{m.val}</span>
-              <span style={{ fontSize: '12px', color: '#86868B' }}>{m.unit}</span>
-            </div>
-            <div style={{ width: '100%', height: '4px', background: '#F5F5F7', borderRadius: '2px', overflow: 'hidden' }}>
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${(m.val/m.max)*100}%` }}
-                style={{ height: '100%', background: m.color }}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Progress Core (Weekly Trends) ───────────────────
-function ProgressCore() {
-  const weeklyData = [
-    { day: 'M', val: 65 }, { day: 'T', val: 80 }, { day: 'W', val: 45 },
-    { day: 'T', val: 90 }, { day: 'F', val: 70 }, { day: 'S', val: 100 }, { day: 'S', val: 62 },
-  ];
-
-  return (
-    <section className="section">
-      <div className="glass-card" style={{ padding: '24px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-           <div>
-              <h3 style={{ fontSize: '16px', color: '#000' }}>Performance Matrix</h3>
-              <p style={{ fontSize: '11px', color: '#86868B' }}>7-DAY BIO-CONSISTENCY</p>
-           </div>
-           <div style={{ textAlign: 'right' }}>
-              <span style={{ fontSize: '20px', color: '#34C759', fontWeight: '600' }}>+12%</span>
-           </div>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '60px' }}>
-          {weeklyData.map((d, i) => (
-            <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
-              <div style={{ width: '100%', maxWidth: '16px', height: '40px', background: '#F5F5F7', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
-                <motion.div 
-                  initial={{ height: 0 }}
-                  animate={{ height: `${d.val}%` }}
-                  style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: i === 5 ? '#34C759' : '#000' }} 
-                />
-              </div>
-              <span style={{ fontSize: '10px', fontWeight: '600', color: i === 6 ? '#000' : '#86868B' }}>{d.day}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── Coach Conversion ────────────────────────────────
-function CoachConversion() {
-  return (
-    <section className="section">
-      <motion.div 
-        whileTap={{ scale: 0.98 }}
-        className="glass-card"
-        style={{ padding: '32px', position: 'relative', overflow: 'hidden', background: '#000', color: '#FFF' }}
-      >
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '70%' }}>
-          <h2 style={{ fontSize: '24px', color: '#FFF', marginBottom: '12px' }}>Transform with Expert Guidance</h2>
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '24px', lineHeight: '1.5' }}>Unlock personalized protocols for longevity and peak performance.</p>
-          <button style={{ 
-            background: '#FFF', color: '#000', padding: '16px 24px', borderRadius: '16px',
-            fontSize: '13px', fontWeight: '700', letterSpacing: '0.05em', border: 'none'
-          }}>FIND A COACH</button>
-        </div>
+    <div style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFF' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
         <div style={{ 
-          position: 'absolute', right: '-40px', bottom: '-20px', width: '200px', height: '200px',
-          background: 'radial-gradient(circle, #34C759 0%, transparent 70%)', opacity: 0.3, filter: 'blur(40px)'
-        }} />
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── Daily Protocol Feed ─────────────────────────────
-function DailyLogFeed() {
-  const items = [
-    { type: 'WORKOUT', title: 'Strength Protocol', meta: '45 mins • Advanced', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80' },
-    { type: 'NUTRITION', title: 'Longevity Bowl', meta: 'High Protein • 520 kcal', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80' },
-  ];
-
-  return (
-    <section className="section" style={{ paddingRight: 0 }}>
-      <h3 style={{ fontSize: '18px', color: '#000', marginBottom: '16px' }}>Daily Protocol</h3>
-      <div className="h-scroll" style={{ gap: '16px', paddingRight: '16px' }}>
-        {items.map((item) => (
-          <motion.div 
-            key={item.title}
-            whileTap={{ scale: 0.97 }}
-            className="glass-card"
-            style={{ minWidth: '280px', height: '180px', position: 'relative', overflow: 'hidden' }}
-          >
-            <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }} />
-            <div style={{ position: 'absolute', inset: 0, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-              <span style={{ fontSize: '10px', fontWeight: '800', color: '#FFF', opacity: 0.8, marginBottom: '4px', letterSpacing: '0.1em' }}>{item.type}</span>
-              <h4 style={{ fontSize: '18px', color: '#FFF', marginBottom: '4px' }}>{item.title}</h4>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>{item.meta}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// ─── Fitness Wisdom ──────────────────────────────────
-function FitnessWisdom() {
-  return (
-    <section className="section">
-      <h3 style={{ fontSize: '18px', color: '#000', marginBottom: '16px' }}>Fitness Wisdom</h3>
-      <motion.div 
-        whileTap={{ scale: 0.98 }}
-        className="glass-card"
-        style={{ position: 'relative', height: '240px', overflow: 'hidden' }}
-      >
-        <img 
-          src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=80" 
-          alt="Wisdom" 
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-        />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }} />
-        <div style={{ position: 'absolute', inset: 0, padding: '32px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <div style={{ background: '#FFF', color: '#000', padding: '4px 12px', borderRadius: '8px', width: 'fit-content', fontSize: '10px', fontWeight: '900', marginBottom: '12px' }}>EXPERT INSIGHT</div>
-          <h2 style={{ color: '#FFF', fontSize: '22px', fontWeight: '700', lineHeight: '1.2' }}>The Science of Circadian Rhythms & Recovery</h2>
+          width: '56px', height: '36px', borderRadius: '18px', border: '1.5px solid #E5E5EA',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
+          background: 'linear-gradient(135deg, #FFF 0%, #F9F9F9 100%)'
+        }}>
+          <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=64&q=80" alt="F" style={{ width: '22px', borderRadius: '4px' }} />
         </div>
-      </motion.div>
-    </section>
-  );
-}
-
-// ─── Community Highlights ───────────────────────────
-function CommunityHighlights() {
-  const stories = [
-    { id: 1, name: 'Rahul M.', views: '2.4k', title: 'Lost 12kg in 3 months!', avatar: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80' },
-    { id: 2, name: 'Anjali G.', views: '1.8k', title: 'PCOS Transformation', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=128&q=80', img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=80' },
-  ];
-
-  return (
-    <section className="section" style={{ paddingBottom: '60px' }}>
-      <h3 style={{ fontSize: '18px', color: '#000', marginBottom: '20px' }}>Community Stories</h3>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-        {stories.map((s) => (
-          <div key={s.id} className="glass-card" style={{ overflow: 'hidden' }}>
-             <div style={{ padding: '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                <img src={s.avatar} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
-                <div>
-                   <p style={{ fontSize: '14px', fontWeight: '700', color: '#000' }}>{s.name}</p>
-                   <p style={{ fontSize: '11px', color: '#86868B' }}>{s.views} views</p>
-                </div>
-             </div>
-             <div style={{ position: 'relative', height: '300px' }}>
-                <img src={s.img} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }} />
-                <div style={{ position: 'absolute', bottom: '20px', left: '20px' }}>
-                   <p style={{ color: '#FFF', fontSize: '18px', fontWeight: '700' }}>{s.title}</p>
-                </div>
-             </div>
-          </div>
-        ))}
+        <span style={{ fontSize: '13px', fontWeight: '800', color: '#000' }}>0</span>
       </div>
-    </section>
-  );
-}
-
-// ─── Service Hub Back ────────────────────────────────
-function ServiceHubBack({ onFlip }) {
-  const services = [
-    { label: 'COACH', desc: 'Expert Guidance', icon: Star },
-    { label: 'LABS', desc: 'Blood & Vitals', icon: Activity },
-    { label: 'PLAN', desc: 'Daily Routine', icon: ClipboardCheck },
-    { label: 'SCALE', desc: 'Composition', icon: Scale },
-    { label: 'EARN', desc: 'Rewards', icon: Gift },
-    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag },
-  ];
-
-  return (
-    <div style={{ width: '100%', height: '100%', background: '#F5F5F7', padding: '40px 16px', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-        <div>
-          <h2 style={{ fontSize: '28px', color: '#000', fontWeight: '800' }}>SERVICE HUB</h2>
-          <p style={{ fontSize: '13px', color: '#86868B' }}>The power behind your progress</p>
+      <div style={{ display: 'flex', gap: '12px' }}>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Search size={22} color="#000" strokeWidth={1.5} />
         </div>
-        <motion.button whileTap={{ scale: 0.9 }} onClick={onFlip} style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#FFF', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-          <Plus size={24} color="#000" style={{ transform: 'rotate(45deg)' }} />
-        </motion.button>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-        {services.map((s) => (
-          <motion.div key={s.label} whileTap={{ scale: 0.95 }} style={{ background: '#FFF', borderRadius: '24px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
-            <s.icon size={32} color="#000" style={{ marginBottom: '16px' }} />
-            <h4 style={{ fontSize: '13px', color: '#000', fontWeight: '700' }}>{s.label}</h4>
-            <p style={{ fontSize: '10px', color: '#86868B' }}>{s.desc.toUpperCase()}</p>
-          </motion.div>
-        ))}
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+          <Bell size={22} color="#000" strokeWidth={1.5} />
+          <div style={{ position: 'absolute', top: '8px', right: '8px', width: '18px', height: '18px', background: '#FF3B30', borderRadius: '50%', border: '2px solid #FFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#FFF', fontWeight: '800' }}>1</div>
+        </div>
+        <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <MessageCircle size={22} color="#000" strokeWidth={1.5} />
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── Bottom Nav ──────────────────────────────────────
-function BottomNav() {
-  const items = [
-    { id: 'home', icon: Home },
-    { id: 'search', icon: Search },
-    { id: 'plus', icon: Plus, isAction: true },
-    { id: 'stats', icon: Activity },
-    { id: 'user', icon: User },
-  ];
-
+// ─── Greeting ──────────────────────────────────────────
+function GreetingSection() {
   return (
-    <nav className="bottom-nav" style={{ background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(20px)', borderTop: '1px solid rgba(0,0,0,0.05)' }}>
-      {items.map((item) => (
-        <div key={item.id} style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-          {item.isAction ? (
-            <div style={{ width: '44px', height: '44px', background: '#000', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }}>
-              <Plus size={24} color="#FFF" />
-            </div>
-          ) : (
-            <item.icon size={22} color="#86868B" />
-          )}
-        </div>
-      ))}
-    </nav>
+    <div style={{ padding: '20px 20px 0' }}>
+      <h1 style={{ fontSize: '26px', fontWeight: '900', color: '#1A1A1A', letterSpacing: '-0.02em' }}>Good Morning, Anurag!</h1>
+      <p style={{ fontSize: '15px', color: '#86868B', marginTop: '4px', fontWeight: '500' }}>Ready to crush your goals today? 🔥</p>
+    </div>
   );
 }
 
-// ─── Main App ────────────────────────────────────────
-export default function App() {
-  const [isFlipped, setIsFlipped] = useState(false);
+// ─── Up Next Contextual Card ─────────────────────────
+function UpNextCard() {
+  return (
+    <div style={{ padding: '24px 20px 0' }}>
+      <div style={{ 
+        background: 'linear-gradient(135deg, #1A1A1A 0%, #333 100%)', 
+        borderRadius: '24px', padding: '20px', color: '#FFF',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.15)', position: 'relative', overflow: 'hidden'
+      }}>
+        <div style={{ position: 'absolute', right: '-10px', top: '-10px', opacity: 0.1 }}>
+          <Activity size={120} />
+        </div>
+        
+        <span style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '0.1em', color: '#FFD60A' }}>UP NEXT</span>
+        <h2 style={{ fontSize: '22px', fontWeight: '900', marginTop: '8px', marginBottom: '4px' }}>Upper Body Power</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px', color: '#EBEBF5' }}>
+          <Clock size={14} />
+          <span style={{ fontSize: '13px', fontWeight: '600' }}>45 min</span>
+          <span style={{ margin: '0 4px' }}>•</span>
+          <Flame size={14} color="#FF3B30" />
+          <span style={{ fontSize: '13px', fontWeight: '600' }}>320 kcal</span>
+        </div>
+        
+        <button style={{ 
+          background: '#FFF', color: '#1A1A1A', border: 'none', borderRadius: '100px', cursor: 'pointer',
+          padding: '12px 24px', fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)', transition: 'transform 0.1s'
+        }} onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'} onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+          Start Workout
+          <ArrowRight size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Quick Actions ──────────────────────────────────
+function QuickActions() {
+  const actions = [
+    { label: 'Get A Coach', img: 'https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=256&q=80', border: '#D4AF37' },
+    { label: 'Lab Test', img: 'https://images.unsplash.com/photo-1511174511562-5f7f18b874f8?auto=format&fit=crop&w=256&q=80', border: '#AF52DE' },
+    { label: 'Refer & Earn', img: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80', border: '#FF2D55' },
+    { label: 'My Plan', img: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=256&q=80', border: '#FF9500' },
+    { label: 'Smart Scale', img: 'https://images.unsplash.com/photo-1591123120675-6f7f1ad0d707?auto=format&fit=crop&w=256&q=80', border: '#5856D6' },
+    { label: 'Retreat', img: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=256&q=80', border: '#34C759' },
+    { label: 'Challenges', img: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=256&q=80', border: '#FFCC00' },
+    { label: 'Shop', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=256&q=80', border: '#007AFF' },
+  ];
 
   return (
-    <IPhoneMockup>
-      <div style={{ width: '100%', height: '100%', overflow: 'hidden', position: 'relative', perspective: '1200px' }}>
-        <motion.div
-          initial={false}
-          animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 80 }}
-          style={{ width: '100%', height: '100%', position: 'relative', transformStyle: 'preserve-3d' }}
-        >
-          {/* FRONT SIDE */}
-          <motion.div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', zIndex: 1, background: '#F5F5F7', display: 'flex', flexDirection: 'column' }}>
-            <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'none' }}>
-              <div className="app" style={{ paddingBottom: '80px' }}>
-                <Header />
-                <DailyPulseHeader onFlip={() => setIsFlipped(true)} />
-                <ProgressCore />
-                <CoachConversion />
-                <DailyLogFeed />
-                <FitnessWisdom />
-                <CommunityHighlights />
+    <div style={{ 
+      display: 'flex', gap: '20px', padding: '24px 20px', 
+      overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none'
+    }}>
+      {actions.map((act) => (
+        <div key={act.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', minWidth: '74px' }}>
+          <div style={{ 
+            width: '74px', height: '74px', borderRadius: '22px', overflow: 'hidden',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.06)', background: '#FFF'
+          }}>
+            <img 
+              src={act.label === 'Smart Scale' ? '/smart-scale.svg' : act.img} 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+              alt={act.label} 
+            />
+          </div>
+          <span style={{ fontSize: '11px', fontWeight: '700', textAlign: 'center', color: '#1A1A1A', whiteSpace: 'nowrap' }}>{act.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Health Summary ──────────────────────────────────
+function HealthSummary() {
+  const [water, setWater] = useState(1.5);
+  
+  return (
+    <div style={{ padding: '0 20px 24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+        <div style={{ flex: 1, height: '1px', background: '#EEE' }} />
+        <div style={{ 
+          background: '#F2F2F7', padding: '6px 14px', borderRadius: '100px', 
+          display: 'flex', alignItems: 'center', gap: '6px', margin: '0 12px'
+        }}>
+          <span style={{ fontSize: '13px', fontWeight: '700' }}>Today</span>
+          <ChevronDown size={14} />
+        </div>
+        <div style={{ flex: 1, height: '1px', background: '#EEE' }} />
+      </div>
+
+      {/* Consistency Calendar */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '24px', padding: '0 10px' }}>
+         {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+               <span style={{ fontSize: '10px', fontWeight: '800', color: i === 3 ? '#1A1A1A' : '#86868B' }}>{day}</span>
+               <div style={{ 
+                  width: '24px', height: '24px', borderRadius: '50%', 
+                  background: i < 3 ? '#1A1A1A' : i === 3 ? '#FFF' : '#F2F2F7',
+                  border: i === 3 ? '2px solid #1A1A1A' : 'none',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+               }}>
+                  {i < 3 && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#FFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+               </div>
+            </div>
+         ))}
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+             <span style={{ fontSize: '10px', fontWeight: '800', color: '#86868B', letterSpacing: '0.05em', width: '38px' }}>STEPS</span>
+             <span style={{ fontSize: '15px', fontWeight: '900', color: '#1A1A1A' }}>8,432</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+             <span style={{ fontSize: '10px', fontWeight: '800', color: '#86868B', letterSpacing: '0.05em', width: '38px' }}>SLEEP</span>
+             <span style={{ fontSize: '14px', fontWeight: '900', color: '#1A1A1A' }}>7<span style={{ fontSize: '10px', color: '#86868B', margin: '0 1px' }}>h</span> 20<span style={{ fontSize: '10px', color: '#86868B', margin: '0 1px' }}>m</span></span>
+          </div>
+        </div>
+
+        <div style={{ width: '1px', height: '40px', background: '#EEE' }} />
+
+        {/* Frictionless Water Logging */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <span style={{ fontSize: '11px', fontWeight: '800', color: '#86868B', letterSpacing: '0.05em' }}>WATER</span>
+            <Droplets size={12} color="#007AFF" />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+              <style>{`
+                .water-input::-webkit-inner-spin-button,
+                .water-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+              `}</style>
+              <input 
+                className="water-input"
+                type="number" 
+                value={water}
+                onChange={(e) => setWater(e.target.value)}
+                style={{ 
+                  fontSize: '20px', fontWeight: '900', color: '#1A1A1A', 
+                  background: '#F2F2F7', border: '1px solid transparent', borderRadius: '4px',
+                  outline: 'none', width: '44px', padding: '0 2px', margin: 0, 
+                  fontFamily: 'inherit', textAlign: 'center',
+                  transition: 'border 0.2s'
+                }} 
+                onFocus={(e) => e.target.style.border = '1px solid #007AFF'}
+                onBlur={(e) => e.target.style.border = '1px solid transparent'}
+              />
+              <span style={{ fontSize: '12px', fontWeight: '700', color: '#86868B' }}>L</span>
+            </div>
+            <div style={{ display: 'flex', gap: '4px', background: '#F2F2F7', borderRadius: '8px', padding: '2px' }}>
+               <button onClick={() => setWater(Math.max(0, parseFloat(water || 0) - 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFF', border: '1px solid #E5E5EA', borderRadius: '6px', color: '#1A1A1A', cursor: 'pointer' }}>-</button>
+               <button onClick={() => setWater((parseFloat(water || 0) + 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#007AFF', border: 'none', borderRadius: '6px', color: '#FFF', cursor: 'pointer' }}>+</button>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ width: '1px', height: '40px', background: '#EEE' }} />
+
+        <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+           <div style={{ opacity: 0.3, filter: 'blur(2px)', textAlign: 'center' }}>
+              <span style={{ fontSize: '11px', fontWeight: '800', color: '#86868B', letterSpacing: '0.05em' }}>HRV</span>
+              <p style={{ fontSize: '18px', fontWeight: '800' }}>--</p>
+           </div>
+           <div style={{ 
+             position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
+             background: '#F2F2F7', borderRadius: '12px', padding: '6px 10px', display: 'flex', 
+             alignItems: 'center', gap: '6px', zIndex: 10, border: '1px solid #E5E5EA', width: 'max-content',
+             boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+           }}>
+              <div>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ fontSize: '11px', fontWeight: '800', color: '#1A1A1A' }}>Unlock</span>
+                    <Lock size={10} color="#1A1A1A" />
+                 </div>
+                 <p style={{ fontSize: '9px', color: '#86868B', fontWeight: '600', marginTop: '2px' }}>HRV, RHR & more</p>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Nutrition Card ──────────────────────────────────
+function NutritionCard() {
+  return (
+    <div style={{ padding: '0 20px 24px' }}>
+      <div style={{ 
+        background: '#FFF', borderRadius: '24px', border: '1.5px solid #F0F0F2', 
+        overflow: 'hidden', position: 'relative'
+      }}>
+        <div style={{ padding: '20px 24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+            <span style={{ fontSize: '11px', fontWeight: '900', color: '#000', letterSpacing: '0.1em' }}>NUTRITION</span>
+            <div style={{ width: '40px', height: '32px', background: '#F2F2F7', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ArrowRight size={18} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+            <h2 style={{ fontSize: '32px', fontWeight: '900' }}>Free</h2>
+            <p style={{ fontSize: '15px', color: '#333', fontWeight: '500' }}>Diet plan for you</p>
+          </div>
+        </div>
+        <div style={{ background: '#F5F5F7', padding: '16px 24px' }}>
+          <p style={{ fontSize: '13px', color: '#666', lineHeight: '1.5' }}>You haven't logged any calories yet — start tracking your meals.</p>
+        </div>
+        {/* Background Pattern Mockup */}
+        <div style={{ position: 'absolute', top: 0, right: 0, opacity: 0.05, pointerEvents: 'none' }}>
+           <svg width="100" height="100" viewBox="0 0 100 100">
+             <path d="M10,10 Q30,50 90,10" fill="none" stroke="#000" strokeWidth="2" />
+             <circle cx="50" cy="50" r="30" fill="none" stroke="#000" strokeWidth="1" />
+           </svg>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Exercise Section ───────────────────────────────
+function ExerciseStrip() {
+  return (
+    <div style={{ padding: '0 20px 32px' }}>
+      <div style={{ borderTop: '1px dashed #DDD', borderBottom: '1px dashed #DDD', padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <p style={{ fontSize: '15px' }}>
+          <span style={{ color: '#86868B', fontWeight: '500' }}>EXERCISE </span>
+          <span style={{ fontWeight: '800' }}>Abs</span>
+        </p>
+        <div style={{ width: '56px', height: '32px', background: '#F2F2F7', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ArrowRight size={18} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Community Section ──────────────────────────────
+function CommunitySection() {
+  const [activeTab, setActiveTab] = useState('Highlights');
+  const tabs = ['Highlights', 'All', 'Discussions', 'Transformations', 'Recipes'];
+  
+  return (
+    <div style={{ padding: '0 0 100px', background: '#F9F9FB', paddingTop: '24px', borderTop: '1px solid #F0F0F2' }}>
+      <div style={{ padding: '0 20px', marginBottom: '20px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '900', color: '#1A1A1A' }}>Community</h2>
+        <p style={{ fontSize: '15px', color: '#86868B', marginTop: '4px' }}>Learn. Get fit. Share and inspire!</p>
+      </div>
+
+      <div style={{ 
+        display: 'flex', gap: '8px', padding: '0 20px', overflowX: 'auto', 
+        scrollbarWidth: 'none', msOverflowStyle: 'none', marginBottom: '24px' 
+      }}>
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab;
+          return (
+            <motion.div 
+              key={tab} 
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab(tab)}
+              style={{ 
+                padding: '8px 20px', borderRadius: '20px', 
+                border: isActive ? '1px solid #1A1A1A' : '1px solid #E5E5EA',
+                background: isActive ? '#1A1A1A' : '#FFF',
+                color: isActive ? '#FFF' : '#1A1A1A',
+                fontWeight: '700', fontSize: '14px', whiteSpace: 'nowrap',
+                boxShadow: isActive ? '0 4px 12px rgba(0,0,0,0.1)' : 'none',
+                cursor: 'pointer', transition: 'all 0.2s ease'
+              }}>
+              {tab}
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Post Feed Container */}
+      <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        
+        {/* Post 1: Transformation Gallery */}
+        <div style={{ 
+          background: '#FFF', borderRadius: '24px', padding: '20px', 
+          border: '1px solid #F0F0F2', boxShadow: '0 4px 20px rgba(0,0,0,0.02)'
+        }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
+            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80" style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover' }} alt="User" />
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontWeight: '800', fontSize: '15px', color: '#1A1A1A' }}>Suraj Padmakaran</span>
+                <span style={{ color: '#86868B', fontSize: '13px', fontWeight: '500' }}>• 1d</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
+                <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '600' }}>Transformation • 642 Views</p>
+              </div>
+              {/* Coach Badge */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '6px', background: '#FFF8E1', padding: '4px 10px', borderRadius: '100px', width: 'fit-content', border: '1px solid #FFE082' }}>
+                 <Star size={12} color="#D4AF37" fill="#D4AF37" />
+                 <span style={{ fontSize: '11px', fontWeight: '800', color: '#D4AF37', letterSpacing: '0.02em' }}>COACHED BY ADITYA SHARMA</span>
               </div>
             </div>
-            <BottomNav />
-          </motion.div>
+            <div style={{ padding: '8px' }}>
+               <MoreHorizontal size={20} color="#86868B" />
+            </div>
+          </div>
+          
+          <h3 style={{ fontSize: '16px', fontWeight: '800', marginBottom: '8px', color: '#1A1A1A' }}>Midpoint Transformation Journey</h3>
+          <p style={{ fontSize: '14px', lineHeight: '1.6', color: '#4A4A4A', marginBottom: '16px' }}>
+            In 2023, I walked into FITTR carrying 197 lbs—along with years of binge eating and self-doubt. Today, I'm at 169 lbs... <span style={{ color: '#007AFF', fontWeight: '600', cursor: 'pointer' }}>See More</span>
+          </p>
+          
+          <div style={{ 
+            display: 'flex', gap: '12px', overflowX: 'auto', scrollbarWidth: 'none', 
+            msOverflowStyle: 'none', scrollSnapType: 'x mandatory', margin: '0 -20px', padding: '0 20px'
+          }}>
+             <div style={{ minWidth: '85%', height: '340px', borderRadius: '20px', overflow: 'hidden', position: 'relative', scrollSnapAlign: 'center', background: '#EEE' }}>
+                <img src="/Before.png" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} alt="Before" onError={(e) => e.target.style.display = 'none'} />
+                <div style={{ position: 'absolute', top: '16px', left: '16px', background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(10px)', padding: '6px 12px', borderRadius: '100px', color: '#FFF', fontSize: '11px', fontWeight: '800', letterSpacing: '0.05em' }}>BEFORE</div>
+                <div style={{ position: 'absolute', bottom: '16px', left: '16px', background: 'rgba(255,255,255,0.9)', padding: '6px 14px', borderRadius: '12px', color: '#000', fontSize: '14px', fontWeight: '900' }}>197 lbs</div>
+             </div>
+             <div style={{ minWidth: '85%', height: '340px', borderRadius: '20px', overflow: 'hidden', position: 'relative', scrollSnapAlign: 'center', background: '#EEE' }}>
+                <img src="/After.png" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} alt="After" onError={(e) => e.target.style.display = 'none'} />
+                <div style={{ position: 'absolute', top: '16px', left: '16px', background: 'rgba(52,199,89,0.9)', padding: '6px 12px', borderRadius: '100px', color: '#FFF', fontSize: '11px', fontWeight: '800', letterSpacing: '0.05em' }}>CURRENT</div>
+                <div style={{ position: 'absolute', bottom: '16px', left: '16px', background: 'rgba(255,255,255,0.9)', padding: '6px 14px', borderRadius: '12px', color: '#000', fontSize: '14px', fontWeight: '900' }}>169 lbs</div>
+             </div>
+          </div>
 
-          {/* BACK SIDE */}
-          <motion.div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', zIndex: 0, transform: 'rotateY(180deg)', background: '#F5F5F7' }}>
-            <ServiceHubBack onFlip={() => setIsFlipped(false)} />
-          </motion.div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #F0F0F2' }}>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Heart size={22} color="#1A1A1A" strokeWidth={2} />
+                <span style={{ fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>1.2k</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MessageCircle size={22} color="#86868B" strokeWidth={2} />
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#86868B' }}>142</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '16px' }}>
+               <Bookmark size={22} color="#86868B" strokeWidth={2} />
+               <Share2 size={22} color="#86868B" strokeWidth={2} />
+            </div>
+          </div>
+
+          {/* Threaded Comments Section */}
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #F0F0F2' }}>
+            <span style={{ fontSize: '13px', fontWeight: '800', color: '#1A1A1A', marginBottom: '16px', display: 'block' }}>Top Comments</span>
+            
+            {/* Comment 1 */}
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+              <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=64" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', background: '#EEE' }} alt="Commenter" onError={(e) => e.target.style.display = 'none'} />
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A' }}>Rahul Fitness</span>
+                  <span style={{ fontSize: '11px', color: '#86868B', fontWeight: '500' }}>2h</span>
+                </div>
+                <p style={{ fontSize: '13px', color: '#4A4A4A', lineHeight: '1.5', marginTop: '2px' }}>This is insane progress bro! What was your daily calorie intake like during the cut? 🔥</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '700', color: '#86868B', cursor: 'pointer' }}>Reply</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                     <Heart size={14} color="#86868B" />
+                     <span style={{ fontSize: '12px', color: '#86868B', fontWeight: '600' }}>12</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Comment 2 (Author Reply Thread) */}
+            <div style={{ display: 'flex', gap: '10px', marginLeft: '42px' }}>
+              <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=128&q=80" style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', background: '#EEE' }} alt="Suraj" onError={(e) => e.target.style.display = 'none'} />
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '800', color: '#007AFF' }}>Suraj Padmakaran</span>
+                  <span style={{ background: '#007AFF15', color: '#007AFF', padding: '2px 6px', borderRadius: '4px', fontSize: '9px', fontWeight: '800', letterSpacing: '0.05em' }}>AUTHOR</span>
+                </div>
+                <p style={{ fontSize: '13px', color: '#4A4A4A', lineHeight: '1.5', marginTop: '2px' }}>Thanks Rahul! I stayed around 1800kcals and hit 140g of protein daily. Consistency was the key! 💪</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '700', color: '#86868B', cursor: 'pointer' }}>Reply</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                     <Heart size={14} color="#FF2D55" fill="#FF2D55" />
+                     <span style={{ fontSize: '12px', color: '#1A1A1A', fontWeight: '700' }}>4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Post 2: Discussion with Comment Thread */}
+        <div style={{ 
+          background: '#FFF', borderRadius: '24px', padding: '20px', 
+          border: '1px solid #F0F0F2', boxShadow: '0 4px 20px rgba(0,0,0,0.02)'
+        }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=128&q=80" style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', background: '#EEE' }} alt="User" />
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontWeight: '800', fontSize: '15px', color: '#1A1A1A' }}>Alex Chen</span>
+                <span style={{ color: '#86868B', fontSize: '13px', fontWeight: '500' }}>• 4h</span>
+              </div>
+              <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '600' }}>Discussion • 2.4k Views</p>
+            </div>
+            <div style={{ padding: '8px' }}>
+               <MoreHorizontal size={20} color="#86868B" />
+            </div>
+          </div>
+          
+          <p style={{ fontSize: '15px', lineHeight: '1.6', color: '#1A1A1A', marginBottom: '16px' }}>
+            Has anyone tried intermittent fasting (16:8) paired with early morning HIIT workouts? I'm really struggling with energy crashes around 10 AM. Would love some advice! 🏃‍♂️⚡️
+          </p>
+
+          {/* Top Comment UX Block */}
+          <div style={{ background: '#F2F2F7', borderRadius: '16px', padding: '16px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=64&q=80" style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover', background: '#DDD' }} alt="Sarah" />
+              <span style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A' }}>Sarah Jenkins</span>
+              <span style={{ background: '#E5E5EA', color: '#4A4A4A', padding: '3px 6px', borderRadius: '4px', fontSize: '10px', fontWeight: '800', letterSpacing: '0.05em' }}>TOP COMMENT</span>
+            </div>
+            <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#4A4A4A', paddingLeft: '32px' }}>
+              Electrolytes are your best friend! Try adding a pinch of pink Himalayan salt and a squeeze of lemon to your water right after you wake up. Completely fixed my crashes. 💧🍋
+            </p>
+            <div style={{ display: 'flex', gap: '16px', paddingLeft: '32px', marginTop: '12px', alignItems: 'center' }}>
+              <span style={{ fontSize: '13px', color: '#86868B', fontWeight: '700', cursor: 'pointer' }}>Reply</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Heart size={14} color="#FF2D55" fill="#FF2D55" />
+                <span style={{ fontSize: '13px', color: '#1A1A1A', fontWeight: '700' }}>245</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px', paddingTop: '16px', borderTop: '1px solid #F0F0F2' }}>
+            <div style={{ display: 'flex', gap: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Heart size={22} color="#1A1A1A" strokeWidth={2} />
+                <span style={{ fontSize: '14px', fontWeight: '700', color: '#1A1A1A' }}>458</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <MessageCircle size={22} color="#86868B" strokeWidth={2} />
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#86868B' }}>56</span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '16px' }}>
+               <Bookmark size={22} color="#86868B" strokeWidth={2} />
+               <Share2 size={22} color="#86868B" strokeWidth={2} />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// ─── Micro Challenge ────────────────────────────────
+function MicroChallengeStrip() {
+  return (
+    <div style={{ padding: '0 20px 24px' }}>
+      <div style={{ 
+        background: '#FFF', borderRadius: '16px', border: '1px solid #E5E5EA', 
+        padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.02)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <Flame size={18} color="#1A1A1A" />
+          </div>
+          <div>
+            <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#1A1A1A', marginBottom: '2px' }}>Daily Challenge</h4>
+            <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '500' }}>Hit 10,000 steps today</p>
+          </div>
+        </div>
+        <button style={{ 
+          background: '#F2F2F7', color: '#1A1A1A', border: 'none', borderRadius: '100px', 
+          padding: '8px 16px', fontSize: '12px', fontWeight: '800', cursor: 'pointer'
+        }}>
+          Accept
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Coach Dock ─────────────────────────────────────
+function CoachDock() {
+  return (
+    <div style={{ padding: '0 20px 24px' }}>
+      <div style={{ 
+        background: '#FFF', borderRadius: '20px', border: '1px solid #E5E5EA', 
+        padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ position: 'relative' }}>
+             <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=128&q=80" style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover' }} alt="Coach" />
+             <div style={{ position: 'absolute', bottom: '0px', right: '0px', width: '12px', height: '12px', background: '#34C759', borderRadius: '50%', border: '2px solid #FFF' }} />
+          </div>
+          <div>
+            <h4 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', marginBottom: '2px' }}>Coach Aditya</h4>
+            <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '500' }}>Replies in ~10 mins</p>
+          </div>
+        </div>
+        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+           <MessageCircle size={20} color="#1A1A1A" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Bottom Navigation ──────────────────────────────
+function BottomNav() {
+  const items = [
+    { label: 'Home', icon: Home, active: true },
+    { label: 'Lab Tests', icon: Activity },
+    { label: 'Get a Coach', icon: Star, badge: true },
+    { label: 'My Health', icon: Heart },
+    { label: 'Me', icon: User },
+  ];
+
+  return (
+    <div style={{ 
+      position: 'absolute', bottom: 0, left: 0, right: 0, 
+      background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)',
+      borderTop: '1px solid #F0F0F2', padding: '12px 12px 24px',
+      display: 'flex', justifyContent: 'space-around', zIndex: 100
+    }}>
+      {items.map((item) => (
+        <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flex: 1, position: 'relative' }}>
+          <item.icon size={24} color={item.active ? '#1A1A1E' : '#86868B'} strokeWidth={item.active ? 2.5 : 1.5} />
+          <span style={{ fontSize: '10px', fontWeight: '700', color: item.active ? '#1A1A1E' : '#86868B' }}>{item.label}</span>
+          {item.badge && (
+            <div style={{ position: 'absolute', top: '-2px', right: '25%', width: '8px', height: '8px', background: '#FF3B30', borderRadius: '50%', border: '1.5px solid #FFF' }} />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main Application ───────────────────────────────
+export default function App() {
+  return (
+    <IPhoneMockup>
+      <div style={{ 
+        height: '100%', display: 'flex', flexDirection: 'column', 
+        background: '#FFF', position: 'relative', overflow: 'hidden' 
+      }}>
+        {/* Safe Area Spacer for Status Bar */}
+        <div style={{ height: '60px', flexShrink: 0 }} />
+
+        {/* Scrollable Content Area */}
+        <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '20px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+           <TopHeader />
+           <GreetingSection />
+           <UpNextCard />
+           <QuickActions />
+           <HealthSummary />
+           <NutritionCard />
+           <MicroChallengeStrip />
+           <ExerciseStrip />
+           <CoachDock />
+           <CommunitySection />
+        </div>
+
+        {/* Floating Action Button (FAB) */}
+        <motion.div 
+          whileTap={{ scale: 0.9 }}
+          style={{ 
+            position: 'absolute', bottom: '100px', right: '20px', 
+            width: '56px', height: '56px', background: '#1A1A1E', 
+            borderRadius: '50%', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,0,0,0.15)',
+            zIndex: 150
+          }}
+        >
+          <Plus size={28} color="#FFF" strokeWidth={3} />
         </motion.div>
+
+        <BottomNav />
       </div>
     </IPhoneMockup>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const PHONE_W = 393;
-const PHONE_H = 852;
+const PHONE_W = 428;
+const PHONE_H = 926;
 
 export default function IPhoneMockup({ children }) {
   const [scale, setScale] = useState(1);
@@ -63,7 +63,7 @@ export default function IPhoneMockup({ children }) {
         <div style={{
           width: `${PHONE_W}px`,
           height: `${PHONE_H}px`,
-          borderRadius: '54px',
+          borderRadius: '60px',
           background: 'linear-gradient(160deg, #E2E2E6 0%, #D1D1D6 45%, #B0B0B8 100%)',
           boxShadow: `
             0 0 0 1px rgba(0,0,0,0.05),
@@ -90,8 +90,8 @@ export default function IPhoneMockup({ children }) {
           {/* ─── Screen bezel ─── */}
           <div style={{
             position: 'absolute',
-            inset: '11px',
-            borderRadius: '45px',
+            inset: '13px',
+            borderRadius: '50px',
             background: '#000',
             overflow: 'hidden',
           }}>
@@ -100,8 +100,8 @@ export default function IPhoneMockup({ children }) {
             <div style={{
               position: 'absolute',
               inset: 0,
-              borderRadius: '45px',
-              background: '#0a0a0a',
+              borderRadius: '50px',
+              background: '#FFFFFF',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -114,10 +114,10 @@ export default function IPhoneMockup({ children }) {
                 left: '50%',
                 transform: 'translateX(-50%)',
                 zIndex: 200,
-                width: '120px',
-                height: '35px',
+                width: '130px',
+                height: '38px',
                 background: '#000',
-                borderRadius: '20px',
+                borderRadius: '24px',
                 boxShadow: '0 0 0 1px rgba(255,255,255,0.04)',
                 display: 'flex',
                 alignItems: 'center',
@@ -144,33 +144,33 @@ export default function IPhoneMockup({ children }) {
                 padding: '0 26px 10px',
                 zIndex: 150,
                 fontFamily: "'Inter', sans-serif",
-                fontSize: '13px',
+                fontSize: '15px',
                 fontWeight: '600',
                 color: '#000',
                 letterSpacing: '-0.2px',
                 pointerEvents: 'none',
               }}>
                 <span>9:41</span>
-                <div style={{ display:'flex', gap:'6px', alignItems:'center' }}>
+                <div style={{ display:'flex', gap:'7px', alignItems:'center' }}>
                   {/* Signal bars */}
-                  <svg width="17" height="12" viewBox="0 0 17 12" fill="black">
+                  <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor">
                     <rect x="0" y="7" width="3" height="5" rx="1"/>
                     <rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/>
                     <rect x="9" y="2" width="3" height="10" rx="1"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="1" opacity="0.2"/>
+                    <rect x="13.5" y="0" width="3" height="12" rx="1" fillOpacity="0.3"/>
                   </svg>
                   {/* WiFi */}
-                  <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                    <circle cx="8" cy="10.5" r="1.5" fill="black"/>
-                    <path d="M4.8 7.2C5.9 6 6.9 5.5 8 5.5s2.1.5 3.2 1.7" stroke="black" strokeWidth="1.5" strokeLinecap="round"/>
-                    <path d="M2 4.5C4 2.4 5.9 1.5 8 1.5s4 .9 6 3" stroke="black" strokeWidth="1.5" strokeLinecap="round" opacity="0.3"/>
+                  <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                    <path d="M8.5 12L6.2 9.5C7.4 8.5 9.6 8.5 10.8 9.5L8.5 12Z"/>
+                    <path d="M4.5 7.8L3.2 6.5C5.8 4.5 11.2 4.5 13.8 6.5L12.5 7.8C10.8 6.5 6.2 6.5 4.5 7.8Z"/>
+                    <path d="M2.2 5.5L0.9 4.2C5.1 0.8 11.9 0.8 16.1 4.2L14.8 5.5C11.5 2.8 5.5 2.8 2.2 5.5Z"/>
                   </svg>
                   {/* Battery */}
-                  <div style={{ display:'flex', alignItems:'center', gap:'1px' }}>
-                    <div style={{ width:'24px', height:'11px', border:'1.5px solid rgba(0,0,0,0.7)', borderRadius:'3px', padding:'2px' }}>
-                      <div style={{ width:'70%', height:'100%', background:'black', borderRadius:'1px' }}/>
+                  <div style={{ display:'flex', alignItems:'center', gap:'1.5px' }}>
+                    <div style={{ width:'25px', height:'12px', border:'1.5px solid currentColor', borderRadius:'4px', padding:'1.5px', position:'relative' }}>
+                      <div style={{ width:'80%', height:'100%', background:'currentColor', borderRadius:'1px' }}/>
                     </div>
-                    <div style={{ width:'2px', height:'5px', background:'rgba(0,0,0,0.3)', borderRadius:'1px' }}/>
+                    <div style={{ width:'1.5px', height:'4px', background:'currentColor', borderRadius:'0 1px 1px 0', opacity:0.4 }}/>
                   </div>
                 </div>
               </div>
