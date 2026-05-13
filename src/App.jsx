@@ -686,6 +686,126 @@ function PerformanceMatrix() {
   );
 }
 
+// ─── Progress Core (MERGED: Trackers + Matrix) ───────
+function ProgressCore() {
+  const rings = [
+    { label: 'Cals', val: 1240, max: 2000, color: '#000', icon: Flame },
+    { label: 'Water', val: 1.2, max: 3, color: '#000', icon: Droplets },
+    { label: 'Steps', val: 6420, max: 10000, color: '#000', icon: Zap },
+    { label: 'Sleep', val: 6.5, max: 8, color: '#000', icon: Clock },
+  ];
+
+  const weeklyData = [
+    { day: 'M', val: 65 }, { day: 'T', val: 80 }, { day: 'W', val: 45 },
+    { day: 'T', val: 90 }, { day: 'F', val: 70 }, { day: 'S', val: 100 }, { day: 'S', val: 62 },
+  ];
+
+  return (
+    <section className="section">
+      <div style={{ background: '#FFF', borderRadius: '32px', padding: '24px', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 4px 20px rgba(0,0,0,0.02)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+          {rings.map((r) => (
+            <div key={r.label} style={{ textAlign: 'center' }}>
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', marginBottom: '8px' }}>
+                <svg viewBox="0 0 36 36" style={{ transform: 'rotate(-90deg)' }}>
+                  <circle cx="18" cy="18" r="16" fill="none" stroke="#F5F5F7" strokeWidth="3" />
+                  <motion.circle 
+                    cx="18" cy="18" r="16" fill="none" stroke="#000" strokeWidth="3" strokeDasharray="100 100"
+                    initial={{ strokeDashoffset: 100 }}
+                    animate={{ strokeDashoffset: 100 - (r.val/r.max * 100) }}
+                    transition={{ duration: 1.5, ease: 'easeOut' }}
+                  />
+                </svg>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyCenter: 'center', justifyContent: 'center' }}>
+                  <r.icon size={14} color="#000" />
+                </div>
+              </div>
+              <span style={{ fontSize: '10px', fontWeight: '600', color: '#888' }}>{r.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', height: '60px', padding: '0 8px' }}>
+          {weeklyData.map((d, i) => (
+            <div key={d.day} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', flex: 1 }}>
+              <div style={{ width: '100%', maxWidth: '20px', height: '40px', background: 'rgba(0,0,0,0.03)', borderRadius: '4px', position: 'relative', overflow: 'hidden' }}>
+                <motion.div 
+                  initial={{ height: 0 }}
+                  animate={{ height: `${d.val}%` }}
+                  style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: i === 5 ? '#34C759' : '#000' }} 
+                />
+              </div>
+              <span style={{ fontSize: '10px', fontWeight: '600', color: i === 6 ? '#000' : '#AAA' }}>{d.day}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Achievement Ticker (NEW) ────────────────────────
+function AchievementTicker() {
+  const ach = [
+    { label: '7 DAY STREAK', icon: '🔥' },
+    { label: 'HEAVY LIFTER', icon: '🏋️' },
+    { label: 'HYDRATION PRO', icon: '💧' },
+  ];
+
+  return (
+    <div style={{ padding: '0 16px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', scrollbarWidth: 'none' }}>
+        {ach.map(a => (
+          <div key={a.label} style={{ 
+            display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 16px', 
+            background: '#FFF', borderRadius: '100px', border: '1px solid rgba(0,0,0,0.05)',
+            whiteSpace: 'nowrap'
+          }}>
+            <span style={{ fontSize: '14px' }}>{a.icon}</span>
+            <span style={{ fontSize: '10px', fontWeight: '800', letterSpacing: '0.05em' }}>{a.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Elite Studio (MERGED: Coach + Live) ──────────────
+function EliteStudio() {
+  return (
+    <section className="section">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <h3>Elite Studio</h3>
+        <span style={{ fontSize: '13px', color: '#007AFF', fontWeight: '600' }}>Schedule</span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '12px' }}>
+        <motion.div 
+          whileTap={{ scale: 0.98 }}
+          style={{ background: '#000', borderRadius: '24px', padding: '20px', color: '#FFF', position: 'relative', overflow: 'hidden' }}
+        >
+          <div style={{ position: 'relative', zIndex: 1 }}>
+             <p style={{ fontSize: '10px', fontWeight: '600', opacity: 0.5, marginBottom: '4px' }}>MY COACH</p>
+             <h4 style={{ fontSize: '18px', marginBottom: '12px' }}>Mike Ross</h4>
+             <button style={{ background: '#FFF', color: '#000', padding: '8px 16px', borderRadius: '100px', fontSize: '11px', textTransform: 'none' }}>Chat Now</button>
+          </div>
+          <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=200&q=80" style={{ position: 'absolute', right: '-20px', bottom: '-20px', width: '120px', opacity: 0.4 }} />
+        </motion.div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ background: '#FFF', borderRadius: '24px', padding: '16px', border: '1px solid rgba(0,0,0,0.05)', flex: 1 }}>
+             <div style={{ background: '#FF3B30', width: '6px', height: '6px', borderRadius: '50%', marginBottom: '8px' }} />
+             <p style={{ fontSize: '13px', fontWeight: '600' }}>Live: HIIT</p>
+             <p style={{ fontSize: '10px', color: '#888' }}>10:30 AM</p>
+          </div>
+          <div style={{ background: '#FFF', borderRadius: '24px', padding: '16px', border: '1px solid rgba(0,0,0,0.05)', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+             <Users size={18} color="#000" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Nutrition Blueprint (Today's Meals) ─────────────
 function NutritionBlueprint() {
   const meals = [
@@ -958,11 +1078,10 @@ export default function App() {
                   onOpenCalendar={() => setShowCalendar(true)} 
                   onFlip={() => setIsFlipped(true)}
                 />
-                <PerformanceMatrix />
-                <DailyTrackers />
+                <AchievementTicker />
+                <ProgressCore />
                 <NutritionBlueprint />
-                <EliteCoaching />
-                <LiveSessions />
+                <EliteStudio />
                 <FitnessWisdom />
                 <CommunityHighlights />
               </div>
