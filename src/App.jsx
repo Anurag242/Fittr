@@ -117,113 +117,69 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── 3D Command Tunnel (OUT OF THE BOX ITERATION 14) ─
-function CommandTunnel({ isOpen }) {
-  const services = [
-    { label: 'Coach', desc: 'Expert 1-on-1 Guidance', color: 'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)', isCap: true },
-    { label: 'Labs', desc: 'Book Blood Work & Vitals', color: 'linear-gradient(135deg, #AF52DE 0%, #7030A0 100%)', isLabTest: true },
-    { label: 'Plan', desc: 'Your Daily Focus Strategy', color: 'linear-gradient(135deg, #FF3B30 0%, #A01010 100%)', isCalendar: true },
-    { label: 'Scale', desc: 'Body Composition Analysis', color: 'linear-gradient(135deg, #007AFF 0%, #0040A0 100%)', isScale: true },
+// ─── Atomic Bento Morph (OUT OF THE BOX ITERATION 15) ─
+function MorphingGrid({ isHubMode }) {
+  const dashboardItems = [
+    { id: 'tile-1', label: 'Calories', val: '1,840', unit: 'kcal', color: '#FFF', icon: Flame, iconColor: '#FF9500' },
+    { id: 'tile-2', label: 'Steps', val: '8,432', unit: 'steps', color: '#FFF', icon: Activity, iconColor: '#34C759' },
+    { id: 'tile-3', label: 'Sleep', val: '7h 20m', unit: 'target: 8h', color: '#FFF', icon: Clock, iconColor: '#5856D6' },
   ];
 
-  const getAsset = (s) => {
-    if (s.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#FFF">F</text>
-      </svg>
-    );
-    if (s.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
-        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
-      </svg>
-    );
-    if (s.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
-      </svg>
-    );
-    if (s.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
-      </svg>
-    );
-    return null;
-  };
+  const hubItems = [
+    { id: 'tile-1', label: 'ELITE COACH', desc: 'Expert Consult', color: '#000', icon: Star, iconColor: '#FFD700', isHub: true },
+    { id: 'tile-2', label: 'LAB TESTS', desc: 'Book Vitals', color: '#AF52DE', icon: Activity, iconColor: '#FFF', isHub: true },
+    { id: 'tile-3', label: 'MY PLAN', desc: 'Focus Today', color: '#FF3B30', icon: ClipboardList, iconColor: '#FFF', isHub: true },
+  ];
+
+  const currentItems = isHubMode ? hubItems : dashboardItems;
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          style={{ 
-            height: '450px', width: '100%', 
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            perspective: '1500px', margin: '20px 0', overflow: 'hidden',
-            background: '#000', borderRadius: '32px', position: 'relative'
-          }}
-        >
-          {/* Depth Particles */}
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.3 }}>
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                animate={{ z: [0, 1500], opacity: [0, 1, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.2 }}
-                style={{ 
-                  position: 'absolute', top: `${Math.random()*100}%`, left: `${Math.random()*100}%`,
-                  width: '2px', height: '2px', background: '#FFF', borderRadius: '50%'
-                }}
-              />
-            ))}
-          </div>
-
-          <div style={{ width: '100%', height: '100%', position: 'relative', transformStyle: 'preserve-3d' }}>
-            {services.map((s, i) => (
-              <motion.div
-                key={s.label}
-                animate={{ 
-                  z: [(-1000 - i * 500), 2000],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 6, 
-                  repeat: Infinity, 
-                  delay: i * 1.5,
-                  ease: 'linear'
-                }}
-                style={{
-                  position: 'absolute', top: '50%', left: '50%',
-                  width: '280px', height: '120px',
-                  marginLeft: '-140px', marginTop: '-60px',
-                  background: s.color,
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  display: 'flex', alignItems: 'center', padding: '0 24px', gap: '20px',
-                  borderRadius: '24px',
-                  boxShadow: '0 0 50px rgba(0,0,0,0.5)',
-                  backfaceVisibility: 'hidden'
-                }}
-              >
-                <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {getAsset(s)}
-                </div>
-                <div>
-                  <h3 style={{ color: '#FFF', fontSize: '18px', fontWeight: '900' }}>{s.label}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: '600' }}>{s.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div style={{ padding: '0 20px', margin: '20px 0' }}>
+      <motion.div 
+        layout
+        style={{ display: 'grid', gridTemplateColumns: isHubMode ? '1fr' : 'repeat(2, 1fr)', gap: '16px' }}
+      >
+        {currentItems.map((item, i) => (
+          <motion.div
+            key={item.id}
+            layout
+            transition={{ type: 'spring', damping: 20, stiffness: 120 }}
+            style={{ 
+              background: item.color, borderRadius: '24px', padding: '20px',
+              border: item.color === '#FFF' ? '1px solid #EEE' : 'none',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.03)',
+              gridColumn: (i === 0 && !isHubMode) ? 'span 2' : 'span 1',
+              display: 'flex', flexDirection: isHubMode ? 'row' : 'column',
+              alignItems: isHubMode ? 'center' : 'flex-start',
+              gap: isHubMode ? '20px' : '12px'
+            }}
+          >
+            <motion.div 
+              layout
+              style={{ 
+                width: isHubMode ? '56px' : '40px', 
+                height: isHubMode ? '56px' : '40px', 
+                borderRadius: '14px', background: isHubMode ? 'rgba(255,255,255,0.1)' : `${item.iconColor}15`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
+              }}
+            >
+              <item.icon size={isHubMode ? 28 : 20} color={isHubMode ? '#FFF' : item.iconColor} />
+            </motion.div>
+            <motion.div layout>
+              <p style={{ fontSize: '11px', fontWeight: '800', color: isHubMode ? 'rgba(255,255,255,0.4)' : '#888', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{item.label}</p>
+              <h4 style={{ fontSize: isHubMode ? '18px' : '24px', fontWeight: '900', color: isHubMode ? '#FFF' : '#000', margin: '2px 0' }}>
+                {isHubMode ? item.desc : item.val}
+                {!isHubMode && <span style={{ fontSize: '13px', fontWeight: '600', color: '#BBB', marginLeft: '4px' }}>{item.unit}</span>}
+              </h4>
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
   );
 }
+
+// ─── Shared Utilities ──────────────────────────────
 
 // ─── Shared Utilities ──────────────────────────────
 
@@ -879,7 +835,7 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isTunnelOpen, setIsTunnelOpen] = useState(false);
+  const [isHubMode, setIsHubMode] = useState(false);
 
   return (
     <IPhoneMockup>
@@ -889,19 +845,21 @@ export default function App() {
         <div style={{ padding: '0 20px' }}>
           <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
           
-          {/* V14 Comparison Header */}
+          {/* V15 Atomic Morph Header */}
           <div style={{ margin: '20px 0 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>3D COMMAND TUNNEL</h3>
+            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>
+              {isHubMode ? 'SERVICE HUB ACTIVE' : 'DAILY PERFORMANCE'}
+            </h3>
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={() => setIsTunnelOpen(!isTunnelOpen)}
-              style={{ background: '#000', color: '#FFF', border: 'none', borderRadius: '100px', padding: '4px 12px', fontSize: '10px', fontWeight: '800' }}
+              onClick={() => setIsHubMode(!isHubMode)}
+              style={{ background: '#000', color: '#FFF', border: 'none', borderRadius: '100px', padding: '4px 16px', fontSize: '10px', fontWeight: '800' }}
             >
-              {isTunnelOpen ? 'EXIT WARP' : 'ENTER WARP'}
+              {isHubMode ? 'VIEW STATUS' : 'VIEW SERVICES'}
             </motion.button>
           </div>
 
-          <CommandTunnel isOpen={isTunnelOpen} />
+          <MorphingGrid isHubMode={isHubMode} />
           
           <DailyTrackers />
           <EliteCoaching />
