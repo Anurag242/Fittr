@@ -118,99 +118,86 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Header Service Tray (OUT OF THE BOX ITERATION 6) ──
-function HeaderServiceTray({ isOpen, onClose }) {
+// ─── Service Hub Back (OUT OF THE BOX ITERATION 7) ────
+function ServiceHubBack({ onFlip }) {
   const services = [
-    { label: 'COACH', desc: 'Expert Guidance', isCap: true, color: '#1A1A1A' },
-    { label: 'LABS', desc: 'Blood & Vitals', isLabTest: true, color: '#AF52DE' },
-    { label: 'PLAN', desc: 'Daily Routine', isCalendar: true, color: '#F59E0B' },
-    { label: 'SCALE', desc: 'Composition', isScale: true, color: '#8B5CF6' },
-    { label: 'EARN', desc: 'Referral Rewards', icon: Gift, color: '#FF3B30' },
-    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag, color: '#007AFF' },
+    { label: 'COACH', desc: 'Expert Guidance', isCap: true },
+    { label: 'LABS', desc: 'Blood & Vitals', isLabTest: true },
+    { label: 'PLAN', desc: 'Daily Routine', isCalendar: true },
+    { label: 'SCALE', desc: 'Composition', isScale: true },
+    { label: 'EARN', desc: 'Rewards', icon: Gift },
+    { label: 'SHOP', desc: 'Premium Gear', icon: ShoppingBag },
   ];
 
   const getAsset = (item) => {
     if (item.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px' }}>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (item.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '56px', height: '56px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F2F2F7" />
+      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="rgba(255,255,255,0.1)" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (item.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" strokeWidth="1" />
-        <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
+      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
+        <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (item.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '56px', height: '56px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F2F2F7" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F2F2F7" />
+      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
     );
-    return <item.icon size={48} color={item.color} />;
+    return <item.icon size={32} color="#FFF" />;
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div 
-          initial={{ y: '-100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '-100%' }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          style={{ 
-            position: 'absolute', inset: 0, zIndex: 4000,
-            background: '#FFF', padding: '80px 24px 24px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.1)'
-          }}
+    <div style={{ 
+      width: '100%', height: '100%', background: '#000', 
+      padding: '40px 24px', display: 'flex', flexDirection: 'column'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+        <div>
+          <h2 style={{ fontSize: '28px', fontWeight: '900', color: '#FFF', letterSpacing: '-1px' }}>SERVICE HUB</h2>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>The power behind your progress</p>
+        </div>
+        <motion.button 
+          whileTap={{ scale: 0.9 }}
+          onClick={onFlip}
+          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
-            <div>
-              <h2 style={{ fontSize: '36px', fontWeight: '900', letterSpacing: '-1.5px', color: '#000' }}>HUB</h2>
-              <p style={{ fontSize: '15px', color: '#666', fontWeight: '500' }}>Explore Fittr Services</p>
-            </div>
-            <motion.button 
-              whileTap={{ scale: 0.9 }}
-              onClick={onClose}
-              style={{ padding: '12px 24px', background: '#F2F2F7', borderRadius: '100px', border: 'none', fontWeight: '800', fontSize: '13px' }}
-            >
-              Close
-            </motion.button>
-          </div>
+          <Plus size={24} color="#FFF" style={{ transform: 'rotate(45deg)' }} />
+        </motion.button>
+      </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            {services.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: i * 0.05 }}
-                style={{ 
-                  background: '#F9F9FB', borderRadius: '28px', padding: '24px',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  textAlign: 'center', border: '1px solid rgba(0,0,0,0.03)'
-                }}
-              >
-                <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
-                <h4 style={{ fontSize: '14px', fontWeight: '900', letterSpacing: '1px', marginBottom: '4px' }}>{s.label}</h4>
-                <p style={{ fontSize: '11px', color: '#888', fontWeight: '600' }}>{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        {services.map((s, i) => (
+          <motion.div
+            key={s.label}
+            whileTap={{ scale: 0.95 }}
+            style={{ 
+              background: 'rgba(255,255,255,0.05)', borderRadius: '24px', padding: '24px',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              textAlign: 'center', border: '1px solid rgba(255,255,255,0.08)'
+            }}
+          >
+            <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
+            <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#FFF', letterSpacing: '0.5px' }}>{s.label}</h4>
+            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>{s.desc}</p>
+          </motion.div>
+        ))}
+      </div>
 
-          <div style={{ marginTop: 'auto', textAlign: 'center', paddingBottom: '20px' }}>
-            <p style={{ fontSize: '12px', color: '#DDD', fontWeight: '800', letterSpacing: '2px' }}>FITTR ELITE ECOSYSTEM</p>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      <div style={{ marginTop: 'auto', textAlign: 'center' }}>
+        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.2)', fontWeight: '800', letterSpacing: '2px' }}>FITTR ELITE • BACKSIDE</p>
+      </div>
+    </div>
   );
 }
 
@@ -386,7 +373,7 @@ const PremiumActionBubbles = () => {
 };
 
 // ─── Daily Rituals (IMPROVED) ────────────────────────
-function DailyRituals({ onOpenCalendar, onOpenHub }) {
+function DailyRituals({ onOpenCalendar, onFlip }) {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Rise & Shine, Anurag! ☀️";
@@ -403,18 +390,24 @@ function DailyRituals({ onOpenCalendar, onOpenHub }) {
 
   return (
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
-      <motion.div 
-        whileTap={{ scale: 0.98 }}
-        onClick={onOpenHub}
-        style={{ marginBottom: '16px', cursor: 'pointer' }}
-      >
-        <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your goal</p>
-          <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#DDD' }} />
-          <span style={{ fontSize: '12px', fontWeight: '800', color: '#007AFF' }}>Open Hub</span>
+      <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div>
+          <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
+          <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
         </div>
-      </motion.div>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={onFlip}
+          style={{ 
+            background: '#000', color: '#FFF', 
+            padding: '8px 16px', borderRadius: '12px', 
+            fontSize: '12px', fontWeight: '800',
+            boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
+          }}
+        >
+          Services
+        </motion.button>
+      </div>
 
       <PremiumActionBubbles />
 
@@ -866,37 +859,58 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showHub, setShowHub] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ 
+        height: '100%', minHeight: '852px', position: 'relative', 
+        perspective: '1200px', background: '#000' 
+      }}>
         <motion.div 
-          animate={{ 
-            scale: showHub ? 0.96 : 1,
-            filter: showHub ? 'blur(10px) brightness(0.8)' : 'blur(0px) brightness(1)'
+          animate={{ rotateY: isFlipped ? 180 : 0 }}
+          transition={{ type: 'spring', damping: 20, stiffness: 80 }}
+          style={{ 
+            width: '100%', height: '100%', 
+            position: 'relative', transformStyle: 'preserve-3d' 
           }}
-          style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none', background: '#F5F5F7' }}
         >
-          <div className="app" style={{ paddingBottom: '40px' }}>
-            <Header />
-            <DailyRituals 
-              onOpenCalendar={() => setShowCalendar(true)} 
-              onOpenHub={() => setShowHub(true)}
-            />
-            <DailyTrackers />
-            <EliteCoaching />
-            <LiveSessions />
-            <CommunityHighlights />
-          </div>
-        </motion.div>
-        
-        <HeaderServiceTray 
-          isOpen={showHub} 
-          onClose={() => setShowHub(false)} 
-        />
+          {/* FRONT SIDE (Dashboard) */}
+          <motion.div 
+            style={{ 
+              position: 'absolute', inset: 0, 
+              backfaceVisibility: 'hidden', zIndex: 1,
+              background: '#F5F5F7', display: 'flex', flexDirection: 'column'
+            }}
+          >
+            <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
+              <div className="app" style={{ paddingBottom: '40px' }}>
+                <Header />
+                <DailyRituals 
+                  onOpenCalendar={() => setShowCalendar(true)} 
+                  onFlip={() => setIsFlipped(true)}
+                />
+                <DailyTrackers />
+                <EliteCoaching />
+                <LiveSessions />
+                <CommunityHighlights />
+              </div>
+            </div>
+            <BottomNav />
+          </motion.div>
 
-        <BottomNav />
+          {/* BACK SIDE (Service Hub) */}
+          <motion.div 
+            style={{ 
+              position: 'absolute', inset: 0, 
+              backfaceVisibility: 'hidden', zIndex: 0,
+              transform: 'rotateY(180deg)',
+              background: '#000'
+            }}
+          >
+            <ServiceHubBack onFlip={() => setIsFlipped(false)} />
+          </motion.div>
+        </motion.div>
         
         <CalendarOverlay 
           isOpen={showCalendar} 
