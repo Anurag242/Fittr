@@ -143,7 +143,7 @@ function ServiceCanvas({ isOpen, onClose }) {
       <svg viewBox="0 0 100 100" style={{ width: '80px', height: '80px', filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.4))' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
         <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
-        <div style={{ position: 'absolute', top: '46%', left: '50%', transform: 'translate(-50%, -50%)', fontSize: '14px', fontWeight: '900', color: '#D4AF37' }}>F</div>
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37" style={{ fontFamily: 'Outfit, sans-serif' }}>F</text>
       </svg>
     );
     if (item.isCalendar) return (
