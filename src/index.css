@@ -33,14 +33,14 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: 'Outfit', sans-serif;
   letter-spacing: -0.02em;
-  font-weight: 800;
-  line-height: 1.1;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 button { 
   font-family: 'Outfit', sans-serif; 
-  letter-spacing: 0.05em;
-  font-weight: 800;
+  letter-spacing: 0.02em;
+  font-weight: 600;
   text-transform: uppercase;
   border: none; 
   background: none; 

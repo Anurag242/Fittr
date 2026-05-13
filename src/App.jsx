@@ -165,7 +165,7 @@ function ServiceHubBack({ onFlip }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
           <h2 style={{ fontSize: '28px', color: '#FFF' }}>SERVICE HUB</h2>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>The power behind your progress</p>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', fontWeight: '500' }}>The power behind your progress</p>
         </div>
         <motion.button 
           whileTap={{ scale: 0.9 }}
@@ -188,8 +188,8 @@ function ServiceHubBack({ onFlip }) {
             }}
           >
             <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
-            <h4 style={{ fontSize: '14px', color: '#FFF', letterSpacing: '1px' }}>{s.label}</h4>
-            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '700' }}>{s.desc.toUpperCase()}</p>
+            <h4 style={{ fontSize: '14px', color: '#FFF', letterSpacing: '1px', fontWeight: '600' }}>{s.label}</h4>
+            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>{s.desc.toUpperCase()}</p>
           </motion.div>
         ))}
       </div>
@@ -392,8 +392,8 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
       <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h2 style={{ fontSize: '24px' }}>{getGreeting()}</h2>
-          <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '700' }}>62%</span> of your daily goal</p>
+          <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
+          <p style={{ fontSize: '13px', color: '#666', fontWeight: '500' }}>You're at <span style={{ color: '#000', fontWeight: '600' }}>62%</span> of your daily goal</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.9 }}
@@ -401,8 +401,9 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
           style={{ 
             background: '#000', color: '#FFF', 
             padding: '10px 18px', borderRadius: '14px', 
-            fontSize: '11px', fontWeight: '900',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
+            fontSize: '11px', fontWeight: '600',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
+            textTransform: 'uppercase'
           }}
         >
           Services
@@ -706,11 +707,11 @@ function PerformanceMatrix() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
         <div>
           <h3>Performance Matrix</h3>
-          <p style={{ fontSize: '12px', color: '#888', fontWeight: '500', letterSpacing: '0.5px' }}>LAST 7 DAYS CONSISTENCY</p>
+          <p style={{ fontSize: '12px', color: '#888', fontWeight: '500' }}>LAST 7 DAYS CONSISTENCY</p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '22px', color: '#34C759', fontWeight: '700' }}>+12%</span>
-          <p style={{ fontSize: '10px', color: '#888', fontWeight: '700', letterSpacing: '1px' }}>VS LAST WEEK</p>
+          <span style={{ fontSize: '22px', color: '#34C759', fontWeight: '600' }}>+12%</span>
+          <p style={{ fontSize: '10px', color: '#888', fontWeight: '600', letterSpacing: '1px' }}>VS LAST WEEK</p>
         </div>
       </div>
 
