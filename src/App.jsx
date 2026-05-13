@@ -117,47 +117,49 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Holographic 3D Prism (OUT OF THE BOX ITERATION 12) 
-function PerspectivePrism({ isOpen }) {
+// ─── Infinite 3D Reel (OUT OF THE BOX ITERATION 13) ──
+function KineticReel({ isOpen }) {
   const [rotation, setRotation] = useState(0);
+  
+  const services = [
+    { label: 'Coach', color: '#000', icon: Star, isCap: true },
+    { label: 'Labs', color: '#AF52DE', icon: Activity, isLabTest: true },
+    { label: 'Plan', color: '#FF3B30', icon: ClipboardList, isCalendar: true },
+    { label: 'Scale', color: '#007AFF', icon: Weight, isScale: true },
+    { label: 'Labs', color: '#AF52DE', icon: Activity, isLabTest: true },
+    { label: 'Plan', color: '#FF3B30', icon: ClipboardList, isCalendar: true },
+  ];
 
   useEffect(() => {
     if (isOpen) {
       const interval = setInterval(() => {
-        setRotation(prev => (prev + 1) % 360);
-      }, 50);
+        setRotation(prev => (prev + 1.5) % 360);
+      }, 30);
       return () => clearInterval(interval);
     }
   }, [isOpen]);
 
-  const faces = [
-    { label: 'Coach', color: '#000', icon: Star, isCap: true, rotateY: 0 },
-    { label: 'Labs', color: '#AF52DE', icon: Activity, isLabTest: true, rotateY: 90 },
-    { label: 'Plan', color: '#FF3B30', icon: ClipboardList, isCalendar: true, rotateY: 180 },
-    { label: 'Scale', color: '#007AFF', icon: Weight, isScale: true, rotateY: 270 },
-  ];
-
   const getAsset = (s) => {
     if (s.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (s.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (s.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (s.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
         <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
@@ -169,48 +171,57 @@ function PerspectivePrism({ isOpen }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
+          exit={{ opacity: 0, scale: 0.9 }}
           style={{ 
-            height: '320px', width: '100%', 
+            height: '400px', width: '100%', 
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            perspective: '1000px', margin: '20px 0'
+            perspective: '1200px', margin: '40px 0', overflow: 'hidden'
           }}
         >
           <motion.div
-            animate={{ rotateY: rotation }}
+            animate={{ rotateX: rotation }}
             transition={{ type: 'tween', ease: 'linear' }}
             style={{ 
-              width: '160px', height: '160px', 
+              width: '280px', height: '80px', 
               position: 'relative', transformStyle: 'preserve-3d' 
             }}
           >
-            {faces.map((f, i) => (
-              <div
-                key={f.label}
-                style={{
-                  position: 'absolute', inset: 0,
-                  background: f.color,
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', justifyContent: 'center', gap: '12px',
-                  transform: `rotateY(${f.rotateY}deg) translateZ(80px)`,
-                  boxShadow: 'inset 0 0 40px rgba(255,255,255,0.1)',
-                  borderRadius: '24px',
-                  backfaceVisibility: 'hidden'
-                }}
-              >
-                {getAsset(f)}
-                <span style={{ color: '#FFF', fontSize: '12px', fontWeight: '900', letterSpacing: '1px' }}>{f.label.toUpperCase()}</span>
-              </div>
-            ))}
+            {services.map((s, i) => {
+              const angle = (360 / services.length) * i;
+              return (
+                <div
+                  key={`${s.label}-${i}`}
+                  style={{
+                    position: 'absolute', inset: 0,
+                    background: s.color,
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    display: 'flex', alignItems: 'center', padding: '0 24px', gap: '16px',
+                    transform: `rotateX(${angle}deg) translateZ(160px)`,
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                    borderRadius: '20px',
+                    backfaceVisibility: 'hidden'
+                  }}
+                >
+                  <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {getAsset(s)}
+                  </div>
+                  <div>
+                    <h3 style={{ color: '#FFF', fontSize: '16px', fontWeight: '800' }}>{s.label}</h3>
+                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px', fontWeight: '600' }}>Tap to launch</p>
+                  </div>
+                </div>
+              );
+            })}
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+
+// ─── Shared Utilities ──────────────────────────────
 
 // ─── Shared Utilities ──────────────────────────────
 
@@ -862,7 +873,7 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isPrismOpen, setIsPrismOpen] = useState(false);
+  const [isReelOpen, setIsReelOpen] = useState(false);
 
   return (
     <IPhoneMockup>
@@ -872,19 +883,19 @@ export default function App() {
         <div style={{ padding: '0 20px' }}>
           <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
           
-          {/* V12 Comparison Header */}
+          {/* V13 Comparison Header */}
           <div style={{ margin: '20px 0 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>HOLOGRAPHIC PRISM</h3>
+            <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>INFINITE 3D REEL</h3>
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={() => setIsPrismOpen(!isPrismOpen)}
+              onClick={() => setIsReelOpen(!isReelOpen)}
               style={{ background: '#000', color: '#FFF', border: 'none', borderRadius: '100px', padding: '4px 12px', fontSize: '10px', fontWeight: '800' }}
             >
-              {isPrismOpen ? 'CLOSE HUB' : 'LAUNCH HUB'}
+              {isReelOpen ? 'HIDE HUB' : 'SPIN REEL'}
             </motion.button>
           </div>
 
-          <PerspectivePrism isOpen={isPrismOpen} />
+          <KineticReel isOpen={isReelOpen} />
           
           <DailyTrackers />
           <EliteCoaching />
