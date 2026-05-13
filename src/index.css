@@ -7,15 +7,15 @@ html, body, #root {
 }
 
 :root {
-  --bg: #000000;
-  --glass: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.1);
+  --bg: #F5F5F7;
+  --glass: rgba(255, 255, 255, 0.8);
+  --border: rgba(0, 0, 0, 0.05);
   --glow-orange: #FF9500;
   --glow-blue: #007AFF;
   --glow-green: #34C759;
   --glow-purple: #AF52DE;
-  --text-main: #FFFFFF;
-  --text-muted: rgba(255, 255, 255, 0.4);
+  --text-main: #000000;
+  --text-muted: #86868B;
 }
 
 body {
@@ -111,12 +111,10 @@ button {
 
 /* ===== CARDS ===== */
 .glass-card {
-  background: var(--glass);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #FFFFFF;
   border: 1px solid var(--border);
   border-radius: 32px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
 }
 
 /* ===== STREAK BANNER ===== */
