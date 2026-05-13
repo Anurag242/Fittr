@@ -51,7 +51,7 @@ function GreetingSection() {
 }
 
 // ─── Up Next Contextual Card ─────────────────────────
-function UpNextCard() {
+function UpNextCard({ onOpenWorkout }) {
   return (
     <div style={{ padding: '24px 20px 0' }}>
       <div style={{ 
@@ -73,14 +73,18 @@ function UpNextCard() {
           <span style={{ fontSize: '13px', fontWeight: '600' }}>320 kcal</span>
         </div>
         
-        <button style={{ 
-          background: '#FFF', color: '#1A1A1A', border: 'none', borderRadius: '100px', cursor: 'pointer',
-          padding: '12px 24px', fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)', transition: 'transform 0.1s'
-        }} onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'} onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+        <motion.button 
+          whileTap={{ scale: 0.95 }}
+          onClick={onOpenWorkout}
+          style={{ 
+            background: '#FFF', color: '#1A1A1A', border: 'none', borderRadius: '100px', cursor: 'pointer',
+            padding: '12px 24px', fontSize: '14px', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+          }}
+        >
           Start Workout
           <ArrowRight size={16} />
-        </button>
+        </motion.button>
       </div>
     </div>
   );
@@ -105,7 +109,7 @@ function QuickActions() {
       overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none'
     }}>
       {actions.map((act) => (
-        <div key={act.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', minWidth: '74px' }}>
+        <motion.div key={act.label} whileTap={{ scale: 0.92 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', minWidth: '74px', cursor: 'pointer' }}>
           <div style={{ 
             width: '74px', height: '74px', borderRadius: '22px', overflow: 'hidden',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -118,27 +122,30 @@ function QuickActions() {
             />
           </div>
           <span style={{ fontSize: '11px', fontWeight: '700', textAlign: 'center', color: '#1A1A1A', whiteSpace: 'nowrap' }}>{act.label}</span>
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 }
 
 // ─── Health Summary ──────────────────────────────────
-function HealthSummary() {
+function HealthSummary({ onOpenCalendar }) {
   const [water, setWater] = useState(1.5);
   
   return (
     <div style={{ padding: '0 20px 24px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
         <div style={{ flex: 1, height: '1px', background: '#EEE' }} />
-        <div style={{ 
+        <motion.div 
+          whileTap={{ scale: 0.95 }}
+          onClick={onOpenCalendar}
+          style={{ 
           background: '#F2F2F7', padding: '6px 14px', borderRadius: '100px', 
-          display: 'flex', alignItems: 'center', gap: '6px', margin: '0 12px'
+          display: 'flex', alignItems: 'center', gap: '6px', margin: '0 12px', cursor: 'pointer'
         }}>
           <span style={{ fontSize: '13px', fontWeight: '700' }}>Today</span>
           <ChevronDown size={14} />
-        </div>
+        </motion.div>
         <div style={{ flex: 1, height: '1px', background: '#EEE' }} />
       </div>
 
@@ -203,8 +210,8 @@ function HealthSummary() {
               <span style={{ fontSize: '12px', fontWeight: '700', color: '#86868B' }}>L</span>
             </div>
             <div style={{ display: 'flex', gap: '4px', background: '#F2F2F7', borderRadius: '8px', padding: '2px' }}>
-               <button onClick={() => setWater(Math.max(0, parseFloat(water || 0) - 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFF', border: '1px solid #E5E5EA', borderRadius: '6px', color: '#1A1A1A', cursor: 'pointer' }}>-</button>
-               <button onClick={() => setWater((parseFloat(water || 0) + 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#007AFF', border: 'none', borderRadius: '6px', color: '#FFF', cursor: 'pointer' }}>+</button>
+               <motion.button whileTap={{ scale: 0.8 }} onClick={() => setWater(Math.max(0, parseFloat(water || 0) - 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FFF', border: '1px solid #E5E5EA', borderRadius: '6px', color: '#1A1A1A', cursor: 'pointer', padding: 0 }}>-</motion.button>
+               <motion.button whileTap={{ scale: 0.8 }} onClick={() => setWater((parseFloat(water || 0) + 0.25).toFixed(1))} style={{ width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#007AFF', border: 'none', borderRadius: '6px', color: '#FFF', cursor: 'pointer', padding: 0 }}>+</motion.button>
             </div>
           </div>
         </div>
@@ -265,23 +272,6 @@ function NutritionCard() {
              <path d="M10,10 Q30,50 90,10" fill="none" stroke="#000" strokeWidth="2" />
              <circle cx="50" cy="50" r="30" fill="none" stroke="#000" strokeWidth="1" />
            </svg>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Exercise Section ───────────────────────────────
-function ExerciseStrip() {
-  return (
-    <div style={{ padding: '0 20px 32px' }}>
-      <div style={{ borderTop: '1px dashed #DDD', borderBottom: '1px dashed #DDD', padding: '16px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ fontSize: '15px' }}>
-          <span style={{ color: '#86868B', fontWeight: '500' }}>EXERCISE </span>
-          <span style={{ fontWeight: '800' }}>Abs</span>
-        </p>
-        <div style={{ width: '56px', height: '32px', background: '#F2F2F7', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowRight size={18} />
         </div>
       </div>
     </div>
@@ -504,7 +494,7 @@ function CommunitySection() {
 }
 
 // ─── Micro Challenge ────────────────────────────────
-function MicroChallengeStrip() {
+function MicroChallengeStrip({ status, onAccept }) {
   return (
     <div style={{ padding: '0 20px 24px' }}>
       <div style={{ 
@@ -521,19 +511,25 @@ function MicroChallengeStrip() {
             <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '500' }}>Hit 10,000 steps today</p>
           </div>
         </div>
-        <button style={{ 
-          background: '#F2F2F7', color: '#1A1A1A', border: 'none', borderRadius: '100px', 
-          padding: '8px 16px', fontSize: '12px', fontWeight: '800', cursor: 'pointer'
-        }}>
-          Accept
-        </button>
+        <motion.button 
+          whileTap={{ scale: 0.9 }} 
+          onClick={onAccept}
+          style={{ 
+            background: status === 'Accepted' ? '#34C759' : '#F2F2F7', 
+            color: status === 'Accepted' ? '#FFF' : '#1A1A1A', 
+            border: 'none', borderRadius: '100px', 
+            padding: '8px 16px', fontSize: '12px', fontWeight: '800', cursor: 'pointer'
+          }}
+        >
+          {status === 'Accepted' ? 'Accepted ✓' : 'Accept'}
+        </motion.button>
       </div>
     </div>
   );
 }
 
 // ─── Coach Dock ─────────────────────────────────────
-function CoachDock() {
+function CoachDock({ onMessage }) {
   return (
     <div style={{ padding: '0 20px 24px' }}>
       <div style={{ 
@@ -551,9 +547,9 @@ function CoachDock() {
             <p style={{ fontSize: '12px', color: '#86868B', fontWeight: '500' }}>Replies in ~10 mins</p>
           </div>
         </div>
-        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+        <motion.div whileTap={{ scale: 0.9 }} onClick={onMessage} style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#F2F2F7', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
            <MessageCircle size={20} color="#1A1A1A" />
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -577,20 +573,51 @@ function BottomNav() {
       display: 'flex', justifyContent: 'space-around', zIndex: 100
     }}>
       {items.map((item) => (
-        <div key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flex: 1, position: 'relative' }}>
+        <motion.div whileTap={{ scale: 0.85 }} key={item.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', flex: 1, position: 'relative', cursor: 'pointer' }}>
           <item.icon size={24} color={item.active ? '#1A1A1E' : '#86868B'} strokeWidth={item.active ? 2.5 : 1.5} />
           <span style={{ fontSize: '10px', fontWeight: '700', color: item.active ? '#1A1A1E' : '#86868B' }}>{item.label}</span>
           {item.badge && (
             <div style={{ position: 'absolute', top: '-2px', right: '25%', width: '8px', height: '8px', background: '#FF3B30', borderRadius: '50%', border: '1.5px solid #FFF' }} />
           )}
-        </div>
+        </motion.div>
       ))}
     </div>
   );
 }
 
+// ─── Modal Overlay ────────────────────────────────────
+function ModalOverlay({ isOpen, onClose, children }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, backdropFilter: 'blur(2px)' }}
+            onClick={onClose}
+          />
+          <motion.div 
+            initial={{ opacity: 0, y: '100%' }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            style={{ 
+              position: 'absolute', bottom: 0, left: 0, right: 0, 
+              background: '#FFF', borderTopLeftRadius: '24px', borderTopRightRadius: '24px',
+              padding: '24px', zIndex: 1001, boxShadow: '0 -10px 40px rgba(0,0,0,0.1)'
+            }}
+          >
+            <div style={{ width: '40px', height: '4px', background: '#E5E5EA', borderRadius: '2px', margin: '0 auto 24px' }} />
+            {children}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // ─── Main Application ───────────────────────────────
 export default function App() {
+  const [activeModal, setActiveModal] = useState(null);
+  const [challengeStatus, setChallengeStatus] = useState('Accept');
+
   return (
     <IPhoneMockup>
       <div style={{ 
@@ -602,16 +629,15 @@ export default function App() {
 
         {/* Scrollable Content Area */}
         <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingBottom: '20px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-           <TopHeader />
-           <GreetingSection />
-           <UpNextCard />
-           <QuickActions />
-           <HealthSummary />
-           <NutritionCard />
-           <MicroChallengeStrip />
-           <ExerciseStrip />
-           <CoachDock />
-           <CommunitySection />
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.00, duration: 0.4, ease: "easeOut" }}><TopHeader /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04, duration: 0.4, ease: "easeOut" }}><GreetingSection /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, duration: 0.4, ease: "easeOut" }}><UpNextCard onOpenWorkout={() => setActiveModal('workout')} /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.4, ease: "easeOut" }}><QuickActions /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16, duration: 0.4, ease: "easeOut" }}><HealthSummary onOpenCalendar={() => setActiveModal('calendar')} /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.20, duration: 0.4, ease: "easeOut" }}><NutritionCard /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24, duration: 0.4, ease: "easeOut" }}><MicroChallengeStrip status={challengeStatus} onAccept={() => { setChallengeStatus('Accepted'); setActiveModal('challenge'); }} /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.4, ease: "easeOut" }}><CoachDock onMessage={() => setActiveModal('coach')} /></motion.div>
+           <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36, duration: 0.4, ease: "easeOut" }}><CommunitySection /></motion.div>
         </div>
 
         {/* Floating Action Button (FAB) */}
@@ -629,6 +655,59 @@ export default function App() {
         </motion.div>
 
         <BottomNav />
+
+        {/* Global Modals */}
+        <ModalOverlay isOpen={activeModal !== null} onClose={() => setActiveModal(null)}>
+           {activeModal === 'calendar' && (
+             <div>
+                <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '16px' }}>Select Date</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', marginBottom: '24px' }}>
+                  {['S','M','T','W','T','F','S'].map(d => <div key={d} style={{ textAlign: 'center', fontSize: '12px', fontWeight: '800', color: '#86868B' }}>{d}</div>)}
+                  {Array.from({length: 31}).map((_, i) => (
+                     <motion.div whileTap={{ scale: 0.8 }} key={i} style={{ aspectRatio: '1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '600', background: i === 13 ? '#1A1A1A' : 'transparent', color: i === 13 ? '#FFF' : '#1A1A1A', borderRadius: '50%', cursor: 'pointer' }}>{i + 1}</motion.div>
+                  ))}
+                </div>
+             </div>
+           )}
+           {activeModal === 'workout' && (
+             <div>
+                <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '4px' }}>Upper Body Power</h3>
+                <p style={{ color: '#86868B', marginBottom: '24px', fontSize: '14px' }}>45 mins • 320 kcal • Intermediate</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+                   {[
+                     { name: 'Bench Press', reps: '4 sets x 10 reps', color: '#FF3B30' },
+                     { name: 'Shoulder Press', reps: '3 sets x 12 reps', color: '#007AFF' },
+                     { name: 'Tricep Dips', reps: '3 sets x 15 reps', color: '#34C759' }
+                   ].map((ex) => (
+                     <div key={ex.name} style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                       <div style={{ width: '48px', height: '48px', background: `${ex.color}15`, borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                         <Flame size={20} color={ex.color} />
+                       </div>
+                       <div><h4 style={{ fontWeight: '700', fontSize: '15px' }}>{ex.name}</h4><p style={{ fontSize: '13px', color: '#86868B' }}>{ex.reps}</p></div>
+                     </div>
+                   ))}
+                </div>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal(null)} style={{ width: '100%', background: '#1A1A1A', color: '#FFF', padding: '16px', borderRadius: '100px', fontWeight: '800', border: 'none', fontSize: '16px', cursor: 'pointer' }}>Begin Workout</motion.button>
+             </div>
+           )}
+           {activeModal === 'challenge' && (
+             <div style={{ textAlign: 'center' }}>
+                <div style={{ width: '64px', height: '64px', background: '#34C759', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h3 style={{ fontSize: '22px', fontWeight: '800', marginBottom: '8px' }}>Challenge Accepted!</h3>
+                <p style={{ color: '#86868B', marginBottom: '24px', fontSize: '15px' }}>You have until midnight to hit 10,000 steps. Let's get moving!</p>
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal(null)} style={{ width: '100%', background: '#F2F2F7', color: '#1A1A1A', padding: '16px', borderRadius: '100px', fontWeight: '800', border: 'none', fontSize: '16px', cursor: 'pointer' }}>Got it</motion.button>
+             </div>
+           )}
+           {activeModal === 'coach' && (
+             <div>
+                <h3 style={{ fontSize: '20px', fontWeight: '800', marginBottom: '16px' }}>Message Coach Aditya</h3>
+                <textarea placeholder="Type your message..." style={{ width: '100%', height: '100px', background: '#F2F2F7', border: 'none', borderRadius: '12px', padding: '16px', marginBottom: '16px', outline: 'none', fontFamily: 'inherit', fontSize: '15px', resize: 'none' }} />
+                <motion.button whileTap={{ scale: 0.95 }} onClick={() => setActiveModal(null)} style={{ width: '100%', background: '#1A1A1A', color: '#FFF', padding: '16px', borderRadius: '100px', fontWeight: '800', border: 'none', fontSize: '16px', cursor: 'pointer' }}>Send Message</motion.button>
+             </div>
+           )}
+        </ModalOverlay>
       </div>
     </IPhoneMockup>
   );
