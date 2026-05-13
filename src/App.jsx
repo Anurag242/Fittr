@@ -117,75 +117,82 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Horizon Hub (OUT OF THE BOX ITERATION 8) ────────
-function HorizonHub({ isOpen }) {
+// ─── Service Floor (OUT OF THE BOX ITERATION 9) ──────
+function ServiceFloor({ isOpen }) {
   const services = [
-    { label: 'COACH', isCap: true },
-    { label: 'LABS', isLabTest: true },
-    { label: 'PLAN', isCalendar: true },
-    { label: 'SCALE', isScale: true },
+    { label: 'Coach', icon: Star, color: '#FFD700', isCap: true },
+    { label: 'Labs', icon: Activity, color: '#AF52DE', isLabTest: true },
+    { label: 'Plan', icon: ClipboardList, color: '#34C759', isCalendar: true },
+    { label: 'Scale', icon: Weight, color: '#007AFF', isScale: true },
   ];
 
   const getAsset = (s) => {
     if (s.isCap) return (
       <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
-        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#000">F</text>
+        <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#000" />
+        <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (s.isCalendar) return (
       <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (s.isScale) return (
       <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" stroke="#E5E5EA" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (s.isLabTest) return (
       <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
-        <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
-        <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" />
       </svg>
     );
     return null;
   };
 
   return (
-    <div style={{ 
-      position: 'absolute', inset: 0, 
-      background: '#000', zIndex: 5,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      overflow: 'hidden'
-    }}>
-      <motion.div 
-        animate={{ opacity: isOpen ? 1 : 0, scale: isOpen ? 1 : 0.8 }}
-        style={{ width: '100%', padding: '0 20px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}
-      >
-        {services.map((s, i) => (
+    <motion.div 
+      initial={{ y: '100%' }}
+      animate={{ y: isOpen ? 0 : '100%' }}
+      transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+      style={{ 
+        position: 'absolute', bottom: 0, left: 0, right: 0, 
+        height: '340px', background: '#FFF', zIndex: 5,
+        borderRadius: '40px 40px 0 0', padding: '32px 20px',
+        boxShadow: '0 -20px 60px rgba(0,0,0,0.1)',
+        borderTop: '1px solid #EEE'
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '20px', fontWeight: '900', letterSpacing: '-0.5px' }}>Service Command</h3>
+        <div style={{ background: '#000', color: '#FFF', padding: '4px 12px', borderRadius: '100px', fontSize: '10px', fontWeight: '800' }}>ELITE ACCESS</div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+        {services.map(s => (
           <motion.div
             key={s.label}
-            initial={{ y: 20, opacity: 0 }}
-            animate={isOpen ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-            transition={{ delay: i * 0.05 + 0.2 }}
-            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}
+            whileTap={{ scale: 0.95 }}
+            style={{ 
+              background: '#F9F9FB', borderRadius: '24px', padding: '16px',
+              display: 'flex', alignItems: 'center', gap: '12px', border: '1px solid #EEE'
+            }}
           >
-            <div style={{ 
-              width: '64px', height: '64px', borderRadius: '20px', 
-              background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 20px rgba(255,255,255,0.05)'
-            }}>
+            <div style={{ width: '52px', height: '52px', borderRadius: '14px', background: '#FFF', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
               {getAsset(s)}
             </div>
-            <span style={{ fontSize: '10px', fontWeight: '800', color: '#FFF', letterSpacing: '1px' }}>{s.label}</span>
+            <div>
+              <p style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A' }}>{s.label}</p>
+              <p style={{ fontSize: '11px', color: '#888', fontWeight: '600' }}>Tap to launch</p>
+            </div>
           </motion.div>
         ))}
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -837,59 +844,51 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [isSplit, setIsSplit] = useState(false);
+  const [showFloor, setShowFloor] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#000' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#000', perspective: '1200px' }}>
         
-        {/* The Horizon Hub (revealed in the gap) */}
-        <HorizonHub isOpen={isSplit} />
+        {/* The Service Floor (Revealed as App Tilts) */}
+        <ServiceFloor isOpen={showFloor} />
 
-        {/* TOP HALF OF THE APP */}
+        {/* MAIN DASHBOARD (Tilts Back in 3D Space) */}
         <motion.div
-          animate={{ y: isSplit ? -200 : 0 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          animate={{ 
+            rotateX: showFloor ? 25 : 0, 
+            y: showFloor ? -180 : 0,
+            z: showFloor ? -200 : 0,
+            scale: showFloor ? 0.9 : 1,
+            opacity: showFloor ? 0.6 : 1
+          }}
+          transition={{ type: 'spring', damping: 20, stiffness: 100 }}
           style={{ 
-            position: 'absolute', top: 0, left: 0, right: 0, height: '50%', 
-            zIndex: 10, overflow: 'hidden', background: '#F5F5F7',
-            borderBottom: '1px solid rgba(0,0,0,0.05)',
-            boxShadow: isSplit ? '0 20px 40px rgba(0,0,0,0.3)' : 'none'
+            flex: 1, 
+            background: '#F5F5F7', 
+            zIndex: 10, 
+            overflowY: 'auto', 
+            scrollbarWidth: 'none',
+            transformStyle: 'preserve-3d',
+            borderRadius: showFloor ? '40px' : '0px',
+            boxShadow: showFloor ? '0 40px 100px rgba(0,0,0,0.5)' : 'none'
           }}
         >
-          <div style={{ height: '852px' }}>
+          <div className="app" style={{ paddingBottom: '120px' }}>
             <Header />
             <DailyRituals onOpenCalendar={() => setShowCalendar(true)} />
+            <DailyTrackers />
+            <EliteCoaching />
+            <LiveSessions />
+            <CommunityHighlights />
           </div>
         </motion.div>
 
-        {/* BOTTOM HALF OF THE APP */}
-        <motion.div
-          animate={{ y: isSplit ? 200 : 0 }}
-          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-          style={{ 
-            position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', 
-            zIndex: 10, overflow: 'hidden', background: '#F5F5F7',
-            borderTop: '1px solid rgba(0,0,0,0.05)',
-            boxShadow: isSplit ? '0 -20px 40px rgba(0,0,0,0.3)' : 'none'
-          }}
-        >
-          <div style={{ height: '852px', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-            <div style={{ height: '426px', overflowY: 'auto', scrollbarWidth: 'none', paddingBottom: '100px' }}>
-              <DailyTrackers />
-              <EliteCoaching />
-              <LiveSessions />
-              <CommunityHighlights />
-            </div>
-            <BottomNav />
-          </div>
-        </motion.div>
-
-        {/* The Fission Trigger (Floating Orb) */}
+        {/* The Spatial Trigger (Bottom Center) */}
         <div style={{ position: 'absolute', bottom: '100px', left: '50%', transform: 'translateX(-50%)', zIndex: 100 }}>
           <motion.button
             whileTap={{ scale: 0.9 }}
-            onClick={() => setIsSplit(!isSplit)}
+            onClick={() => setShowFloor(!showFloor)}
             style={{ 
               width: '64px', height: '64px', borderRadius: '50%', 
               background: '#000', border: '2px solid rgba(255,255,255,0.2)',
@@ -897,11 +896,13 @@ export default function App() {
               boxShadow: '0 10px 30px rgba(0,0,0,0.5)', cursor: 'pointer'
             }}
           >
-            <motion.div animate={{ rotate: isSplit ? 45 : 0 }}>
-               <Activity size={28} color="#FFF" />
+            <motion.div animate={{ rotate: showFloor ? 180 : 0 }}>
+               <Plus size={28} color="#FFF" />
             </motion.div>
           </motion.button>
         </div>
+
+        <BottomNav />
         
         <CalendarOverlay 
           isOpen={showCalendar} 
