@@ -770,37 +770,58 @@ function AchievementTicker() {
   );
 }
 
-// ─── Elite Studio (MERGED: Coach + Live) ──────────────
-function EliteStudio() {
+// ─── Coach Conversion (SENIOR DESIGN) ───────────────
+function CoachConversion() {
   return (
     <section className="section">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h3>Elite Studio</h3>
-        <span style={{ fontSize: '13px', color: '#007AFF', fontWeight: '600' }}>Schedule</span>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '12px' }}>
-        <motion.div 
-          whileTap={{ scale: 0.98 }}
-          style={{ background: '#000', borderRadius: '24px', padding: '20px', color: '#FFF', position: 'relative', overflow: 'hidden' }}
-        >
-          <div style={{ position: 'relative', zIndex: 1 }}>
-             <p style={{ fontSize: '10px', fontWeight: '600', opacity: 0.5, marginBottom: '4px' }}>MY COACH</p>
-             <h4 style={{ fontSize: '18px', marginBottom: '12px' }}>Mike Ross</h4>
-             <button style={{ background: '#FFF', color: '#000', padding: '8px 16px', borderRadius: '100px', fontSize: '11px', textTransform: 'none' }}>Chat Now</button>
-          </div>
-          <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=200&q=80" style={{ position: 'absolute', right: '-20px', bottom: '-20px', width: '120px', opacity: 0.4 }} />
-        </motion.div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div style={{ background: '#FFF', borderRadius: '24px', padding: '16px', border: '1px solid rgba(0,0,0,0.05)', flex: 1 }}>
-             <div style={{ background: '#FF3B30', width: '6px', height: '6px', borderRadius: '50%', marginBottom: '8px' }} />
-             <p style={{ fontSize: '13px', fontWeight: '600' }}>Live: HIIT</p>
-             <p style={{ fontSize: '10px', color: '#888' }}>10:30 AM</p>
-          </div>
-          <div style={{ background: '#FFF', borderRadius: '24px', padding: '16px', border: '1px solid rgba(0,0,0,0.05)', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-             <Users size={18} color="#000" />
-          </div>
+      <motion.div 
+        whileTap={{ scale: 0.98 }}
+        className="glass-card"
+        style={{ padding: '32px', position: 'relative', overflow: 'hidden', background: 'rgba(255,255,255,0.08)' }}
+      >
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '70%' }}>
+          <h2 style={{ fontSize: '24px', color: '#FFF', marginBottom: '12px' }}>Transform with Expert Guidance</h2>
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', marginBottom: '24px', lineHeight: '1.5' }}>Unlock personalized protocols for longevity and peak performance.</p>
+          <button style={{ 
+            background: '#FFF', color: '#000', padding: '16px 24px', borderRadius: '16px',
+            fontSize: '13px', fontWeight: '700', letterSpacing: '0.05em'
+          }}>FIND A COACH</button>
         </div>
+        <div style={{ 
+          position: 'absolute', right: '-40px', bottom: '-20px', width: '200px', height: '200px',
+          background: 'radial-gradient(circle, #34C759 0%, transparent 70%)', opacity: 0.2, filter: 'blur(40px)'
+        }} />
+      </motion.div>
+    </section>
+  );
+}
+
+// ─── Daily Log Feed (HORIZONTAL) ───────────────────
+function DailyLogFeed() {
+  const items = [
+    { type: 'WORKOUT', title: 'Strength Protocol', meta: '45 mins • Advanced', img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80' },
+    { type: 'NUTRITION', title: 'Longevity Bowl', meta: 'High Protein • 520 kcal', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=400&q=80' },
+  ];
+
+  return (
+    <section className="section" style={{ paddingRight: 0 }}>
+      <h3 style={{ fontSize: '18px', color: '#FFF', marginBottom: '16px' }}>Daily Protocol</h3>
+      <div className="h-scroll" style={{ gap: '16px', paddingRight: '16px' }}>
+        {items.map((item) => (
+          <motion.div 
+            key={item.title}
+            whileTap={{ scale: 0.97 }}
+            className="glass-card"
+            style={{ minWidth: '280px', height: '180px', position: 'relative', overflow: 'hidden' }}
+          >
+            <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }} />
+            <div style={{ position: 'absolute', inset: 0, padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+              <span style={{ fontSize: '10px', fontWeight: '800', color: '#FFF', opacity: 0.5, marginBottom: '4px', letterSpacing: '0.1em' }}>{item.type}</span>
+              <h4 style={{ fontSize: '18px', color: '#FFF', marginBottom: '4px' }}>{item.title}</h4>
+              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>{item.meta}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
@@ -1074,14 +1095,10 @@ export default function App() {
             <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', scrollbarWidth: 'none' }}>
               <div className="app" style={{ paddingBottom: '40px' }}>
                 <Header />
-                <DailyRituals 
-                  onOpenCalendar={() => setShowCalendar(true)} 
-                  onFlip={() => setIsFlipped(true)}
-                />
-                <AchievementTicker />
+                <DailyPulseHeader onFlip={() => setIsFlipped(true)} />
                 <ProgressCore />
-                <NutritionBlueprint />
-                <EliteStudio />
+                <CoachConversion />
+                <DailyLogFeed />
                 <FitnessWisdom />
                 <CommunityHighlights />
               </div>

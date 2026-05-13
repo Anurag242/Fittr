@@ -7,26 +7,21 @@ html, body, #root {
 }
 
 :root {
-  --bg: #F5F5F7; /* Apple style light grey */
-  --bg-card: #FFFFFF;
-  --bg-card2: #F0F0F2;
-  --lime: #34C759; /* More standard premium green for light theme */
-  --lime-dim: rgba(52, 199, 89, 0.1);
-  --blue: #007AFF;
-  --red: #FF3B30;
-  --orange: #FF9500;
-  --white: #000000;
-  --black: #FFFFFF;
-  --muted: #86868B;
-  --border: rgba(0,0,0,0.06);
-  --glass: rgba(255,255,255,0.8);
-  font-size: 16px;
+  --bg: #000000;
+  --glass: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.1);
+  --glow-orange: #FF9500;
+  --glow-blue: #007AFF;
+  --glow-green: #34C759;
+  --glow-purple: #AF52DE;
+  --text-main: #FFFFFF;
+  --text-muted: rgba(255, 255, 255, 0.4);
 }
 
 body {
   font-family: 'Inter', -apple-system, sans-serif;
-  background: #F5F5F7;
-  color: #000000;
+  background: var(--bg);
+  color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   line-height: 1.5;
 }
@@ -116,11 +111,12 @@ button {
 
 /* ===== CARDS ===== */
 .glass-card {
-  background: var(--bg-card);
+  background: var(--glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  transition: transform 0.2s;
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
 
 /* ===== STREAK BANNER ===== */
