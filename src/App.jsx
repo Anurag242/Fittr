@@ -442,12 +442,6 @@ function DailyRituals({ onOpenCalendar }) {
       </div>
 
       <PremiumActionBubbles />
-      
-      {/* V2 Comparison Header */}
-      <div style={{ padding: '0 20px 12px' }}>
-        <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>ITERATION: BENTO CONTROL PANEL</h3>
-      </div>
-      <ServiceHubV2 />
 
       {/* Centered Date Pill on Divider */}
       <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
