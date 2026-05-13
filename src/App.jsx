@@ -164,13 +164,13 @@ function ServiceHubBack({ onFlip }) {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
         <div>
-          <h2 style={{ fontSize: '28px', fontWeight: '900', color: '#FFF', letterSpacing: '-1px' }}>SERVICE HUB</h2>
-          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>The power behind your progress</p>
+          <h2 style={{ fontSize: '28px', color: '#FFF' }}>SERVICE HUB</h2>
+          <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', fontWeight: '600' }}>The power behind your progress</p>
         </div>
         <motion.button 
           whileTap={{ scale: 0.9 }}
           onClick={onFlip}
-          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', textTransform: 'none' }}
         >
           <Plus size={24} color="#FFF" style={{ transform: 'rotate(45deg)' }} />
         </motion.button>
@@ -188,8 +188,8 @@ function ServiceHubBack({ onFlip }) {
             }}
           >
             <div style={{ marginBottom: '16px' }}>{getAsset(s)}</div>
-            <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#FFF', letterSpacing: '0.5px' }}>{s.label}</h4>
-            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '600' }}>{s.desc}</p>
+            <h4 style={{ fontSize: '14px', color: '#FFF', letterSpacing: '1px' }}>{s.label}</h4>
+            <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', fontWeight: '700' }}>{s.desc.toUpperCase()}</p>
           </motion.div>
         ))}
       </div>
@@ -392,17 +392,17 @@ function DailyRituals({ onOpenCalendar, onFlip }) {
     <section className="section" style={{ marginTop: '10px', paddingBottom: '0' }}>
       <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <h2 style={{ fontSize: '24px', fontWeight: '900', letterSpacing: '-0.5px' }}>{getGreeting()}</h2>
-          <p style={{ fontSize: '13px', color: '#666' }}>You're at <span style={{ fontWeight: '700', color: '#000' }}>62%</span> of your daily goal!</p>
+          <h2 style={{ fontSize: '26px' }}>{getGreeting()}</h2>
+          <p style={{ fontSize: '13px', color: '#666', fontWeight: '600' }}>You're at <span style={{ color: '#000', fontWeight: '800' }}>62%</span> of your daily goal</p>
         </div>
         <motion.button
           whileTap={{ scale: 0.9 }}
           onClick={onFlip}
           style={{ 
             background: '#000', color: '#FFF', 
-            padding: '8px 16px', borderRadius: '12px', 
-            fontSize: '12px', fontWeight: '800',
-            boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
+            padding: '10px 18px', borderRadius: '14px', 
+            fontSize: '11px', fontWeight: '900',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
           }}
         >
           Services
@@ -705,12 +705,12 @@ function PerformanceMatrix() {
     <section className="section" style={{ paddingTop: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
         <div>
-          <h3 style={{ fontSize: '18px', fontWeight: '900', letterSpacing: '-0.5px' }}>Performance Matrix</h3>
-          <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>Last 7 Days Consistency</p>
+          <h3>Performance Matrix</h3>
+          <p style={{ fontSize: '12px', color: '#888', fontWeight: '600' }}>LAST 7 DAYS CONSISTENCY</p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <span style={{ fontSize: '20px', fontWeight: '900', color: '#34C759' }}>+12%</span>
-          <p style={{ fontSize: '10px', color: '#888', fontWeight: '700' }}>VS LAST WEEK</p>
+          <span style={{ fontSize: '22px', color: '#34C759' }}>+12%</span>
+          <p style={{ fontSize: '10px', color: '#888', fontWeight: '800', letterSpacing: '1px' }}>VS LAST WEEK</p>
         </div>
       </div>
 
