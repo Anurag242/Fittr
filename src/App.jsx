@@ -117,36 +117,36 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
-// ─── Service Deck (OUT OF THE BOX ITERATION 10) ──────
-function ServiceDeck({ isOpen, onToggle }) {
+// ─── Dynamic Island Hub (OUT OF THE BOX ITERATION 11) ─
+function DynamicIslandHub({ isOpen, onToggle }) {
   const services = [
-    { label: 'Elite Coach', desc: 'Expert guidance & 1-on-1 calls', color: 'linear-gradient(135deg, #1A1A1A 0%, #000 100%)', isCap: true },
-    { label: 'Smart Scale', desc: 'Sync your weight & composition', color: 'linear-gradient(135deg, #007AFF 0%, #0040A0 100%)', isScale: true },
-    { label: 'Lab Tests', desc: 'Book vitals & blood work', color: 'linear-gradient(135deg, #AF52DE 0%, #7030A0 100%)', isLabTest: true },
-    { label: 'My Plan', desc: 'Workout & Nutrition strategy', color: 'linear-gradient(135deg, #FF3B30 0%, #A01010 100%)', isCalendar: true },
+    { label: 'Coach', desc: '1-on-1 Elite Coaching', icon: Star, color: '#FFD700', isCap: true },
+    { label: 'Labs', desc: 'Blood Work & Vitals', icon: Activity, color: '#AF52DE', isLabTest: true },
+    { label: 'Plan', desc: 'Daily Focus & Strategy', icon: ClipboardList, color: '#34C759', isCalendar: true },
+    { label: 'Scale', desc: 'Body Composition', icon: Weight, color: '#007AFF', isScale: true },
   ];
 
   const getAsset = (s) => {
     if (s.isCap) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#FFF" />
         <text x="50" y="55" textAnchor="middle" fontSize="14" fontWeight="900" fill="#D4AF37">F</text>
       </svg>
     );
     if (s.isCalendar) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="15" y="25" width="70" height="60" rx="10" fill="#FFF" />
         <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
       </svg>
     );
     if (s.isScale) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFF" />
         <rect x="35" y="35" width="30" height="15" rx="4" fill="#000" />
       </svg>
     );
     if (s.isLabTest) return (
-      <svg viewBox="0 0 100 100" style={{ width: '40px', height: '40px' }}>
+      <svg viewBox="0 0 100 100" style={{ width: '32px', height: '32px' }}>
         <rect x="30" y="20" width="12" height="55" rx="6" fill="#FFF" />
         <rect x="55" y="30" width="12" height="55" rx="6" fill="#FFF" />
       </svg>
@@ -155,68 +155,93 @@ function ServiceDeck({ isOpen, onToggle }) {
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div style={{ position: 'absolute', inset: 0, zIndex: 2000, overflow: 'hidden' }}>
-          {/* Blur Overlay */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => onToggle(false)}
-            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(20px)' }}
-          />
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 3000, display: 'flex', justifyContent: 'center' }}>
+      <motion.div
+        animate={{ 
+          width: isOpen ? '100%' : '140px',
+          height: isOpen ? '852px' : '40px',
+          borderRadius: isOpen ? '0px' : '20px',
+          y: isOpen ? 0 : 10
+        }}
+        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+        style={{ 
+          background: '#000', 
+          overflow: 'hidden',
+          display: 'flex', flexDirection: 'column',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+          cursor: 'pointer',
+          position: 'relative'
+        }}
+        onClick={() => !isOpen && onToggle(true)}
+      >
+        {/* Closed Island State */}
+        {!isOpen && (
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <motion.div 
+              animate={{ scale: [1, 1.2, 1] }} 
+              transition={{ repeat: Infinity, duration: 2 }}
+              style={{ width: '8px', height: '8px', background: '#34C759', borderRadius: '50%' }} 
+            />
+            <span style={{ color: '#FFF', fontSize: '10px', fontWeight: '800', letterSpacing: '0.5px' }}>FITTR HUB</span>
+          </div>
+        )}
 
-          <div style={{ position: 'relative', height: '100%', padding: '80px 24px 120px' }}>
-            <motion.h2 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{ color: '#FFF', fontSize: '28px', fontWeight: '900', marginBottom: '32px', textAlign: 'center' }}
-            >
-              Service Hub
-            </motion.h2>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {services.map((s, i) => (
-                <motion.div
-                  key={s.label}
-                  initial={{ opacity: 0, x: 40, y: 20, rotate: 5 }}
-                  animate={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
-                  exit={{ opacity: 0, x: 40, y: 20, rotate: 5 }}
-                  transition={{ type: 'spring', damping: 20, stiffness: 100, delay: i * 0.1 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{ 
-                    background: s.color, borderRadius: '32px', padding: '24px',
-                    display: 'flex', alignItems: 'center', gap: '20px',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <div style={{ width: '64px', height: '64px', borderRadius: '18px', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {getAsset(s)}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ color: '#FFF', fontSize: '18px', fontWeight: '800', marginBottom: '4px' }}>{s.label}</h3>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', fontWeight: '600' }}>{s.desc}</p>
-                  </div>
-                  <ChevronRight color="rgba(255,255,255,0.3)" />
-                </motion.div>
-              ))}
-            </div>
-            
-            <motion.button
+        {/* Opened Island State */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              onClick={() => onToggle(false)}
-              style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: 'none', color: '#FFF', fontSize: '14px', fontWeight: '800', opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              style={{ flex: 1, padding: '100px 24px 40px', display: 'flex', flexDirection: 'column' }}
             >
-              TAP TO CLOSE
-            </motion.button>
-          </div>
-        </div>
-      )}
-    </AnimatePresence>
+              <div style={{ marginBottom: '40px' }}>
+                <h2 style={{ color: '#FFF', fontSize: '32px', fontWeight: '900', letterSpacing: '-1px' }}>Command Center</h2>
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '14px', fontWeight: '600' }}>System Utility Hub</p>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+                {services.map((s, i) => (
+                  <motion.div
+                    key={s.label}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.1 + 0.2 }}
+                    whileTap={{ scale: 0.98 }}
+                    style={{ 
+                      background: 'rgba(255,255,255,0.05)', borderRadius: '28px', padding: '20px',
+                      display: 'flex', alignItems: 'center', gap: '20px',
+                      border: '1px solid rgba(255,255,255,0.05)'
+                    }}
+                  >
+                    <div style={{ width: '60px', height: '60px', borderRadius: '18px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {getAsset(s)}
+                    </div>
+                    <div>
+                      <h3 style={{ color: '#FFF', fontSize: '18px', fontWeight: '800' }}>{s.label}</h3>
+                      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: '600' }}>{s.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={(e) => { e.stopPropagation(); onToggle(false); }}
+                style={{ 
+                  marginTop: 'auto', background: 'rgba(255,255,255,0.1)', 
+                  border: 'none', color: '#FFF', padding: '16px', 
+                  borderRadius: '100px', fontWeight: '800', fontSize: '14px',
+                  cursor: 'pointer'
+                }}
+              >
+                COLLAPSE HUB
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
 
@@ -868,33 +893,31 @@ function BottomNav() {
 // ─── App ─────────────────────────────────────────────
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
-  const [showDeck, setShowDeck] = useState(false);
+  const [isIslandOpen, setIsIslandOpen] = useState(false);
 
   return (
     <IPhoneMockup>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#000', perspective: '1200px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: '852px', position: 'relative', overflow: 'hidden', background: '#F5F5F7' }}>
         
-        {/* The Service Deck (revealed on flick) */}
-        <ServiceDeck isOpen={showDeck} onToggle={setShowDeck} />
+        {/* The Fittr Dynamic Island (System Hub) */}
+        <DynamicIslandHub isOpen={isIslandOpen} onToggle={setIsIslandOpen} />
 
-        {/* MAIN DASHBOARD (Recedes into background) */}
+        {/* MAIN DASHBOARD */}
         <motion.div
           animate={{ 
-            scale: showDeck ? 0.85 : 1, 
-            y: showDeck ? -40 : 0,
-            rotateX: showDeck ? 10 : 0,
-            opacity: showDeck ? 0.4 : 1,
-            filter: showDeck ? 'blur(10px)' : 'blur(0px)'
+            scale: isIslandOpen ? 0.94 : 1, 
+            y: isIslandOpen ? 120 : 0,
+            opacity: isIslandOpen ? 0.4 : 1,
+            filter: isIslandOpen ? 'blur(20px)' : 'blur(0px)'
           }}
-          transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           style={{ 
             flex: 1, 
             background: '#F5F5F7', 
             zIndex: 10, 
             overflowY: 'auto', 
             scrollbarWidth: 'none',
-            borderRadius: showDeck ? '40px' : '0px',
-            transformStyle: 'preserve-3d'
+            borderRadius: isIslandOpen ? '40px' : '0px'
           }}
         >
           <div className="app" style={{ paddingBottom: '120px' }}>
@@ -906,23 +929,6 @@ export default function App() {
             <CommunityHighlights />
           </div>
         </motion.div>
-
-        {/* The Deck Trigger (Floating Pill) */}
-        <div style={{ position: 'absolute', bottom: '100px', right: '30px', zIndex: 100 }}>
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setShowDeck(true)}
-            style={{ 
-              background: '#000', borderRadius: '100px', 
-              padding: '12px 24px', border: '1px solid rgba(255,255,255,0.2)',
-              display: 'flex', alignItems: 'center', gap: '10px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5)', cursor: 'pointer'
-            }}
-          >
-            <div style={{ width: '24px', height: '24px', borderRadius: '6px', background: 'linear-gradient(135deg, #FFD700, #B8860B)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: '900', color: '#000' }}>F</div>
-            <span style={{ color: '#FFF', fontSize: '14px', fontWeight: '800' }}>COMMAND</span>
-          </motion.button>
-        </div>
 
         <BottomNav />
         
