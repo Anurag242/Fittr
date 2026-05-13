@@ -118,6 +118,104 @@ function CalendarOverlay({ isOpen, onClose, onSelect }) {
   );
 }
 
+const ServiceHubV2 = () => {
+  const services = [
+    { label: 'My Plan', sub: 'Upper Body B', icon: ClipboardCheck, isCalendar: true, color: '#F59E0B', size: 'large' },
+    { label: 'Smart Scale', sub: '72.4 kg', icon: Scale, isScale: true, color: '#8B5CF6', size: 'small' },
+    { label: 'Lab Test', sub: 'Checkup Due', icon: Activity, isLabTest: true, color: '#AF52DE', size: 'small' },
+    { label: 'Get A Coach', sub: 'Speak to Expert', icon: Dumbbell, isCap: true, color: '#1A1A1A', size: 'medium' },
+    { label: 'Refer & Earn', sub: '₹500 Reward', icon: Gift, color: '#FF3B30', size: 'medium', image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=256&q=80' },
+  ];
+
+  const getAsset = (item) => {
+    if (item.isCap) return (
+      <div style={{ scale: '0.8' }}>
+        <svg viewBox="0 0 100 100" style={{ width: '60px', height: '60px', filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))' }}>
+          <path d="M20,60 Q20,30 50,30 Q80,30 80,60 L80,65 Q80,75 50,75 Q20,75 20,65 Z" fill="#1A1A1A" />
+          <path d="M20,65 Q10,65 10,75 Q10,85 50,85 Q90,85 90,75 Q90,65 80,65" fill="#111" />
+          <path d="M50,30 Q50,25 45,25 Q40,25 40,30" fill="#222" />
+        </svg>
+      </div>
+    );
+    if (item.isCalendar) return (
+      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.15))' }}>
+        <rect x="15" y="25" width="70" height="60" rx="10" fill="#F0F0F2" />
+        <path d="M15,35 L85,35 L85,25 Q85,15 75,15 L25,15 Q15,15 15,25 Z" fill="#FF3B30" />
+        <path d="M60,65 L70,75 L90,50" fill="none" stroke="#F59E0B" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+    if (item.isScale) return (
+      <svg viewBox="0 0 100 100" style={{ width: '48px', height: '48px', filter: 'drop-shadow(0 6px 12px rgba(0,0,0,0.15))' }}>
+        <rect x="10" y="20" width="80" height="70" rx="12" fill="#FFFFFF" stroke="#E5E5E7" strokeWidth="1" />
+        <rect x="35" y="35" width="30" height="15" rx="4" fill="#1A1A1A" />
+        <text x="50" y="47" textAnchor="middle" fontSize="10" fontWeight="900" fill="#34C759" fontFamily="monospace">72.4</text>
+      </svg>
+    );
+    if (item.isLabTest) return (
+      <svg viewBox="0 0 100 100" style={{ width: '44px', height: '44px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))' }}>
+        <rect x="30" y="20" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
+        <rect x="30" y="40" width="12" height="35" rx="6" fill="#EF4444" />
+        <rect x="55" y="30" width="12" height="55" rx="6" fill="#F0F0F2" opacity="0.8" />
+        <rect x="55" y="50" width="12" height="35" rx="6" fill="#D21414" />
+      </svg>
+    );
+    if (item.image) return (
+      <img src={item.image} style={{ width: '48px', height: '48px', borderRadius: '12px', objectFit: 'cover' }} />
+    );
+    return <item.icon size={24} color={item.color} />;
+  };
+
+  return (
+    <section style={{ padding: '0 20px 24px' }}>
+      <div style={{ 
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '12px'
+      }}>
+        {services.map((item, i) => (
+          <motion.div
+            key={item.label}
+            whileTap={{ scale: 0.97 }}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+            style={{
+              gridColumn: item.size === 'large' ? 'span 2' : 'span 1',
+              background: '#FFFFFF',
+              borderRadius: '24px',
+              padding: '16px',
+              border: '1px solid rgba(0,0,0,0.04)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
+              display: 'flex',
+              flexDirection: item.size === 'large' ? 'row' : 'column',
+              alignItems: item.size === 'large' ? 'center' : 'flex-start',
+              gap: '12px',
+              cursor: 'pointer'
+            }}
+          >
+            <div style={{ 
+              width: '56px', 
+              height: '56px', 
+              borderRadius: '16px', 
+              background: `${item.color}08`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              {getAsset(item)}
+            </div>
+            
+            <div>
+              <p style={{ fontSize: '13px', fontWeight: '700', color: '#1A1A1A', marginBottom: '2px' }}>{item.label}</p>
+              <p style={{ fontSize: '11px', fontWeight: '500', color: '#86868B' }}>{item.sub}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
 const PremiumActionBubbles = () => {
   const actions = [
     { 
@@ -313,6 +411,12 @@ function DailyRituals({ onOpenCalendar }) {
       </div>
 
       <PremiumActionBubbles />
+      
+      {/* V2 Comparison Header */}
+      <div style={{ padding: '0 20px 12px' }}>
+        <h3 style={{ fontSize: '14px', fontWeight: '800', color: '#1A1A1A', opacity: 0.4 }}>ITERATION: BENTO CONTROL PANEL</h3>
+      </div>
+      <ServiceHubV2 />
 
       {/* Centered Date Pill on Divider */}
       <div style={{ position: 'relative', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '12px' }}>
